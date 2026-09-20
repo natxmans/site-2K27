@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page introuvable — 2K27</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230a0a14'/><rect x='2' y='2' width='60' height='60' rx='12' fill='none' stroke='%2322e8ff' stroke-width='3'/><text x='32' y='43' font-family='Arial,Helvetica,sans-serif' font-weight='900' font-size='24' fill='%2322e8ff' text-anchor='middle'>2K</text></svg>">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600&display=swap');
+
+  :root{
+    --bg: #0a0a14;
+    --bg-alt: #10101c;
+    --neon-purple: #b026ff;
+    --neon-cyan: #22e8ff;
+    --neon-pink: #ff2e88;
+    --text: #e8e8f5;
+    --text-dim: #9494b0;
+    --border: rgba(255,255,255,0.1);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 6%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+  }
+
+  h1{
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(3rem, 14vw, 6rem);
+    font-weight: 900;
+    letter-spacing: 4px;
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan), var(--neon-pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  p{
+    color: var(--text-dim);
+    margin: 18px 0 32px;
+    max-width: 480px;
+  }
+
+  a.btn{
+    display: inline-block;
+    padding: 14px 34px;
+    border-radius: 30px;
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan));
+    color: #06060c;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+  <h1>404</h1>
+  <p>Cette page n'existe pas (ou plus). Le festival 2K27, lui, existe bien !</p>
+  <a class="btn" href="index.html">Retour à l'accueil</a>
+</body>
+</html>
