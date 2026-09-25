@@ -386,6 +386,55 @@
     margin-top: 22px;
   }
 
+  /* Déroulé heure par heure */
+  .day-heading{
+    text-align: center;
+    font-size: 1.4rem;
+    margin: 60px 0 24px;
+  }
+
+  .day-timeline{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .day-card{
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+  }
+
+  .day-card h3{
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    margin-bottom: 18px;
+  }
+
+  .day-card ul{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .day-card li{
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 12px;
+    font-size: 0.9rem;
+  }
+
+  .day-card time{
+    color: var(--neon-cyan);
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+  }
+
+  .day-card li span{ color: var(--text-dim); }
+
   /* Programme timeline */
   .timeline{
     display: grid;
@@ -650,24 +699,53 @@
   <div class="section-head">
     <div class="tag">Au programme</div>
     <h2>Les jeux</h2>
-    <p>Le tournoi Mario est le jeu phare de la journée, avec plein d'autres espaces à découvrir.</p>
+    <p>Douze espaces de jeu, du tournoi Mario aux stands apportés par les structures partenaires.</p>
   </div>
   <div class="feature-grid">
     <div class="card">
       <h3>Tournoi Mario</h3>
-      <p>Sélections par groupe le matin, grande finale sur écran géant au cinéma de la Halle.</p>
+      <p>Mario Kart 8 Deluxe — sélections par groupe le matin, tournoi découverte l'après-midi, grande finale sur écran géant au cinéma.</p>
+      <p>PEGI 3 · 24 places</p>
     </div>
     <div class="card">
-      <h3>Tournois découverte</h3>
-      <p>World of Padman, Trackmania, Fortnite, FIFA, Mario Kart, Brawl Stars, Just Dance, Smash Bros <span class="pending">+ jeux à confirmer le 30/09</span></p>
+      <h3>PC en réseau</h3>
+      <p>Fortnite sur les PC loués, et jeux tout public sur les PC du SAJ — 10 postes reliés en local, écran spectateur pour l'attente.</p>
+      <p>PEGI 12 · 26 places</p>
     </div>
     <div class="card">
       <h3>Espace Valorant (16+)</h3>
-      <p>Un espace fermé et filtré, réservé aux 16 ans et plus, avec 4 PC dédiés.</p>
+      <p>Un espace fermé et filtré, réservé aux 16 ans et plus.</p>
+      <p>PEGI 16 · 8 places</p>
+    </div>
+    <div class="card">
+      <h3>FIFA</h3>
+      <p>EA Sports FC / FIFA sur PS4, projeté sur grand écran.</p>
+      <p>PEGI 3 · 8 places</p>
+    </div>
+    <div class="card">
+      <h3>Smash Bros</h3>
+      <p>Super Smash Bros. Ultimate, sur TV.</p>
+      <p>PEGI 12 · 12 places</p>
+    </div>
+    <div class="card">
+      <h3>Brawl Stars chill</h3>
+      <p>Sur smartphone, dans un coin détente avec poufs.</p>
+      <p>PEGI 7 · 10 places</p>
+    </div>
+    <div class="card">
+      <h3>Scène Just Dance</h3>
+      <p>Aussi utilisée pour le mot du maire, le grand Kahoot et la remise des prix.</p>
+      <p>PEGI 3 · 20 places</p>
     </div>
     <div class="card">
       <h3>Stands des structures</h3>
-      <p>Chaque structure partenaire apporte ses propres jeux et surprises.</p>
+      <p>Gang Beasts, Boomerang Fu, bornes rétro fabriquées par des jeunes, PS5, Mario Party... apportés par les structures partenaires.</p>
+      <p class="pending">jeux à évaluer</p>
+    </div>
+    <div class="card">
+      <h3>World of Padman &amp; Trackmania</h3>
+      <p>Prévus initialement pour le tournoi PC.</p>
+      <p class="pending">à confirmer avec Jonathan</p>
     </div>
   </div>
   <div class="contact-box">
@@ -738,6 +816,36 @@
         <div class="places-text"><strong class="places-restantes">100</strong> places restantes sur <span class="places-total">100</span></div>
         <div class="progress-track"><div class="progress-fill"></div></div>
       </div>
+    </div>
+  </div>
+
+  <h3 class="day-heading">Déroulé heure par heure <span class="pending">prévisionnel</span></h3>
+  <div class="day-timeline">
+    <div class="day-card">
+      <h3>Mardi 20 octobre</h3>
+      <ul>
+        <li><time>10h00</time><span>Accueil : badges PEGI, dépôt des affaires.</span></li>
+        <li><time>10h15</time><span>Mot du maire, sur la scène.</span></li>
+        <li><time>10h30</time><span>Sélections du tournoi Mario.</span></li>
+        <li><time>12h30</time><span>Pique-nique (2 services) et finale Mario au cinéma.</span></li>
+        <li><time>14h15</time><span>Rotation 1 : tous les groupes dans les espaces.</span></li>
+        <li><time>15h10</time><span>Rotation 2.</span></li>
+        <li><time>15h40</time><span>Goûter, puis grand Kahoot « Promeneurs du Net ».</span></li>
+        <li><time>16h00</time><span>Fin de journée (jeunes du SAJ : jeu libre jusqu'à 17h).</span></li>
+      </ul>
+    </div>
+    <div class="day-card">
+      <h3>Mercredi 21 octobre</h3>
+      <ul>
+        <li><time>10h00</time><span>Accueil : badges PEGI, résultats de la finale du mardi.</span></li>
+        <li><time>10h30</time><span>Sélections du tournoi Mario.</span></li>
+        <li><time>12h30</time><span>Pique-nique (2 services) et finale Mario au cinéma.</span></li>
+        <li><time>14h15</time><span>Rotation : tous les groupes dans les espaces.</span></li>
+        <li><time>15h05</time><span>Finales des tournois découverte, sur la scène.</span></li>
+        <li><time>15h40</time><span>Goûter, puis remise des prix et clôture.</span></li>
+        <li><time>16h00</time><span>Fin de journée (jeunes du SAJ : rangement puis jeu libre jusqu'à 17h).</span></li>
+        <li><time>20h30</time><span>Soirée cinéma 3D <i>Ready Player One</i>, sur inscription.</span></li>
+      </ul>
     </div>
   </div>
 </section>
