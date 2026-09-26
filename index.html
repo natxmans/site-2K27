@@ -589,10 +589,119 @@
     .hero h1{ animation: none; }
     .card{ transition: none; }
     .progress-fill{ transition: none; }
+    #gate-maintenance h1{ animation: none; }
   }
+
+  /* ---- Verrou temporaire du site ---- */
+  #gate-maintenance{
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: var(--bg);
+    padding: 24px;
+  }
+  #gate-maintenance.cache{ display: none; }
+  #gate-maintenance h1{
+    font-size: clamp(2.5rem, 10vw, 5rem);
+    font-weight: 900;
+    letter-spacing: 3px;
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan), var(--neon-pink));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shine 6s linear infinite;
+    margin: 14px 0;
+  }
+  #gate-maintenance p{ color: var(--text-dim); max-width: 40ch; }
+
+  .overlay-mdp{
+    position: fixed;
+    inset: 0;
+    z-index: 600;
+    background: rgba(5,5,10,0.85);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .overlay-mdp.cache{ display: none; }
+  .modale-mdp{
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 26px;
+    max-width: 320px;
+    width: 100%;
+    text-align: center;
+  }
+  .modale-mdp h3{ font-size: 1.1rem; margin-bottom: 14px; }
+  .modale-mdp input{
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.05rem;
+    padding: 10px 12px;
+    border-radius: 8px;
+    text-align: center;
+    letter-spacing: 2px;
+  }
+  .mdp-actions{ display: flex; gap: 10px; margin-top: 16px; }
+  .mdp-actions button{
+    flex: 1;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  .mdp-actions button.primaire{
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan));
+    color: #06060c;
+    border: none;
+  }
+  .mdp-erreur{ color: var(--neon-pink); font-size: 0.85rem; margin-top: 10px; display: none; }
+  .mdp-erreur.actif{ display: block; }
 </style>
 </head>
 <body>
+
+<div id="gate-maintenance">
+  <div class="tag">Festival Gaming</div>
+  <h1>2K27</h1>
+  <p>Le site n'est pas encore disponible — on peaufine les derniers détails, reviens très vite !</p>
+</div>
+<script>
+  try{
+    if (localStorage.getItem('2k27_debloque') === 'oui'){
+      document.getElementById('gate-maintenance').classList.add('cache');
+    }
+  }catch(e){}
+</script>
+
+<div class="overlay-mdp cache" id="overlay-mdp">
+  <div class="modale-mdp">
+    <h3>Déverrouillage</h3>
+    <input type="password" id="champ-mdp" placeholder="Code" autocomplete="off">
+    <div class="mdp-actions">
+      <button type="button" id="mdp-annuler">Annuler</button>
+      <button type="button" id="mdp-valider" class="primaire">Valider</button>
+    </div>
+    <div class="mdp-erreur" id="mdp-erreur">Code incorrect.</div>
+  </div>
+</div>
 
 <a href="#accueil" class="skip-link">Aller au contenu</a>
 
@@ -868,6 +977,44 @@
 </footer>
 
 <script>
+  // Verrou temporaire du site : Ctrl+Maj+Q ouvre l'invite de code (même code que
+  // verrou_poste.py, "2K27" sensible à la casse), mémorisé sur cet appareil une fois
+  // débloqué pour ne pas avoir à le retaper à chaque visite.
+  const MOT_DE_PASSE_SITE = '2K27';
+  const gate = document.getElementById('gate-maintenance');
+  const overlayMdp = document.getElementById('overlay-mdp');
+  const champMdp = document.getElementById('champ-mdp');
+  const mdpErreur = document.getElementById('mdp-erreur');
+
+  function fermerMdp(){
+    overlayMdp.classList.add('cache');
+  }
+  function validerMdp(){
+    if (champMdp.value === MOT_DE_PASSE_SITE){
+      gate.classList.add('cache');
+      try{ localStorage.setItem('2k27_debloque', 'oui'); }catch(e){}
+      fermerMdp();
+    } else {
+      mdpErreur.classList.add('actif');
+    }
+  }
+  document.addEventListener('keydown', e => {
+    if (e.ctrlKey && e.shiftKey && (e.key === 'Q' || e.key === 'q')){
+      e.preventDefault();
+      mdpErreur.classList.remove('actif');
+      champMdp.value = '';
+      overlayMdp.classList.remove('cache');
+      champMdp.focus();
+    } else if (e.key === 'Escape' && !overlayMdp.classList.contains('cache')){
+      fermerMdp();
+    }
+  });
+  document.getElementById('mdp-annuler').addEventListener('click', fermerMdp);
+  document.getElementById('mdp-valider').addEventListener('click', validerMdp);
+  champMdp.addEventListener('keydown', e => {
+    if (e.key === 'Enter') validerMdp();
+  });
+
   const toggle = document.getElementById('nav-toggle');
   const menu = document.getElementById('nav-menu');
   toggle.addEventListener('click', () => menu.classList.toggle('open'));
