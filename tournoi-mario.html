@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tournoi Mario Kart — 2K27</title>
+<meta name="description" content="Tournoi Mario Kart de Gaming Toussaint 2026 — dates, lieu et comment s'inscrire.">
+<meta property="og:title" content="Tournoi Mario Kart — 2K27">
+<meta property="og:description" content="Gaming Toussaint 2026, mardi 20 et mercredi 21 octobre, Halle du centre culturel de Cestas.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0a0a14">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230a0a14'/><rect x='2' y='2' width='60' height='60' rx='12' fill='none' stroke='%2322e8ff' stroke-width='3'/><text x='32' y='43' font-family='Arial,Helvetica,sans-serif' font-weight='900' font-size='24' fill='%2322e8ff' text-anchor='middle'>2K</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg: #0a0a14;
+    --bg-alt: #10101c;
+    --neon-purple: #b026ff;
+    --neon-cyan: #22e8ff;
+    --neon-pink: #ff2e88;
+    --text: #e8e8f5;
+    --text-dim: #9494b0;
+    --border: rgba(255,255,255,0.1);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  body::before{
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(176,38,255,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(176,38,255,0.06) 1px, transparent 1px);
+    background-size: 45px 45px;
+    z-index: -2;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+  }
+  body::after{
+    content:"";
+    position: fixed;
+    inset:0;
+    background: radial-gradient(circle at 15% 20%, rgba(176,38,255,0.15), transparent 45%),
+                radial-gradient(circle at 85% 75%, rgba(34,232,255,0.12), transparent 45%);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  a{ color: var(--neon-cyan); }
+
+  h1, h2, .logo{ font-family: 'Orbitron', sans-serif; }
+
+  main{
+    max-width: 640px;
+    width: 100%;
+    padding: 48px 6% 70px;
+    text-align: center;
+  }
+
+  .logo{
+    font-size: 1.3rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 30px;
+    display: inline-block;
+  }
+
+  .tag{
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--neon-pink);
+    margin-bottom: 10px;
+  }
+
+  h1{
+    font-size: clamp(2.2rem, 8vw, 3.2rem);
+    font-weight: 900;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan), var(--neon-pink));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 28px;
+  }
+
+  .infos{
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 26px;
+    margin-bottom: 24px;
+    text-align: left;
+  }
+
+  .infos dl{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px 16px;
+    font-size: 1rem;
+  }
+  .infos dt{ color: var(--text-dim); }
+  .infos dd{ font-weight: 600; }
+
+  p{ color: var(--text-dim); margin-bottom: 18px; }
+
+  .cta-box{
+    background: var(--bg-alt);
+    border: 1px solid rgba(34,232,255,0.35);
+    border-radius: 16px;
+    padding: 26px;
+    margin: 30px 0;
+  }
+  .cta-box h2{ font-size: 1.15rem; color: var(--neon-cyan); margin-bottom: 10px; }
+  .cta-box p{ margin-bottom: 0; }
+
+  .pending{
+    display: inline-block;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--neon-pink);
+    border: 1px dashed rgba(255,46,136,0.5);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+
+  footer{
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 20px 6% 40px;
+  }
+  footer a{ color: var(--neon-cyan); }
+</style>
+</head>
+<body>
+
+<main>
+  <a class="logo" href="index.html">2K27</a>
+  <div class="tag">Gaming Toussaint 2026</div>
+  <h1>🏁 Tournoi Mario Kart</h1>
+
+  <div class="infos">
+    <dl>
+      <dt>Jeu</dt><dd>Mario Kart 8 Deluxe (Switch)</dd>
+      <dt>Dates</dt><dd>Mardi 20 et mercredi 21 octobre 2026</dd>
+      <dt>Lieu</dt><dd>Halle du centre culturel, Cestas</dd>
+      <dt>Déroulé</dt><dd>Sélections par groupe le matin, tournoi découverte l'après-midi, grande finale sur écran géant au cinéma</dd>
+      <dt>Public</dt><dd>Jeunes déjà inscrit·e·s à Gaming Toussaint avec leur structure (badge PEGI 3)</dd>
+    </dl>
+  </div>
+
+  <p class="pending">règles définitives bientôt communiquées</p>
+
+  <div class="cta-box">
+    <h2>Comment participer ?</h2>
+    <p>
+      Tu es déjà inscrit·e à Gaming Toussaint avec ta structure et tu veux tenter ta chance au tournoi ?
+      Un lien d'inscription a été (ou va être) envoyé par mail à tes parents ou ton responsable légal —
+      demande-leur de vérifier leur boîte mail !
+    </p>
+  </div>
+
+  <p>Cette page ne collecte aucune information : elle sert juste à te présenter le tournoi.</p>
+</main>
+
+<footer>
+  Gaming Toussaint 2026 — Festival 2K27 · <a href="index.html">Retour au site</a><br>
+  Questions ? SAJ Cestas — 06 81 39 63 67 · saj@mairie-cestas.fr
+</footer>
+
+</body>
+</html>
