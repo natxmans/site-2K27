@@ -2,12 +2,19 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<script>document.documentElement.classList.add('js');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2K27 — Festival Gaming</title>
 <meta name="description" content="2K27, le festival gaming de l'association Gaming Interco 2K27 : tournois, matériel gaming et places limitées, à la Halle du centre culturel de Cestas.">
 <meta property="og:title" content="2K27 — Festival Gaming">
 <meta property="og:description" content="Tournois, matériel gaming et places limitées — Halle du centre culturel, Cestas.">
 <meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://natxmans.github.io/site-2K27/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="2K27 — Gaming Toussaint 2026, les 20 et 21 octobre à la Halle du centre culturel de Cestas">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0a0a14">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';">
@@ -541,79 +548,6 @@
     border-top: 1px solid var(--border);
   }
 
-  /* Plan de la Halle */
-  .plan-jour-toggle{
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 28px;
-  }
-  .plan-jour-toggle button{
-    padding: 10px 22px;
-    border-radius: 30px;
-    border: 1px solid var(--border);
-    background: var(--bg-alt);
-    color: var(--text-dim);
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: color 0.2s, border-color 0.2s;
-  }
-  .plan-jour-toggle button.actif{
-    color: #06060c;
-    background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan));
-    border-color: transparent;
-  }
-  .plan-svg-wrap{
-    background: #fbfbf8;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 20px;
-  }
-  .plan-svg-wrap svg{ width: 100%; height: auto; display: block; }
-  .plan-svg-wrap .lbl{
-    font-size: 11px;
-    font-weight: 600;
-    fill: #1b2230;
-    paint-order: stroke;
-    stroke: #fbfbf8;
-    stroke-width: 3px;
-  }
-  .plan-svg-wrap .sm{
-    font-size: 9.5px;
-    font-weight: 500;
-    fill: #3b4456;
-    paint-order: stroke;
-    stroke: #fbfbf8;
-    stroke-width: 3px;
-  }
-  .plan-svg-wrap.day-mer .only-mar,
-  .plan-svg-wrap.day-mar .only-mer{
-    display: none;
-  }
-  .plan-caption{
-    color: var(--text-dim);
-    font-size: 0.8rem;
-    text-align: center;
-    max-width: 560px;
-    margin: 14px auto 0;
-  }
-  .plan-glisser{ display: none; }
-  @media (max-width: 720px){
-    .plan-svg-wrap{ overflow-x: auto; padding: 10px; -webkit-overflow-scrolling: touch; }
-    .plan-svg-wrap svg{ width: 880px; max-width: none; }
-    .plan-glisser{
-      display: block;
-      color: var(--text-dim);
-      font-size: 0.8rem;
-      text-align: center;
-      margin-top: 10px;
-    }
-  }
-
   @media (max-width: 720px){
     nav ul{
       position: fixed;
@@ -748,6 +682,488 @@
   }
   .mdp-erreur{ color: var(--neon-pink); font-size: 0.85rem; margin-top: 10px; display: none; }
   .mdp-erreur.actif{ display: block; }
+
+  /* ===================================================================
+     EMBELLISSEMENTS (4 oct. 2026) — thème néon : animations, cartes,
+     frise horaire, puces PEGI, plan interactif.
+     =================================================================== */
+
+  ::selection{ background: rgba(176,38,255,0.55); color: #fff; }
+  html{ scrollbar-color: rgba(176,38,255,0.6) var(--bg); scrollbar-width: thin; }
+  ::-webkit-scrollbar{ width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track{ background: var(--bg); }
+  ::-webkit-scrollbar-thumb{ background: linear-gradient(var(--neon-purple), var(--neon-cyan)); border-radius: 10px; border: 2px solid var(--bg); }
+
+  a:focus-visible, button:focus-visible, .plan-puce:focus-visible{
+    outline: 2px solid var(--neon-cyan);
+    outline-offset: 3px;
+    border-radius: 8px;
+  }
+
+  section[id]{ scroll-margin-top: 76px; position: relative; }
+  section[id] + section[id]::before{
+    content: "";
+    position: absolute;
+    top: 0; left: 8%; right: 8%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(176,38,255,0.55), rgba(34,232,255,0.55), transparent);
+  }
+
+  /* ---- Apparition au défilement ---- */
+  html.js .reveal{
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: var(--d, 0s);
+  }
+  html.js .reveal.vu{ opacity: 1; transform: none; }
+
+  /* ---- Barre de progression + navigation active ---- */
+  #progression{
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan), var(--neon-pink));
+    z-index: 150;
+    pointer-events: none;
+  }
+  .logo{ filter: drop-shadow(0 0 12px rgba(34,232,255,0.35)); }
+  nav a::after{
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -7px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan));
+    transform: scaleX(0);
+    opacity: 0;
+    transform-origin: left;
+    transition: transform 0.28s ease, opacity 0.2s;
+  }
+  nav a:hover::after, nav a.actif::after{ transform: scaleX(1); opacity: 1; }
+  nav a.actif{ color: var(--text); }
+
+  /* ---- Hero ---- */
+  .hero{ position: relative; isolation: isolate; overflow: hidden; }
+  .hero::before{
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: min(980px, 130vw);
+    aspect-ratio: 1;
+    left: 50%; top: 40%;
+    translate: -50% -50%;
+    background: radial-gradient(closest-side, rgba(176,38,255,0.30), rgba(34,232,255,0.12) 55%, transparent 74%);
+    filter: blur(28px);
+    animation: orbe 14s ease-in-out infinite alternate;
+  }
+  @keyframes orbe{
+    from{ transform: translate(-4%, -3%) scale(1); }
+    to{ transform: translate(5%, 4%) scale(1.14); }
+  }
+  .hero .tag{ background: rgba(34,232,255,0.06); box-shadow: 0 0 24px rgba(34,232,255,0.12); }
+  .hero p.subtitle{ margin: 22px 0 26px; }
+  .hero-infos{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 12px;
+    justify-content: center;
+    margin-bottom: 26px;
+  }
+  .hero-infos span{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    backdrop-filter: blur(6px);
+  }
+  .hero-cta{ display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+  .btn{ transition: transform 0.2s, box-shadow 0.2s, background 0.2s; }
+  .btn:hover{ transform: translateY(-2px); box-shadow: 0 10px 30px rgba(176,38,255,0.38); }
+  .btn.ghost{
+    background: rgba(34,232,255,0.05);
+    color: var(--text);
+    border: 1px solid rgba(34,232,255,0.55);
+  }
+  .btn.ghost:hover{ background: rgba(34,232,255,0.12); box-shadow: 0 10px 30px rgba(34,232,255,0.25); }
+  .countdown-box{
+    background: linear-gradient(160deg, rgba(176,38,255,0.12), rgba(34,232,255,0.05)), var(--bg-alt);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 10px 30px rgba(0,0,0,0.25);
+  }
+  .stat-chip{ background: linear-gradient(160deg, rgba(255,255,255,0.05), transparent), var(--bg-alt); }
+
+  /* ---- Titres de section ---- */
+  .section-head .tag{ display: inline-flex; align-items: center; gap: 12px; }
+  .section-head .tag::before, .section-head .tag::after{
+    content: "";
+    width: 28px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--neon-pink));
+  }
+  .section-head .tag::after{ transform: scaleX(-1); }
+  .section-head h2::after{
+    content: "";
+    display: block;
+    width: 64px; height: 3px;
+    margin: 16px auto 0;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan));
+    box-shadow: 0 0 16px rgba(34,232,255,0.5);
+  }
+
+  /* ---- Cartes ---- */
+  .card{
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(165deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01) 60%), var(--bg-alt);
+  }
+  .card::before{
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan));
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .card:hover::before{ opacity: 1; }
+  .card:hover{ box-shadow: 0 16px 44px rgba(176,38,255,0.2); }
+  .ico{
+    display: inline-grid;
+    place-items: center;
+    width: 48px; height: 48px;
+    margin-bottom: 14px;
+    border-radius: 14px;
+    font-size: 1.55rem;
+    line-height: 1;
+    background: linear-gradient(135deg, rgba(176,38,255,0.30), rgba(34,232,255,0.18));
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: inset 0 0 16px rgba(255,255,255,0.06);
+  }
+  .puces{ display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 14px; }
+  .pegi{
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 4px 11px;
+    border-radius: 9px;
+    background: var(--pc, #8ee07f);
+    color: #0b0b14;
+    border: 2px solid #0b0b14;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.18);
+    line-height: 1;
+  }
+  .pegi small{ font-size: 0.62rem; font-weight: 800; letter-spacing: 1.5px; }
+  .pegi b{ font-family: 'Orbitron', sans-serif; font-size: 1.05rem; font-weight: 900; }
+  .puce-info{
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 30px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--neon-cyan);
+    background: rgba(34,232,255,0.08);
+    border: 1px solid rgba(34,232,255,0.35);
+  }
+  .puce-info.prix{ color: var(--neon-pink); background: rgba(255,46,136,0.08); border-color: rgba(255,46,136,0.4); }
+  .puce-info.jour{ color: var(--text); background: rgba(255,255,255,0.06); border-color: var(--border); }
+
+  /* ---- Programme : frise horaire ---- */
+  .phase-card, .day-card{ background: linear-gradient(165deg, rgba(255,255,255,0.045), transparent 55%), var(--bg-alt); }
+  .phase-card{ box-shadow: 0 0 46px rgba(176,38,255,0.08); }
+  .phase-card.phase-2{ box-shadow: 0 0 46px rgba(34,232,255,0.08); }
+  .day-card ul{ position: relative; gap: 16px; }
+  .day-card ul::before{
+    content: "";
+    position: absolute;
+    left: 66px; top: 8px; bottom: 8px;
+    width: 2px;
+    background: linear-gradient(var(--neon-purple), var(--neon-cyan) 70%, transparent);
+    opacity: 0.55;
+  }
+  .day-card li{ position: relative; grid-template-columns: 56px 1fr; column-gap: 28px; }
+  .day-card li::before{
+    content: "";
+    position: absolute;
+    left: 61px; top: 6px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--neon-cyan);
+    box-shadow: 0 0 12px rgba(34,232,255,0.65);
+  }
+  .day-card li span{ color: var(--text); opacity: 0.82; }
+  .day-card li:hover span{ opacity: 1; }
+
+  /* ---- Contact et pied de page ---- */
+  .contact-box{
+    border: 1px solid transparent;
+    background: linear-gradient(var(--bg-alt), var(--bg-alt)) padding-box,
+                linear-gradient(135deg, var(--neon-purple), var(--neon-cyan) 55%, var(--neon-pink)) border-box;
+    box-shadow: 0 0 60px rgba(176,38,255,0.14);
+  }
+  .contact-actions{ display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 18px; }
+  footer{ padding: 44px 6% 36px; }
+  .footer-logo{
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 6px;
+  }
+  footer p{ margin: 2px 0; }
+  footer .petit{ font-size: 0.78rem; opacity: 0.7; }
+
+  /* ===================================================================
+     PLAN DE LA HALLE
+     =================================================================== */
+  .plan-barre{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px 18px;
+    margin-bottom: 18px;
+  }
+  .plan-jour-toggle{
+    position: relative;
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 4px;
+    border-radius: 40px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+  }
+  .plan-jour-toggle::before{
+    content: "";
+    position: absolute;
+    top: 4px; bottom: 4px; left: 4px;
+    width: calc(50% - 4px);
+    border-radius: 36px;
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan));
+    box-shadow: 0 0 22px rgba(34,232,255,0.35);
+    transition: transform 0.32s cubic-bezier(0.3, 0.8, 0.3, 1);
+  }
+  .plan-jour-toggle.mer::before{ transform: translateX(100%); }
+  .plan-jour-toggle button{
+    position: relative;
+    z-index: 1;
+    padding: 10px 26px;
+    border: 0;
+    border-radius: 36px;
+    background: transparent;
+    color: var(--text-dim);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.88rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.25s;
+  }
+  .plan-jour-toggle button.actif{ color: #06060c; }
+  .plan-outils{ display: flex; flex-wrap: wrap; gap: 8px; }
+  .plan-outil{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 42px;
+    padding: 9px 16px;
+    border-radius: 30px;
+    border: 1px solid var(--border);
+    background: var(--bg-alt);
+    color: var(--text-dim);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s, opacity 0.2s;
+  }
+  .plan-outil:hover:not(:disabled){ color: var(--text); border-color: rgba(34,232,255,0.55); }
+  .plan-outil:disabled{ opacity: 0.35; cursor: default; }
+  .plan-outil[aria-pressed="true"]{ color: #06060c; background: var(--neon-cyan); border-color: transparent; }
+
+  .plan-cadre{
+    scroll-margin-top: 84px;
+    padding: 10px;
+    border: 1px solid transparent;
+    border-radius: 22px;
+    background: linear-gradient(var(--bg-alt), var(--bg-alt)) padding-box,
+                linear-gradient(135deg, var(--neon-purple), var(--neon-cyan) 55%, var(--neon-pink)) border-box;
+    box-shadow: 0 0 70px rgba(176,38,255,0.16), 0 30px 60px rgba(0,0,0,0.35);
+  }
+  .plan-svg-wrap{
+    --z: 1;
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-radius: 14px;
+    background: #fbfbf8;
+    transition: background 0.4s;
+    -webkit-overflow-scrolling: touch;
+  }
+  .plan-svg-wrap svg{
+    display: block;
+    width: calc(100% * var(--z));
+    max-width: none;
+    height: auto;
+    transition: width 0.35s ease;
+  }
+  .plan-svg-wrap .lbl{
+    font-size: 11px;
+    font-weight: 600;
+    fill: #1b2230;
+    paint-order: stroke;
+    stroke: #fbfbf8;
+    stroke-width: 3px;
+    transition: fill 0.4s, stroke 0.4s;
+  }
+  .plan-svg-wrap .sm{
+    font-size: 9.5px;
+    font-weight: 500;
+    fill: #3b4456;
+    paint-order: stroke;
+    stroke: #fbfbf8;
+    stroke-width: 3px;
+    transition: fill 0.4s, stroke 0.4s;
+  }
+  .plan-svg-wrap.day-mer .only-mar,
+  .plan-svg-wrap.day-mar .only-mer{ display: none; }
+
+  .plan-svg-wrap .hit{ fill: transparent; stroke: none; cursor: pointer; }
+  #plan-voile{ fill: rgba(251,251,248,0.68); fill-rule: evenodd; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+  #plan-voile.on{ opacity: 1; }
+  #plan-sel{ fill: none; stroke-width: 4; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+  #plan-sel.on{ opacity: 1; }
+  .plan-svg-wrap .fourmis{ animation: fourmis 1s linear infinite; }
+  @keyframes fourmis{ to{ stroke-dashoffset: -13; } }
+  .plan-svg-wrap .pulse{ animation: pulse 1.8s ease-in-out infinite; }
+  @keyframes pulse{ 0%, 100%{ opacity: 1; } 50%{ opacity: 0.35; } }
+
+  /* mode néon : le plan prend les couleurs du site */
+  .plan-cadre.neon .plan-svg-wrap{ background: #0a0a16; }
+  .plan-cadre.neon .plan-svg-wrap image{ filter: invert(1) hue-rotate(190deg) saturate(1.5) brightness(0.9) contrast(1.08); }
+  .plan-cadre.neon .lbl{ fill: #ffffff; stroke: #0a0a16; }
+  .plan-cadre.neon .sm{ fill: #b9c2e6; stroke: #0a0a16; }
+  .plan-cadre.neon rect[fill="#e9e3d6"]{ fill: #26263d; stroke: #8590c0; }
+  .plan-cadre.neon [fill="#fbfbf8"]{ fill: #14142a; }
+  .plan-cadre.neon [fill="#fff"]{ fill: #1a1a30; }
+  .plan-cadre.neon [fill="#2b2f36"]{ fill: #aab3da; }
+  .plan-cadre.neon [stroke="#2b2f36"]{ stroke: #8e98c8; }
+  .plan-cadre.neon [stroke="#123a8a"]{ stroke: #5fa8ff; }
+  .plan-cadre.neon marker#arr path{ fill: #5fa8ff; }
+  .plan-cadre.neon [fill-opacity=".13"]{ fill-opacity: 0.3; }
+  .plan-cadre.neon #plan-voile{ fill: rgba(8,8,22,0.62); }
+
+  .plan-glisser{ display: none; color: var(--text-dim); font-size: 0.82rem; text-align: center; margin-top: 12px; }
+
+  .plan-info{
+    position: relative;
+    overflow: hidden;
+    margin-top: 22px;
+    min-height: 132px;
+    padding: 22px 26px 22px 30px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: linear-gradient(165deg, rgba(255,255,255,0.05), transparent 60%), var(--bg-alt);
+  }
+  .plan-info::before{
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 6px;
+    background: var(--ic, linear-gradient(var(--neon-purple), var(--neon-cyan)));
+    box-shadow: 0 0 22px var(--ic, rgba(34,232,255,0.5));
+  }
+  .plan-info .pi-titre{ font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.35rem; line-height: 1.25; }
+  .plan-info .pi-sous{ color: var(--neon-cyan); font-weight: 600; margin-top: 4px; }
+  .plan-info .pi-desc{ margin-top: 10px; color: var(--text); opacity: 0.9; }
+  .plan-info .pi-vide{ display: flex; align-items: center; gap: 14px; color: var(--text-dim); min-height: 88px; }
+  .plan-info .pi-vide b{ color: var(--text); }
+  .plan-info .pi-doigt{ font-size: 1.9rem; animation: pointer 1.8s ease-in-out infinite; }
+  @keyframes pointer{ 0%, 100%{ transform: translate(0, 0); } 50%{ transform: translate(6px, -6px); } }
+
+  .plan-puces{ display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 24px; }
+  .plan-groupe{
+    flex-basis: 100%;
+    text-align: center;
+    font-size: 0.72rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-top: 8px;
+  }
+  .plan-groupe:first-child{ margin-top: 0; }
+  .plan-puce{
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 16px;
+    border-radius: 30px;
+    border: 1px solid var(--border);
+    background: var(--bg-alt);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: transform 0.15s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  }
+  .plan-puce i{ width: 11px; height: 11px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px var(--c); flex-shrink: 0; }
+  .plan-puce:hover{ transform: translateY(-2px); border-color: var(--c); }
+  .plan-puce[aria-pressed="true"]{
+    border-color: var(--c);
+    background: color-mix(in srgb, var(--c) 20%, var(--bg-alt));
+    box-shadow: 0 0 22px color-mix(in srgb, var(--c) 40%, transparent);
+  }
+  .plan-puce[hidden]{ display: none; }
+
+  .plan-caption{ color: var(--text-dim); font-size: 0.8rem; text-align: center; max-width: 560px; margin: 18px auto 0; }
+
+  @media (min-width: 1000px){
+    section#plan{ max-width: 1360px; }
+    .plan-grille{
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 350px;
+      gap: 30px;
+      align-items: start;
+    }
+    .plan-col-info{ position: sticky; top: 92px; }
+    .plan-col-info .plan-info{ margin-top: 0; }
+    .plan-col-info .plan-puces{ justify-content: flex-start; gap: 8px; margin-top: 18px; }
+    .plan-col-info .plan-groupe{ text-align: left; }
+    .plan-col-info .plan-puce{ padding: 7px 13px; font-size: 0.86rem; }
+  }
+
+  @media (max-width: 720px){
+    .plan-barre{ justify-content: center; }
+    .plan-cadre{ padding: 6px; border-radius: 18px; }
+    .plan-glisser{ display: block; }
+    .plan-info{ padding: 18px 18px 18px 22px; }
+    .hero-infos span{ padding: 8px 14px; font-size: 0.92rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .hero::before, .plan-svg-wrap .fourmis, .plan-svg-wrap .pulse, .plan-info .pi-doigt{ animation: none; }
+    html.js .reveal{ opacity: 1; transform: none; transition: none; }
+    .plan-svg-wrap svg, #plan-voile, #plan-sel, .plan-jour-toggle::before{ transition: none; }
+    .btn, .btn:hover{ transition: none; transform: none; }
+  }
 </style>
 </head>
 <body>
@@ -817,6 +1233,15 @@
     Le nouveau festival gaming qui rassemble joueuses et joueurs autour de tournois,
     de découvertes et de bonne ambiance. Un projet lancé progressivement, en commençant petit pour bien grandir.
   </p>
+  <div class="hero-infos">
+    <span>📅 20 &amp; 21 octobre 2026</span>
+    <span>📍 Halle du centre culturel · Cestas</span>
+    <span>🤝 SAJ + 9 structures</span>
+  </div>
+  <div class="hero-cta">
+    <a class="btn" href="#plan">Voir le plan</a>
+    <a class="btn ghost" href="#programme">Le programme</a>
+  </div>
   <div class="countdown-wrap">
     <div class="countdown-label" id="countdown-label">Compte à rebours</div>
     <div class="countdown-grid">
@@ -954,12 +1379,22 @@
     <h2>Le plan de la Halle</h2>
     <p>On entre par le préau. À gauche : accueil et dépôt. À droite : le repas, puis les PC. Après le virage à gauche : les stands invités le long du mur. En haut : FIFA, Mario Kart, Brawl Stars chill, la scène Just Dance et Smash. PEGI 16 au fond de la réserve.</p>
   </div>
-  <div class="plan-jour-toggle">
-    <button type="button" id="plan-btn-mardi" class="actif">Mardi 20</button>
-    <button type="button" id="plan-btn-mercredi">Mercredi 21</button>
+  <div class="plan-grille">
+  <div class="plan-col-plan">
+  <div class="plan-barre">
+    <div class="plan-jour-toggle" role="group" aria-label="Choisir le jour">
+      <button type="button" id="plan-btn-mardi" class="actif" aria-pressed="true">Mardi 20</button>
+      <button type="button" id="plan-btn-mercredi" aria-pressed="false">Mercredi 21</button>
+    </div>
+    <div class="plan-outils">
+      <button type="button" class="plan-outil" id="plan-zoom-moins" aria-label="Dézoomer le plan">−</button>
+      <button type="button" class="plan-outil" id="plan-zoom-plus" aria-label="Zoomer sur le plan">+</button>
+      <button type="button" class="plan-outil" id="plan-neon" aria-pressed="false">🌙 Mode néon</button>
+    </div>
   </div>
-  <div class="plan-svg-wrap day-mar">
-    <svg viewBox="0 0 1169 826" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Plan de la Halle avec l'emplacement des espaces de jeu">
+  <div class="plan-cadre" id="plan-cadre">
+  <div class="plan-svg-wrap day-mar" id="plan-wrap">
+    <svg viewBox="120 30 890 785" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Plan de la Halle avec l'emplacement des espaces de jeu">
       <image href="plan-halle.png" x="0" y="0" width="1169" height="826"/>
       <defs>
         <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#8a93a3" stroke-width="1.2"></line></pattern>
@@ -972,7 +1407,7 @@
       <text class="lbl" x="506" y="720">Accès cinéma : préau → cage d'escalier → niveau −1</text>
       <circle cx="480" cy="560" r="16" fill="#39465c" fill-opacity=".15" stroke="#39465c"></circle>
       <text class="sm" x="455" y="590">cinéma N−1</text>
-      <g transform="translate(40,790)"><rect x="0" y="0" width="24" height="6" fill="#2b2f36" stroke="#2b2f36"></rect><rect x="24" y="0" width="24" height="6" fill="#fbfbf8" stroke="#2b2f36"></rect><rect x="48" y="0" width="24" height="6" fill="#2b2f36" stroke="#2b2f36"></rect><rect x="72" y="0" width="24" height="6" fill="#fbfbf8" stroke="#2b2f36"></rect><rect x="96" y="0" width="24" height="6" fill="#2b2f36" stroke="#2b2f36"></rect><text class="sm" x="0" y="-4">0</text><text class="sm" x="116" y="-4">5 m</text></g>
+      <g transform="translate(140,792)"><rect x="0" y="0" width="24" height="6" fill="#2b2f36" stroke="#2b2f36"></rect><rect x="24" y="0" width="24" height="6" fill="#fbfbf8" stroke="#2b2f36"></rect><rect x="48" y="0" width="24" height="6" fill="#2b2f36" stroke="#2b2f36"></rect><rect x="72" y="0" width="24" height="6" fill="#fbfbf8" stroke="#2b2f36"></rect><rect x="96" y="0" width="24" height="6" fill="#2b2f36" stroke="#2b2f36"></rect><text class="sm" x="0" y="-4">0</text><text class="sm" x="116" y="-4">5 m</text></g>
       <line x1="728" y1="540" x2="728" y2="168" stroke="#1f8a5b" stroke-width="1.4" stroke-dasharray="14 4 2 4" opacity=".9"></line>
       <line x1="305" y1="166" x2="745" y2="166" stroke="#1f8a5b" stroke-width="1.4" stroke-dasharray="14 4 2 4" opacity=".9"></line>
       <line x1="745" y1="358" x2="893" y2="358" stroke="#1f8a5b" stroke-width="1.4" stroke-dasharray="14 4 2 4" opacity=".9"></line>
@@ -1075,7 +1510,14 @@
       <circle cx="674" cy="472" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="674" cy="494" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle>
     </svg>
   </div>
-  <p class="plan-glisser">↔ Fais glisser le plan pour le parcourir</p>
+  </div>
+  <p class="plan-glisser">↔ Fais glisser le plan pour le parcourir · touche un espace pour en savoir plus</p>
+  </div>
+  <div class="plan-col-info">
+  <div class="plan-info" id="plan-info" aria-live="polite"></div>
+  <div class="plan-puces" id="plan-puces"></div>
+  </div>
+  </div>
   <p class="plan-caption">Plan issu du document de préparation technique de l'ATEC. Positions approximatives, d'après les cotes du plan — les axes verts sont les allées à laisser libres.</p>
 </section>
 
@@ -1185,8 +1627,12 @@
 
 <section id="contact">
   <div class="contact-box">
-    <h2>Suivre le projet</h2>
-    <p>Le programme complet et les inscriptions seront annoncés dès que les dates seront confirmées.</p>
+    <h2>Une question ?</h2>
+    <p>Le SAJ de Cestas répond à toutes vos questions sur le festival.</p>
+    <div class="contact-actions">
+      <a class="btn" href="tel:+33681396367">📞 06 81 39 63 67</a>
+      <a class="btn ghost" href="mailto:saj@mairie-cestas.fr">✉️ saj@mairie-cestas.fr</a>
+    </div>
     <button type="button" class="btn share-btn" id="share-btn">Partager le festival</button>
     <p class="share-feedback" id="share-feedback" hidden>Lien copié !</p>
     <p class="phase-links"><a class="maps-link" href="#accueil">Retour en haut</a></p>
@@ -1196,7 +1642,9 @@
 </main>
 
 <footer>
-  Association Gaming Interco 2K27 — Festival gaming
+  <div class="footer-logo">2K27</div>
+  <p>Gaming Toussaint 2026 · 20 &amp; 21 octobre · Halle du centre culturel, Cestas</p>
+  <p class="petit">Association Gaming Interco 2K27 — Festival gaming</p>
 </footer>
 
 <script>
@@ -1368,18 +1816,6 @@
     fevrier:   { total: 100, prises: 0 }
   };
 
-  // Plan de la Halle : deux stands changent selon le jour (Jeux coop/Société <-> ABCS/Rétro
-  // Mios), le reste de l'implantation est identique mardi et mercredi.
-  function afficherJourPlan(jour){
-    const wrap = document.querySelector('.plan-svg-wrap');
-    wrap?.classList.toggle('day-mar', jour === 'mardi');
-    wrap?.classList.toggle('day-mer', jour === 'mercredi');
-    document.getElementById('plan-btn-mardi')?.classList.toggle('actif', jour === 'mardi');
-    document.getElementById('plan-btn-mercredi')?.classList.toggle('actif', jour === 'mercredi');
-  }
-  document.getElementById('plan-btn-mardi')?.addEventListener('click', () => afficherJourPlan('mardi'));
-  document.getElementById('plan-btn-mercredi')?.addEventListener('click', () => afficherJourPlan('mercredi'));
-
   document.querySelectorAll('[data-phase]').forEach(el => {
     const data = PLACES[el.dataset.phase];
     if (!data) return;
@@ -1407,5 +1843,354 @@
   });
 </script>
 
+<script>
+// Embellissements du site (4 oct. 2026) : cartes, apparitions, navigation, plan interactif.
+(function(){
+  'use strict';
+
+  var reduit = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function $(s, r){ return (r || document).querySelector(s); }
+  function $$(s, r){ return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+  function h(tag, cls, txt){
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (txt != null) e.textContent = txt;
+    return e;
+  }
+
+  /* ---------- Icônes, puces PEGI et prix sur les cartes ---------- */
+  var ICONES = {
+    'Phase test': '🧪', 'Grande édition': '🚀', '9 structures partenaires': '🤝',
+    '10 PC en réseau': '💻', 'Nintendo Switch': '🎮', 'PS4 & bornes rétro': '🕹️', 'Cinéma de la Halle': '🎬',
+    'Tournoi Mario': '🏁', 'PC en réseau': '🖥️', 'Espace Valorant (16+)': '🎯', 'FIFA': '⚽',
+    'Smash Bros': '🥊', 'Brawl Stars chill': '⭐', 'Scène Just Dance': '💃', 'Stands des structures': '🧩',
+    'World of Padman & Trackmania': '🏎️', 'Sécurité : le système PEGI': '🛡️',
+    'Séance + finale Mario': '🍿', 'Soirée 3D': '🕶️', 'Avant-première': '🎞️'
+  };
+  var COULEUR_PEGI = { 3: '#8ee07f', 7: '#8ee07f', 12: '#f6b24a', 16: '#f6b24a', 18: '#ff6b6b' };
+
+  function badgePegi(n){
+    var b = h('span', 'pegi');
+    b.style.setProperty('--pc', COULEUR_PEGI[n] || '#8ee07f');
+    b.appendChild(h('small', null, 'PEGI'));
+    b.appendChild(h('b', null, String(n)));
+    b.setAttribute('aria-label', 'PEGI ' + n);
+    return b;
+  }
+
+  $$('.card, .contact-box').forEach(function(carte){
+    var titre = $('h3', carte);
+    if (!titre) return;
+    var ico = ICONES[titre.textContent.trim()];
+    if (ico && carte.classList.contains('card')){
+      var s = h('span', 'ico', ico);
+      s.setAttribute('aria-hidden', 'true');
+      carte.insertBefore(s, carte.firstChild);
+    }
+    $$('p', carte).forEach(function(p){
+      var t = p.textContent.trim();
+      var m = t.match(/^PEGI (\d+)(?:\s*·\s*(\d+) places)?$/);
+      if (m){
+        p.className = 'puces';
+        p.textContent = '';
+        p.appendChild(badgePegi(parseInt(m[1], 10)));
+        if (m[2]) p.appendChild(h('span', 'puce-info', m[2] + ' places'));
+      } else if (/^\d+,\d+ €/.test(t) && carte.classList.contains('card')){
+        p.className = 'puces';
+        p.textContent = '';
+        p.appendChild(h('span', 'puce-info prix', t));
+      }
+    });
+  });
+
+  /* ---------- Apparition au défilement ---------- */
+  (function(){
+    var cibles = $$('.section-head, .card, .day-card, .phase-card, .contact-box, .plan-barre, .plan-cadre, .plan-info, .plan-puces, .hero-infos, .hero-cta, .countdown-wrap, .stat-row');
+    if (!('IntersectionObserver' in window) || reduit){
+      return;
+    }
+    cibles.forEach(function(c, i){
+      c.classList.add('reveal');
+      var parent = c.parentElement;
+      if (parent && /feature-grid|day-timeline|timeline/.test(parent.className)){
+        var rang = Array.prototype.indexOf.call(parent.children, c);
+        c.style.setProperty('--d', Math.min(rang, 6) * 0.08 + 's');
+      }
+    });
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting){ en.target.classList.add('vu'); obs.unobserve(en.target); }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
+    cibles.forEach(function(c){ obs.observe(c); });
+    // ce qui est déjà à l'écran au chargement apparaît tout de suite, sans attendre l'observateur
+    setTimeout(function(){
+      cibles.forEach(function(c){
+        var r = c.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0) c.classList.add('vu');
+      });
+    }, 80);
+    setTimeout(function(){ cibles.forEach(function(c){ c.classList.add('vu'); }); }, 5000);
+  })();
+
+  /* ---------- Barre de progression et lien actif ---------- */
+  (function(){
+    var barre = h('div'); barre.id = 'progression'; barre.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(barre);
+    var enAttente = false;
+    function maj(){
+      enAttente = false;
+      var haut = document.documentElement.scrollHeight - window.innerHeight;
+      barre.style.transform = 'scaleX(' + (haut > 0 ? Math.min(1, window.scrollY / haut) : 0) + ')';
+    }
+    window.addEventListener('scroll', function(){
+      if (!enAttente){ enAttente = true; requestAnimationFrame(maj); }
+    }, { passive: true });
+    maj();
+
+    var liens = {};
+    $$('#nav-menu a').forEach(function(a){ liens[a.getAttribute('href').slice(1)] = a; });
+    if ('IntersectionObserver' in window){
+      var spy = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if (!en.isIntersecting) return;
+          Object.keys(liens).forEach(function(k){ liens[k].classList.toggle('actif', k === en.target.id); });
+        });
+      }, { rootMargin: '-45% 0px -50% 0px' });
+      Object.keys(liens).forEach(function(k){ var s = document.getElementById(k); if (s) spy.observe(s); });
+    }
+  })();
+
+  /* ---------- Plan interactif ---------- */
+  var wrap = $('#plan-wrap');
+  var svg = wrap && $('svg', wrap);
+  if (!wrap || !svg) return;
+
+  var cadre = $('#plan-cadre');
+  var info = $('#plan-info');
+  var zonePuces = $('#plan-puces');
+  var NS = 'http://www.w3.org/2000/svg';
+
+  // r = [x, y, largeur, hauteur] dans le repère du plan (1169 x 826) ; j = jour(s) concerné(s)
+  var ESP = [
+    { id: 'fifa', g: 'jeux', nom: 'FIFA · PS4', sous: 'EA Sports FC / FIFA sur PS4', pegi: 3, places: 8, j: 'both', c: '#0f8a8a', r: [190, 58, 155, 90],
+      desc: 'À l\'avant de la réserve : le match est projeté sur le mur.' },
+    { id: 'mk1', g: 'jeux', nom: 'Mario Kart 1', sous: 'Mario Kart 8 Deluxe sur Switch', pegi: 3, places: 24, plus: 'avec Mario Kart 2', j: 'both', c: '#d2452b', r: [350, 58, 118, 90],
+      desc: 'Deux postes sur vidéoprojecteur : sélections par groupe le matin, tournoi découverte l\'après-midi, finale sur écran géant au cinéma.' },
+    { id: 'mk2', g: 'jeux', nom: 'Mario Kart 2', sous: 'Mario Kart 8 Deluxe sur Switch', pegi: 3, places: 24, plus: 'avec Mario Kart 1', j: 'both', c: '#d2452b', r: [318, 186, 102, 108],
+      desc: 'Le deuxième poste du tournoi Mario Kart, lui aussi sur vidéoprojecteur.' },
+    { id: 'brawl', g: 'jeux', nom: 'Brawl Stars', sous: 'Sur les smartphones des jeunes', pegi: 7, places: 10, j: 'both', c: '#c98a12', r: [470, 58, 88, 90],
+      desc: 'Un coin détente avec des poufs : on joue tranquille, sur son téléphone.' },
+    { id: 'scene', g: 'jeux', nom: 'Scène · Just Dance', sous: 'Just Dance, Kahoot, mot du maire, finales', pegi: 3, places: 20, j: 'both', c: '#e0338a', r: [612, 58, 190, 90],
+      desc: 'Écran valise et sono de la Halle. C\'est aussi ici que se déroulent le mot du maire, le grand Kahoot « Promeneurs du Net », les finales des tournois découverte, le goûter et la remise des prix.' },
+    { id: 'smash', g: 'jeux', nom: 'Smash Bros', sous: 'Super Smash Bros. Ultimate sur TV', pegi: 12, places: 12, j: 'both', c: '#2b7fd2', r: [808, 58, 85, 90],
+      desc: 'Dans le coin en haut à droite de la Halle, sur une TV.' },
+    { id: 'pc', g: 'jeux', nom: 'PC · LAN', sous: 'Fortnite et jeux tout public, en réseau', pegi: 12, places: 26, j: 'both', c: '#7a45c9', r: [750, 186, 143, 152],
+      desc: '10 PC reliés en réseau local (5 PC du SAJ et 5 PC gamer loués). Un écran spectateur permet de suivre les parties en attendant son tour.' },
+    { id: 'pegi16', g: 'jeux', nom: 'Espace PEGI 16', sous: 'Valorant sur 4 PC', pegi: 16, places: 8, j: 'both', c: '#9b1c3a', r: [190, 168, 112, 236],
+      desc: 'Un espace fermé, au fond de la réserve. L\'accès se fait avec un badge PEGI 16 : un adulte vérifie les badges à l\'entrée.' },
+    { id: 'leognan', g: 'jeux', nom: 'Stand Léognan', sous: 'Gang Beasts · Boomerang Fu', pegi: null, places: 10, j: 'both', c: '#c98a12', r: [495, 186, 66, 108],
+      desc: 'Le stand de la Maison des Jeunes de Léognan, avec sa Switch, le long du mur. Présent mardi et mercredi.' },
+    { id: 'coop', g: 'jeux', nom: 'Jeux coop', sous: 'Jeux coopératifs sur TV 2', pegi: null, places: 8, plus: 'avec Société', j: 'mar', c: '#2b7fd2', r: [566, 186, 66, 108],
+      desc: 'Le stand du SAJ le mardi : des jeux où l\'on gagne ensemble.' },
+    { id: 'societe', g: 'jeux', nom: 'Société', sous: 'Jeux de société calmes', pegi: null, places: 8, plus: 'avec Jeux coop', j: 'mar', c: '#5f6b7a', r: [637, 186, 66, 108],
+      desc: 'Le stand du SAJ le mardi : des jeux de société pour souffler entre deux parties.' },
+    { id: 'abcs', g: 'jeux', nom: 'Stand ABCS', sous: 'FIFA · Mario Party · Gang Beasts', pegi: null, places: 10, j: 'mer', c: '#2b7fd2', r: [566, 186, 66, 108],
+      desc: 'Le stand de l\'association ABCS (Blanquefort), avec sa PS5 et sa Switch. Présent le mercredi.' },
+    { id: 'retro', g: 'jeux', nom: 'Rétro Mios', sous: 'Rétrogaming sur bornes d\'arcade', pegi: null, places: 10, j: 'mer', c: '#c2407f', r: [637, 186, 66, 108],
+      desc: 'Des bornes d\'arcade fabriquées par les jeunes de l\'Espace Jeunes de Mios. Présentes le mercredi.' },
+    { id: 'accueil', g: 'services', nom: 'Accueil', sous: 'Pointage, badge PEGI et règles', j: 'both', c: '#1f9a6b', r: [662, 428, 44, 110],
+      desc: 'En entrant, à gauche : on est pointé et chacun reçoit son badge PEGI, selon son âge.' },
+    { id: 'depot', g: 'services', nom: 'Dépôt', sous: 'Sacs et affaires dans des bacs', j: 'both', c: '#5f6b7a', r: [662, 318, 44, 100],
+      desc: 'On dépose ses affaires dans les bacs avant d\'aller jouer.' },
+    { id: 'repas', g: 'services', nom: 'Espace repas', sous: '9 tables · 54 places', j: 'both', c: '#5f6b7a', r: [750, 380, 143, 158],
+      desc: 'Pique-nique apporté par chaque jeune, en deux services (12h30 et 13h30). Le goûter est offert.' },
+    { id: 'entree', g: 'reperes', nom: 'Entrée', sous: 'Depuis le préau', j: 'both', c: '#1f8a5b', r: [698, 546, 140, 58],
+      desc: 'On entre par le préau (à l\'extérieur, il n\'est pas utilisé pour les activités). Les axes verts du plan sont les allées à laisser libres.' },
+    { id: 'cinema', g: 'reperes', nom: 'Cinéma (niveau −1)', sous: 'Séances et finale Mario sur grand écran', j: 'both', c: '#123a8a', r: [446, 538, 74, 60],
+      desc: 'Pour y aller : sortir par le préau, entrer dans la cage d\'escalier et descendre. Départ groupé à 10h25, un adulte devant et un derrière.' }
+  ];
+  var GROUPES = { jeux: 'Jeux et stands', services: 'Services', reperes: 'Repères' };
+  var JOURS = { both: 'Mardi et mercredi', mar: 'Mardi uniquement', mer: 'Mercredi uniquement' };
+
+  function svgEl(nom, attrs, parent){
+    var e = document.createElementNS(NS, nom);
+    Object.keys(attrs).forEach(function(k){ e.setAttribute(k, attrs[k]); });
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  // animations d'orientation : l'entrée clignote, le chemin vers le cinéma défile
+  var flecheEntree = $('line[marker-end="url(#arrG)"]', svg);
+  if (flecheEntree) flecheEntree.setAttribute('class', 'pulse');
+  var cheminCine = $('path[marker-end="url(#arr)"]', svg);
+  if (cheminCine) cheminCine.setAttribute('class', 'fourmis');
+
+  var voile = svgEl('path', { id: 'plan-voile', d: '' }, svg);
+  var cadreSel = svgEl('rect', { id: 'plan-sel', rx: 5 }, svg);
+  var couche = svgEl('g', { id: 'plan-hits' }, svg);
+
+  var etat = { jour: 'mar', epingle: null, survol: null, zoom: 0 };
+  var mobile = window.matchMedia && window.matchMedia('(max-width: 720px)').matches;
+  var PAS = [1, 1.5, 2.2, 3];
+  var PAS_MAX = mobile ? 3 : 2;
+  etat.zoom = mobile ? 2 : 0;
+
+  function parId(id){ for (var i = 0; i < ESP.length; i++){ if (ESP[i].id === id) return ESP[i]; } return null; }
+  function dispo(e){ return e.j === 'both' || e.j === etat.jour; }
+
+  var boutons = {};
+  ESP.forEach(function(e){
+    var hote = couche;
+    if (e.j !== 'both') hote = svgEl('g', { 'class': e.j === 'mar' ? 'only-mar' : 'only-mer' }, couche);
+    var r = svgEl('rect', { 'class': 'hit', x: e.r[0], y: e.r[1], width: e.r[2], height: e.r[3], 'data-id': e.id }, hote);
+    r.addEventListener('pointerenter', function(ev){
+      if (ev.pointerType === 'mouse'){ etat.survol = e.id; rendre(); }
+    });
+    r.addEventListener('pointerleave', function(ev){
+      if (ev.pointerType === 'mouse'){ etat.survol = null; rendre(); }
+    });
+    r.addEventListener('click', function(){ choisir(e.id, false); });
+  });
+
+  var dernierGroupe = null;
+  ESP.forEach(function(e){
+    if (e.g !== dernierGroupe){
+      zonePuces.appendChild(h('div', 'plan-groupe', GROUPES[e.g]));
+      dernierGroupe = e.g;
+    }
+    var b = h('button', 'plan-puce');
+    b.type = 'button';
+    b.style.setProperty('--c', e.c);
+    b.appendChild(h('i'));
+    b.appendChild(document.createTextNode(e.nom));
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', function(){ choisir(e.id, true); });
+    b.addEventListener('pointerenter', function(ev){ if (ev.pointerType === 'mouse'){ etat.survol = e.id; rendre(); } });
+    b.addEventListener('pointerleave', function(ev){ if (ev.pointerType === 'mouse'){ etat.survol = null; rendre(); } });
+    zonePuces.appendChild(b);
+    boutons[e.id] = b;
+  });
+
+  function choisir(id, depuisPuce){
+    etat.epingle = (etat.epingle === id && !depuisPuce) ? null : id;
+    rendre();
+    if (etat.epingle){
+      var e = parId(id);
+      if (etat.zoom > 0){
+        var largeur = svg.getBoundingClientRect().width;
+        var cx = (e.r[0] + e.r[2] / 2 - 120) / 890 * largeur;
+        wrap.scrollTo({ left: Math.max(0, cx - wrap.clientWidth / 2), behavior: reduit ? 'auto' : 'smooth' });
+      }
+      if (depuisPuce){
+        var rc = cadre.getBoundingClientRect();
+        if (rc.bottom < 80 || rc.top > window.innerHeight * 0.55){
+          cadre.scrollIntoView({ block: 'start', behavior: reduit ? 'auto' : 'smooth' });
+        }
+      }
+    }
+  }
+
+  function rendre(){
+    var idAffiche = etat.survol || etat.epingle;
+    var e = idAffiche ? parId(idAffiche) : null;
+    if (e && !dispo(e)) e = null;
+
+    if (e){
+      voile.setAttribute('d', 'M0 0H1169V826H0Z M' + e.r[0] + ' ' + e.r[1] + 'h' + e.r[2] + 'v' + e.r[3] + 'h-' + e.r[2] + 'Z');
+      voile.setAttribute('class', 'on');
+      cadreSel.setAttribute('x', e.r[0]); cadreSel.setAttribute('y', e.r[1]);
+      cadreSel.setAttribute('width', e.r[2]); cadreSel.setAttribute('height', e.r[3]);
+      cadreSel.setAttribute('stroke', e.c);
+      cadreSel.style.filter = 'drop-shadow(0 0 7px ' + e.c + ')';
+      cadreSel.setAttribute('class', 'on');
+    } else {
+      voile.removeAttribute('class');
+      cadreSel.removeAttribute('class');
+    }
+
+    ESP.forEach(function(x){
+      var b = boutons[x.id];
+      b.hidden = !dispo(x);
+      b.setAttribute('aria-pressed', e && e.id === x.id ? 'true' : 'false');
+    });
+
+    info.textContent = '';
+    if (!e){
+      info.style.removeProperty('--ic');
+      var vide = h('div', 'pi-vide');
+      vide.appendChild(h('span', 'pi-doigt', '👆'));
+      var t = h('div');
+      var b1 = h('b', null, 'Touche un espace du plan');
+      t.appendChild(b1);
+      t.appendChild(document.createElement('br'));
+      t.appendChild(document.createTextNode('pour voir ce qu\'on y fait, les jeux et l\'âge conseillé. Sur ordinateur, il suffit de le survoler.'));
+      vide.appendChild(t);
+      info.appendChild(vide);
+      return;
+    }
+    info.style.setProperty('--ic', e.c);
+    info.appendChild(h('div', 'pi-titre', e.nom));
+    info.appendChild(h('div', 'pi-sous', e.sous));
+    info.appendChild(h('div', 'pi-desc', e.desc));
+    var puces = h('div', 'puces');
+    if (e.pegi) puces.appendChild(badgePegi(e.pegi));
+    else if (e.g === 'jeux') puces.appendChild(h('span', 'puce-info jour', 'PEGI à évaluer'));
+    if (e.places) puces.appendChild(h('span', 'puce-info', e.places + ' places' + (e.plus ? ' (' + e.plus + ')' : '')));
+    if (e.g !== 'reperes') puces.appendChild(h('span', 'puce-info jour', JOURS[e.j]));
+    if (puces.children.length) info.appendChild(puces);
+  }
+
+  /* jour */
+  var btnMar = $('#plan-btn-mardi'), btnMer = $('#plan-btn-mercredi'), bascule = $('.plan-jour-toggle');
+  function setJour(j){
+    etat.jour = j;
+    wrap.classList.toggle('day-mar', j === 'mar');
+    wrap.classList.toggle('day-mer', j === 'mer');
+    btnMar.classList.toggle('actif', j === 'mar');
+    btnMer.classList.toggle('actif', j === 'mer');
+    btnMar.setAttribute('aria-pressed', j === 'mar' ? 'true' : 'false');
+    btnMer.setAttribute('aria-pressed', j === 'mer' ? 'true' : 'false');
+    bascule.classList.toggle('mer', j === 'mer');
+    var sel = etat.epingle ? parId(etat.epingle) : null;
+    if (sel && !dispo(sel)) etat.epingle = null;
+    rendre();
+  }
+  btnMar.addEventListener('click', function(){ setJour('mar'); });
+  btnMer.addEventListener('click', function(){ setJour('mer'); });
+
+  /* zoom */
+  var zPlus = $('#plan-zoom-plus'), zMoins = $('#plan-zoom-moins');
+  function setZoom(i){
+    etat.zoom = Math.max(0, Math.min(PAS_MAX, i));
+    wrap.style.setProperty('--z', PAS[etat.zoom]);
+    zMoins.disabled = etat.zoom === 0;
+    zPlus.disabled = etat.zoom === PAS_MAX;
+  }
+  zPlus.addEventListener('click', function(){ setZoom(etat.zoom + 1); });
+  zMoins.addEventListener('click', function(){ setZoom(etat.zoom - 1); });
+  setZoom(etat.zoom);
+
+  /* mode néon */
+  var btnNeon = $('#plan-neon');
+  function setNeon(on){
+    cadre.classList.toggle('neon', on);
+    btnNeon.setAttribute('aria-pressed', on ? 'true' : 'false');
+    btnNeon.textContent = on ? '☀️ Mode clair' : '🌙 Mode néon';
+    try { localStorage.setItem('2k27_plan_neon', on ? '1' : '0'); } catch (e) {}
+  }
+  btnNeon.addEventListener('click', function(){ setNeon(!cadre.classList.contains('neon')); });
+  // le mode néon est le look par défaut ; le choix « mode clair » est mémorisé sur l'appareil
+  var neonMemorise = true;
+  try { neonMemorise = localStorage.getItem('2k27_plan_neon') !== '0'; } catch (e) {}
+  setNeon(neonMemorise);
+
+  document.addEventListener('keydown', function(ev){
+    if (ev.key === 'Escape' && etat.epingle){ etat.epingle = null; rendre(); }
+  });
+
+  rendre();
+})();
+</script>
 </body>
 </html>
