@@ -1071,6 +1071,7 @@
   .plan-cadre.neon #plan-voile{ fill: rgba(8,8,22,0.62); }
 
   .plan-glisser{ display: none; color: var(--text-dim); font-size: 0.82rem; text-align: center; margin-top: 12px; }
+  .plan-grille.zoomee .plan-glisser{ display: block; }
 
   .plan-info{
     position: relative;
@@ -1209,7 +1210,6 @@
   @media (max-width: 720px){
     .plan-barre{ justify-content: center; }
     .plan-cadre{ padding: 6px; border-radius: 18px; }
-    .plan-glisser{ display: block; }
     .plan-info{ padding: 18px 18px 18px 22px; }
     .hero-infos span{ padding: 8px 14px; font-size: 0.92rem; }
   }
@@ -2139,7 +2139,7 @@
   var mobile = window.matchMedia && window.matchMedia('(max-width: 720px)').matches;
   var PAS = [1, 1.5, 2.2, 3];
   var PAS_MAX = mobile ? 3 : 2;
-  etat.zoom = mobile ? 2 : 0;
+  etat.zoom = 0;
 
   function parId(id){ for (var i = 0; i < ESP.length; i++){ if (ESP[i].id === id) return ESP[i]; } return null; }
   function dispo(e){ return e.j === 'both' || e.j === etat.jour; }
@@ -2340,6 +2340,8 @@
     etat.zoom = Math.max(0, Math.min(PAS_MAX, i));
     wrap.style.setProperty('--z', PAS[etat.zoom]);
     zMoins.disabled = etat.zoom === 0;
+    var grille = $('.plan-grille');
+    if (grille) grille.classList.toggle('zoomee', etat.zoom > 0);
     zPlus.disabled = etat.zoom === PAS_MAX;
   }
   zPlus.addEventListener('click', function(){ setZoom(etat.zoom + 1); });
