@@ -1133,6 +1133,62 @@
   }
   .plan-puce[hidden]{ display: none; }
 
+  /* Légende du plan */
+  .plan-legende{
+    margin-top: 40px;
+    display: grid;
+    gap: 30px;
+    grid-template-columns: 1fr;
+    padding: 28px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: linear-gradient(165deg, rgba(255,255,255,0.05), transparent 60%), var(--bg-alt);
+  }
+  .plan-legende h3{ font-size: 1.15rem; color: var(--neon-cyan); margin-bottom: 4px; }
+  .legende-aide{ color: var(--text-dim); font-size: 0.88rem; margin-bottom: 16px; }
+  .legende-symboles{ display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+  .legende-sym{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    padding: 9px 12px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.03);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, transform 0.15s, box-shadow 0.2s;
+  }
+  .legende-sym svg{ width: 44px; height: 30px; flex-shrink: 0; }
+  .legende-sym:hover{ transform: translateY(-2px); border-color: rgba(34,232,255,0.55); }
+  .legende-sym[aria-pressed="true"]{
+    border-color: var(--neon-cyan);
+    background: rgba(34,232,255,0.1);
+    box-shadow: 0 0 22px rgba(34,232,255,0.25);
+  }
+  .legende-conseils{ list-style: none; display: grid; gap: 14px; }
+  .legende-conseils li{ display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: start; font-size: 0.95rem; color: var(--text-dim); }
+  .legende-conseils .e{
+    display: grid;
+    place-items: center;
+    width: 40px; height: 40px;
+    font-size: 1.25rem;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+  }
+  .legende-conseils b{ color: var(--text); }
+  @media (min-width: 900px){
+    .plan-legende{ grid-template-columns: 1.05fr 1fr; gap: 44px; padding: 32px 34px; }
+  }
+  #plan-focus > *, #plan-focus g > *{ filter: drop-shadow(0 0 6px var(--neon-purple)) drop-shadow(0 0 3px #fff); }
+  #plan-focus{ animation: souffle 1.5s ease-in-out infinite; }
+  @keyframes souffle{ 0%, 100%{ opacity: 1; } 50%{ opacity: 0.6; } }
+
   .plan-caption{ color: var(--text-dim); font-size: 0.8rem; text-align: center; max-width: 560px; margin: 18px auto 0; }
 
   @media (min-width: 1000px){
@@ -1159,7 +1215,7 @@
   }
 
   @media (prefers-reduced-motion: reduce){
-    .hero::before, .plan-svg-wrap .fourmis, .plan-svg-wrap .pulse, .plan-info .pi-doigt{ animation: none; }
+    .hero::before, .plan-svg-wrap .fourmis, .plan-svg-wrap .pulse, .plan-info .pi-doigt, #plan-focus{ animation: none; }
     html.js .reveal{ opacity: 1; transform: none; transition: none; }
     .plan-svg-wrap svg, #plan-voile, #plan-sel, .plan-jour-toggle::before{ transition: none; }
     .btn, .btn:hover{ transition: none; transform: none; }
@@ -1518,7 +1574,55 @@
   <div class="plan-puces" id="plan-puces"></div>
   </div>
   </div>
-  <p class="plan-caption">Plan issu du document de préparation technique de l'ATEC. Positions approximatives, d'après les cotes du plan — les axes verts sont les allées à laisser libres.</p>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><pattern id="lg-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#8a93a3" stroke-width="1.2"/></pattern></defs></svg>
+  <div class="plan-legende" id="plan-legende">
+    <div class="legende-col">
+      <h3>Légende du plan</h3>
+      <p class="legende-aide">Touche un symbole pour le repérer sur le plan.</p>
+      <div class="legende-symboles">
+        <button type="button" class="legende-sym" data-sym="elec" aria-pressed="false">
+          <svg viewBox="0 0 44 30" aria-hidden="true"><g transform="translate(22,15)"><circle r="10" fill="#1a1a30" stroke="#ff5a5a" stroke-width="1.8"/><path d="M1.2,-7 L-3.6,1.2 L0,1.2 L-1.2,7 L3.6,-1.2 L0,-1.2 Z" fill="#ff5a5a"/></g></svg>
+          <span>Prise électrique</span>
+        </button>
+        <button type="button" class="legende-sym" data-sym="allee" aria-pressed="false">
+          <svg viewBox="0 0 44 30" aria-hidden="true"><line x1="3" y1="15" x2="41" y2="15" stroke="#3ddc97" stroke-width="2.4" stroke-dasharray="14 4 2 4"/></svg>
+          <span>Allée à laisser libre</span>
+        </button>
+        <button type="button" class="legende-sym" data-sym="vp" aria-pressed="false">
+          <svg viewBox="0 0 44 30" aria-hidden="true"><polygon points="22,22 7,3 37,3" fill="#4aa8ff" fill-opacity=".28" stroke="#4aa8ff" stroke-dasharray="3 2"/><rect x="17.5" y="20" width="9" height="6" fill="#4aa8ff"/></svg>
+          <span>Vidéoprojecteur</span>
+        </button>
+        <button type="button" class="legende-sym" data-sym="tables" aria-pressed="false">
+          <svg viewBox="0 0 44 30" aria-hidden="true"><rect x="5" y="6" width="34" height="9" rx="1" fill="#26263d" stroke="#8590c0"/><circle cx="12" cy="23" r="2.8" fill="#14142a" stroke="#8e98c8"/><circle cx="22" cy="23" r="2.8" fill="#14142a" stroke="#8e98c8"/><circle cx="32" cy="23" r="2.8" fill="#14142a" stroke="#8e98c8"/></svg>
+          <span>Tables et chaises</span>
+        </button>
+        <button type="button" class="legende-sym" data-sym="entree" aria-pressed="false">
+          <svg viewBox="0 0 44 30" aria-hidden="true"><line x1="22" y1="28" x2="22" y2="9" stroke="#3ddc97" stroke-width="4"/><path d="M14,11 L22,1 L30,11 Z" fill="#3ddc97"/></svg>
+          <span>Entrée de la Halle</span>
+        </button>
+        <button type="button" class="legende-sym" data-sym="cine" aria-pressed="false">
+          <svg viewBox="0 0 44 30" aria-hidden="true"><path d="M5,26 H33 V11" fill="none" stroke="#5fa8ff" stroke-width="2.6" stroke-dasharray="6 4"/><path d="M27.5,13 L33,3 L38.5,13 Z" fill="#5fa8ff"/></svg>
+          <span>Accès au cinéma</span>
+        </button>
+        <button type="button" class="legende-sym" data-sym="preau" aria-pressed="false">
+          <svg viewBox="0 0 44 30" aria-hidden="true"><rect x="4" y="4" width="36" height="22" rx="2" fill="url(#lg-hatch)" stroke="#8a93a3" stroke-dasharray="4 3"/></svg>
+          <span>Préau (à l'extérieur)</span>
+        </button>
+      </div>
+    </div>
+    <div class="legende-col">
+      <h3>Bon à savoir</h3>
+      <ul class="legende-conseils">
+        <li><span class="e" aria-hidden="true">🎟️</span><div><b>Badge PEGI</b> — remis à l'accueil, selon l'âge. Les animateurs le vérifient à chaque espace ; l'espace PEGI 16 est réservé aux 16 ans et plus.</div></li>
+        <li><span class="e" aria-hidden="true">🚪</span><div><b>Entrée</b> — par le préau, à l'extérieur. Il n'est pas utilisé pour les activités.</div></li>
+        <li><span class="e" aria-hidden="true">🎒</span><div><b>Dépôt des affaires</b> — dans les bacs, à gauche en entrant.</div></li>
+        <li><span class="e" aria-hidden="true">🥪</span><div><b>Repas</b> — pique-nique apporté par chaque jeune, en deux services (12h30 et 13h30). Le goûter est offert.</div></li>
+        <li><span class="e" aria-hidden="true">🎬</span><div><b>Cinéma</b> — au niveau −1 : sortir par le préau, entrer dans la cage d'escalier et descendre.</div></li>
+        <li><span class="e" aria-hidden="true">🔁</span><div><b>Mardi ou mercredi ?</b> — deux stands changent : Jeux coop et Société le mardi, ABCS et Rétro Mios le mercredi.</div></li>
+      </ul>
+    </div>
+  </div>
+  <p class="plan-caption">Plan issu du document de préparation technique de l'ATEC. Positions approximatives, d'après les cotes du plan.</p>
 </section>
 
 <section id="cinema">
@@ -1905,7 +2009,7 @@
 
   /* ---------- Apparition au défilement ---------- */
   (function(){
-    var cibles = $$('.section-head, .card, .day-card, .phase-card, .contact-box, .plan-barre, .plan-cadre, .plan-info, .plan-puces, .hero-infos, .hero-cta, .countdown-wrap, .stat-row');
+    var cibles = $$('.section-head, .card, .day-card, .phase-card, .contact-box, .plan-barre, .plan-cadre, .plan-info, .plan-puces, .hero-infos, .hero-cta, .countdown-wrap, .stat-row, .plan-legende');
     if (!('IntersectionObserver' in window) || reduit){
       return;
     }
@@ -2027,10 +2131,11 @@
   if (cheminCine) cheminCine.setAttribute('class', 'fourmis');
 
   var voile = svgEl('path', { id: 'plan-voile', d: '' }, svg);
+  var focus = svgEl('g', { id: 'plan-focus' }, svg);
   var cadreSel = svgEl('rect', { id: 'plan-sel', rx: 5 }, svg);
   var couche = svgEl('g', { id: 'plan-hits' }, svg);
 
-  var etat = { jour: 'mar', epingle: null, survol: null, zoom: 0 };
+  var etat = { jour: 'mar', epingle: null, survol: null, symbole: null, zoom: 0 };
   var mobile = window.matchMedia && window.matchMedia('(max-width: 720px)').matches;
   var PAS = [1, 1.5, 2.2, 3];
   var PAS_MAX = mobile ? 3 : 2;
@@ -2053,6 +2158,64 @@
     r.addEventListener('click', function(){ choisir(e.id, false); });
   });
 
+
+  // symboles de la légende : on les repère sur le plan en copiant les éléments concernés au-dessus du voile
+  var SYMBOLES = {
+    elec: { nom: 'Prise électrique', sous: 'Alimentation du matériel', c: '#ff5a5a',
+      desc: 'Les éclairs rouges marquent les arrivées de courant prévues sur le plan technique, pour brancher les PC, les consoles et les bornes d\'arcade.',
+      els: function(){ return $$('g[transform] > circle[stroke="#c0392b"]', svg).map(function(c){ return c.parentNode; }); } },
+    allee: { nom: 'Allée à laisser libre', sous: 'Les axes verts du plan', c: '#3ddc97',
+      desc: 'Les lignes vertes en pointillés sont les allées à laisser libres, pour circuler dans la Halle.',
+      els: function(){ return $$('line[stroke="#1f8a5b"][stroke-dasharray]', svg); } },
+    vp: { nom: 'Vidéoprojecteur', sous: 'Le faisceau de l\'image projetée', c: '#4aa8ff',
+      desc: 'Un vidéoprojecteur et son faisceau : c\'est ainsi que le jeu est projeté sur un mur ou un écran (Mario Kart, FIFA, la scène...).',
+      els: function(){ return $$('polygon[fill="#2b7fd2"][fill-opacity=".22"]', svg).map(function(p){ return p.parentNode; }); } },
+    tables: { nom: 'Tables et chaises', sous: 'Pour jouer, manger ou regarder', c: '#8590c0',
+      desc: 'Les tables (rectangles) et les places assises (ronds) installées dans chaque espace et dans l\'espace repas.',
+      els: function(){ return $$('rect[fill="#e9e3d6"], circle[r="3.2"]', svg); } },
+    entree: { nom: 'Entrée de la Halle', sous: 'Depuis le préau', c: '#3ddc97',
+      desc: 'On entre par le préau, à l\'extérieur. L\'accueil est juste à gauche en entrant, l\'espace repas à droite.',
+      els: function(){ return $$('line[marker-end="url(#arrG)"]', svg); } },
+    cine: { nom: 'Accès au cinéma', sous: 'Niveau −1', c: '#5fa8ff',
+      desc: 'Pour aller au cinéma : sortir par le préau, entrer dans la cage d\'escalier et descendre au niveau −1.',
+      els: function(){ return $$('path[marker-end="url(#arr)"]', svg).concat($$('circle[fill="#39465c"]', svg)); } },
+    preau: { nom: 'Préau', sous: 'À l\'extérieur', c: '#8a93a3',
+      desc: 'Le préau est à l\'extérieur : on le traverse pour entrer dans la Halle, mais il n\'est pas utilisé pour les activités.',
+      els: function(){ return $$('path[fill="url(#hatch)"]', svg); } }
+  };
+  var focusCle = null;
+  function majFocus(cle){
+    if (cle === focusCle) return;
+    focusCle = cle;
+    focus.textContent = '';
+    if (!cle) return;
+    SYMBOLES[cle].els().forEach(function(src){
+      var copie = src.cloneNode(true);
+      var hote = focus;
+      var jour = src.closest('.only-mar, .only-mer');
+      if (jour) hote = svgEl('g', { 'class': jour.getAttribute('class') }, focus);
+      hote.appendChild(copie);
+      if (cle === 'elec') svgEl('circle', { r: 17, fill: 'none', stroke: '#ff5a5a', 'stroke-width': 3 }, copie);
+      if (cle === 'allee') copie.setAttribute('stroke-width', '4.5');
+    });
+  }
+  var boutonsSym = $$('.legende-sym');
+  boutonsSym.forEach(function(b){
+    b.addEventListener('click', function(){
+      var cle = b.getAttribute('data-sym');
+      etat.symbole = etat.symbole === cle ? null : cle;
+      etat.epingle = null;
+      rendre();
+      if (etat.symbole) montrerPlan();
+    });
+  });
+  function montrerPlan(){
+    var rc = cadre.getBoundingClientRect();
+    if (rc.bottom < 80 || rc.top > window.innerHeight * 0.55){
+      cadre.scrollIntoView({ block: 'start', behavior: reduit ? 'auto' : 'smooth' });
+    }
+  }
+
   var dernierGroupe = null;
   ESP.forEach(function(e){
     if (e.g !== dernierGroupe){
@@ -2073,6 +2236,7 @@
   });
 
   function choisir(id, depuisPuce){
+    etat.symbole = null;
     etat.epingle = (etat.epingle === id && !depuisPuce) ? null : id;
     rendre();
     if (etat.epingle){
@@ -2082,12 +2246,7 @@
         var cx = (e.r[0] + e.r[2] / 2 - 120) / 890 * largeur;
         wrap.scrollTo({ left: Math.max(0, cx - wrap.clientWidth / 2), behavior: reduit ? 'auto' : 'smooth' });
       }
-      if (depuisPuce){
-        var rc = cadre.getBoundingClientRect();
-        if (rc.bottom < 80 || rc.top > window.innerHeight * 0.55){
-          cadre.scrollIntoView({ block: 'start', behavior: reduit ? 'auto' : 'smooth' });
-        }
-      }
+      if (depuisPuce) montrerPlan();
     }
   }
 
@@ -2095,8 +2254,17 @@
     var idAffiche = etat.survol || etat.epingle;
     var e = idAffiche ? parId(idAffiche) : null;
     if (e && !dispo(e)) e = null;
+    var sym = (!e && etat.symbole) ? SYMBOLES[etat.symbole] : null;
+    majFocus(sym ? etat.symbole : null);
+    boutonsSym.forEach(function(b){
+      b.setAttribute('aria-pressed', sym && b.getAttribute('data-sym') === etat.symbole ? 'true' : 'false');
+    });
 
-    if (e){
+    if (sym){
+      voile.setAttribute('d', 'M0 0H1169V826H0Z');
+      voile.setAttribute('class', 'on');
+      cadreSel.removeAttribute('class');
+    } else if (e){
       voile.setAttribute('d', 'M0 0H1169V826H0Z M' + e.r[0] + ' ' + e.r[1] + 'h' + e.r[2] + 'v' + e.r[3] + 'h-' + e.r[2] + 'Z');
       voile.setAttribute('class', 'on');
       cadreSel.setAttribute('x', e.r[0]); cadreSel.setAttribute('y', e.r[1]);
@@ -2116,6 +2284,13 @@
     });
 
     info.textContent = '';
+    if (sym){
+      info.style.setProperty('--ic', sym.c);
+      info.appendChild(h('div', 'pi-titre', sym.nom));
+      info.appendChild(h('div', 'pi-sous', sym.sous));
+      info.appendChild(h('div', 'pi-desc', sym.desc));
+      return;
+    }
     if (!e){
       info.style.removeProperty('--ic');
       var vide = h('div', 'pi-vide');
@@ -2186,7 +2361,7 @@
   setNeon(neonMemorise);
 
   document.addEventListener('keydown', function(ev){
-    if (ev.key === 'Escape' && etat.epingle){ etat.epingle = null; rendre(); }
+    if (ev.key === 'Escape' && (etat.epingle || etat.symbole)){ etat.epingle = null; etat.symbole = null; rendre(); }
   });
 
   rendre();
