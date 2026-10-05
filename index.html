@@ -1126,7 +1126,7 @@
     transition: transform 0.15s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
   }
   .plan-puce i{ width: 11px; height: 11px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px var(--c); flex-shrink: 0; }
-  .plan-puce:hover{ transform: translateY(-2px); border-color: var(--c); }
+  .plan-puce:hover{ border-color: var(--c); background: color-mix(in srgb, var(--c) 12%, var(--bg-alt)); }
   .plan-puce[aria-pressed="true"]{
     border-color: var(--c);
     background: color-mix(in srgb, var(--c) 20%, var(--bg-alt));
@@ -1165,7 +1165,7 @@
     transition: border-color 0.2s, background 0.2s, transform 0.15s, box-shadow 0.2s;
   }
   .legende-sym svg{ width: 44px; height: 30px; flex-shrink: 0; }
-  .legende-sym:hover{ transform: translateY(-2px); border-color: rgba(34,232,255,0.55); }
+  .legende-sym:hover{ border-color: rgba(34,232,255,0.55); background: rgba(34,232,255,0.06); }
   .legende-sym[aria-pressed="true"]{
     border-color: var(--neon-cyan);
     background: rgba(34,232,255,0.1);
@@ -1201,7 +1201,8 @@
       align-items: start;
     }
     .plan-col-info{ position: sticky; top: 92px; }
-    .plan-col-info .plan-info{ margin-top: 0; }
+    .plan-col-info .plan-info{ margin-top: 0; min-height: 420px; }
+    .plan-col-info .plan-info .pi-vide{ min-height: 360px; }
     .plan-col-info .plan-puces{ justify-content: flex-start; gap: 8px; margin-top: 18px; }
     .plan-col-info .plan-groupe{ text-align: left; }
     .plan-col-info .plan-puce{ padding: 7px 13px; font-size: 0.86rem; }
@@ -2135,7 +2136,7 @@
   var cadreSel = svgEl('rect', { id: 'plan-sel', rx: 5 }, svg);
   var couche = svgEl('g', { id: 'plan-hits' }, svg);
 
-  var etat = { jour: 'mar', epingle: null, survol: null, symbole: null, zoom: 0 };
+  var etat = { jour: 'mar', epingle: null, survol: null, survolPuce: null, symbole: null, zoom: 0 };
   var mobile = window.matchMedia && window.matchMedia('(max-width: 720px)').matches;
   var PAS = [1, 1.5, 2.2, 3];
   var PAS_MAX = mobile ? 3 : 2;
@@ -2229,8 +2230,8 @@
     b.appendChild(document.createTextNode(e.nom));
     b.setAttribute('aria-pressed', 'false');
     b.addEventListener('click', function(){ choisir(e.id, true); });
-    b.addEventListener('pointerenter', function(ev){ if (ev.pointerType === 'mouse'){ etat.survol = e.id; rendre(); } });
-    b.addEventListener('pointerleave', function(ev){ if (ev.pointerType === 'mouse'){ etat.survol = null; rendre(); } });
+    b.addEventListener('pointerenter', function(ev){ if (ev.pointerType === 'mouse'){ etat.survolPuce = e.id; rendre(); } });
+    b.addEventListener('pointerleave', function(ev){ if (ev.pointerType === 'mouse'){ etat.survolPuce = null; rendre(); } });
     zonePuces.appendChild(b);
     boutons[e.id] = b;
   });
@@ -2251,10 +2252,15 @@
   }
 
   function rendre(){
-    var idAffiche = etat.survol || etat.epingle;
-    var e = idAffiche ? parId(idAffiche) : null;
+    // « e » : l'espace mis en surbrillance sur le plan (survol du plan, d'une pastille, ou sélection)
+    // « ep » : l'espace décrit dans la fiche — le survol d'une pastille ne change JAMAIS la fiche,
+    // sinon la fiche change de hauteur, pousse les pastilles et la souris se retrouve sur une autre.
+    var e = parId(etat.survol || etat.survolPuce || etat.epingle);
     if (e && !dispo(e)) e = null;
+    var ep = parId(etat.survol || etat.epingle);
+    if (ep && !dispo(ep)) ep = null;
     var sym = (!e && etat.symbole) ? SYMBOLES[etat.symbole] : null;
+    var symFiche = (!ep && etat.symbole) ? SYMBOLES[etat.symbole] : null;
     majFocus(sym ? etat.symbole : null);
     boutonsSym.forEach(function(b){
       b.setAttribute('aria-pressed', sym && b.getAttribute('data-sym') === etat.symbole ? 'true' : 'false');
@@ -2280,18 +2286,18 @@
     ESP.forEach(function(x){
       var b = boutons[x.id];
       b.hidden = !dispo(x);
-      b.setAttribute('aria-pressed', e && e.id === x.id ? 'true' : 'false');
+      b.setAttribute('aria-pressed', ep && ep.id === x.id ? 'true' : 'false');
     });
 
     info.textContent = '';
-    if (sym){
-      info.style.setProperty('--ic', sym.c);
-      info.appendChild(h('div', 'pi-titre', sym.nom));
-      info.appendChild(h('div', 'pi-sous', sym.sous));
-      info.appendChild(h('div', 'pi-desc', sym.desc));
+    if (symFiche){
+      info.style.setProperty('--ic', symFiche.c);
+      info.appendChild(h('div', 'pi-titre', symFiche.nom));
+      info.appendChild(h('div', 'pi-sous', symFiche.sous));
+      info.appendChild(h('div', 'pi-desc', symFiche.desc));
       return;
     }
-    if (!e){
+    if (!ep){
       info.style.removeProperty('--ic');
       var vide = h('div', 'pi-vide');
       vide.appendChild(h('span', 'pi-doigt', '👆'));
@@ -2304,15 +2310,15 @@
       info.appendChild(vide);
       return;
     }
-    info.style.setProperty('--ic', e.c);
-    info.appendChild(h('div', 'pi-titre', e.nom));
-    info.appendChild(h('div', 'pi-sous', e.sous));
-    info.appendChild(h('div', 'pi-desc', e.desc));
+    info.style.setProperty('--ic', ep.c);
+    info.appendChild(h('div', 'pi-titre', ep.nom));
+    info.appendChild(h('div', 'pi-sous', ep.sous));
+    info.appendChild(h('div', 'pi-desc', ep.desc));
     var puces = h('div', 'puces');
-    if (e.pegi) puces.appendChild(badgePegi(e.pegi));
-    else if (e.g === 'jeux') puces.appendChild(h('span', 'puce-info jour', 'PEGI à évaluer'));
-    if (e.places) puces.appendChild(h('span', 'puce-info', e.places + ' places' + (e.plus ? ' (' + e.plus + ')' : '')));
-    if (e.g !== 'reperes') puces.appendChild(h('span', 'puce-info jour', JOURS[e.j]));
+    if (ep.pegi) puces.appendChild(badgePegi(ep.pegi));
+    else if (ep.g === 'jeux') puces.appendChild(h('span', 'puce-info jour', 'PEGI à évaluer'));
+    if (ep.places) puces.appendChild(h('span', 'puce-info', ep.places + ' places' + (ep.plus ? ' (' + ep.plus + ')' : '')));
+    if (ep.g !== 'reperes') puces.appendChild(h('span', 'puce-info jour', JOURS[ep.j]));
     if (puces.children.length) info.appendChild(puces);
   }
 
