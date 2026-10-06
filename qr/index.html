@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gaming Toussaint 2K27 · Ton bracelet</title>
+<meta name="description" content="La page du bracelet Gaming Toussaint : le site du festival, le plan en direct et ton avis.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0a0a14">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://identitytoolkit.googleapis.com https://festival2k27-default-rtdb.europe-west1.firebasedatabase.app; object-src 'none'; base-uri 'self'; form-action 'none';">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230a0a14'/><rect x='2' y='2' width='60' height='60' rx='12' fill='none' stroke='%2322e8ff' stroke-width='3'/><text x='32' y='43' font-family='Arial,Helvetica,sans-serif' font-weight='900' font-size='24' fill='%2322e8ff' text-anchor='middle'>2K</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fond: #0a0a14;
+    --carte: #14142a;
+    --carte-2: #1c1c3a;
+    --bord: #2a2a52;
+    --texte: #eef0ff;
+    --doux: #a3a6c8;
+    --cyan: #22e8ff;
+    --violet: #b026ff;
+    --rose: #ff2e88;
+    --vert: #2ee59d;
+    --jaune: #ffd23f;
+    --degrade: linear-gradient(90deg, #22e8ff, #7b2cff 55%, #ff2bd6);
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; min-height: 100vh; background: var(--fond); color: var(--texte);
+    font-family: 'Rajdhani', system-ui, sans-serif; font-size: 18px; line-height: 1.4;
+    background-image:
+      radial-gradient(60% 40% at 10% 0%, rgba(34, 232, 255, .16), transparent 70%),
+      radial-gradient(50% 35% at 100% 5%, rgba(255, 46, 136, .14), transparent 70%),
+      radial-gradient(70% 40% at 50% 100%, rgba(176, 38, 255, .12), transparent 70%);
+    background-attachment: fixed;
+  }
+  h1, h2, h3, .orbitron { font-family: 'Orbitron', sans-serif; letter-spacing: .02em; }
+  a { color: var(--cyan); }
+  button, input, textarea { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--cyan); outline-offset: 2px; }
+  .page { max-width: 640px; margin: 0 auto; padding: max(16px, env(safe-area-inset-top)) 16px 40px; }
+
+  /* En-tête */
+  .haut { display: flex; align-items: center; gap: 12px; margin: 6px 0 18px; }
+  .haut svg { width: 54px; height: 54px; flex: none; filter: drop-shadow(0 0 10px rgba(123, 44, 255, .55)); }
+  .haut .titres b { display: block; font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 19px; letter-spacing: .04em; }
+  .haut .titres span { color: var(--doux); font-weight: 600; font-size: 15px; }
+  .degrade-texte { background: var(--degrade); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  /* Accueil : les 3 propositions */
+  .bonjour h1 { margin: 6px 0 4px; font-size: 26px; }
+  .bonjour p { margin: 0 0 18px; color: var(--doux); font-weight: 600; }
+  .choix {
+    position: relative; display: flex; align-items: center; gap: 14px; text-decoration: none; color: var(--texte);
+    background: var(--carte); border: 1px solid var(--bord); border-radius: 20px; padding: 18px 16px; margin-bottom: 14px;
+    overflow: hidden; transition: transform .15s, border-color .15s, box-shadow .2s;
+  }
+  .choix::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 5px; background: var(--c); box-shadow: 0 0 16px var(--c); }
+  .choix:hover, .choix:focus-visible { transform: translateY(-2px); border-color: var(--c); box-shadow: 0 10px 30px -12px var(--c); }
+  .choix:active { transform: scale(.985); }
+  .choix .icone { width: 54px; height: 54px; flex: none; border-radius: 16px; display: grid; place-items: center; font-size: 28px; background: color-mix(in srgb, var(--c) 16%, transparent); border: 1px solid color-mix(in srgb, var(--c) 45%, transparent); }
+  .choix .txt { flex: 1; min-width: 0; }
+  .choix b { display: block; font-family: 'Orbitron', sans-serif; font-size: 16.5px; font-weight: 800; letter-spacing: .02em; }
+  .choix small { display: block; color: var(--doux); font-size: 15.5px; font-weight: 600; }
+  .choix .fleche { font-size: 22px; color: var(--c); }
+  .choix.c1 { --c: var(--cyan); }
+  .choix.c2 { --c: var(--violet); }
+  .choix.c3 { --c: var(--rose); }
+  .etiquette { display: inline-block; margin-top: 4px; padding: 1px 9px; border-radius: 999px; font-size: 13px; font-weight: 700; background: rgba(255, 255, 255, .08); color: var(--doux); }
+  .etiquette.ouvert { background: rgba(46, 229, 157, .15); color: var(--vert); }
+  .etiquette.direct { background: rgba(255, 46, 136, .16); color: var(--rose); }
+  .etiquette.direct::before, .etiquette.ouvert::before { content: "● "; animation: clignote 1.4s infinite; }
+  @keyframes clignote { 50% { opacity: .3; } }
+
+  /* Écrans */
+  .retour { display: inline-flex; align-items: center; gap: 6px; margin: 0 0 12px; padding: 7px 12px; border-radius: 12px; background: var(--carte); border: 1px solid var(--bord); color: var(--texte); text-decoration: none; font-weight: 700; }
+  .ecran h2 { margin: 4px 0 6px; font-size: 22px; }
+  .sous { color: var(--doux); font-weight: 600; margin: 0 0 14px; }
+  .carte { background: var(--carte); border: 1px solid var(--bord); border-radius: 18px; padding: 14px 16px; margin-bottom: 14px; }
+  .bandeau { border-radius: 14px; padding: 9px 12px; margin-bottom: 14px; font-size: 15px; font-weight: 600; background: rgba(255, 210, 63, .1); border: 1px solid rgba(255, 210, 63, .35); color: #ffe7a0; }
+
+  /* Plan en direct */
+  .onglets { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 5px; border-radius: 16px; background: var(--carte); border: 1px solid var(--bord); margin-bottom: 14px; }
+  .onglets button { border: 0; border-radius: 12px; padding: 9px; background: transparent; font-weight: 700; font-size: 16px; color: var(--doux); cursor: pointer; }
+  .onglets button[aria-pressed="true"] { background: var(--degrade); color: #fff; box-shadow: 0 6px 18px -8px var(--violet); }
+  .maintenant h3 { margin: 0 0 6px; font-size: 13px; letter-spacing: .12em; color: var(--rose); }
+  .maintenant .gros { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 19px; line-height: 1.25; }
+  .maintenant .detail { color: var(--doux); font-weight: 600; font-size: 15.5px; }
+  .maintenant .ensuite { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--bord); font-weight: 600; }
+  .maintenant .ensuite b { color: var(--cyan); }
+  .groupes { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 14px; }
+  .groupes span { flex-basis: 100%; color: var(--doux); font-weight: 700; }
+  .groupes button { flex: 1; max-width: 56px; height: 44px; border-radius: 12px; border: 1px solid var(--bord); background: var(--carte); font-family: 'Orbitron', sans-serif; font-weight: 800; cursor: pointer; }
+  .groupes button[aria-pressed="true"] { background: var(--cyan); color: #04121a; border-color: var(--cyan); box-shadow: 0 0 16px rgba(34, 232, 255, .5); }
+  .groupes button:disabled { opacity: .35; cursor: default; }
+  .ton-groupe { margin-top: 8px; padding: 9px 12px; border-radius: 12px; background: rgba(34, 232, 255, .1); border: 1px solid rgba(34, 232, 255, .35); font-weight: 700; }
+  .plan { position: relative; border-radius: 18px; overflow: hidden; background: #f4f1ea; border: 1px solid var(--bord); margin-bottom: 14px; }
+  .plan svg { display: block; width: 100%; height: auto; }
+  .zone { fill: var(--zc); fill-opacity: .1; stroke: var(--zc); stroke-width: 2; transition: fill-opacity .3s; }
+  .zone.allumee { fill-opacity: .45; stroke-width: 5; animation: pulse 1.6s ease-in-out infinite; }
+  .zone.groupe { fill-opacity: .6; stroke: #04121a; stroke-width: 6; }
+  @keyframes pulse { 50% { fill-opacity: .22; } }
+  .etiquette-zone { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 19px; fill: #0a0a14; paint-order: stroke; stroke: #fff; stroke-width: 5px; pointer-events: none; }
+  .legende-plan { display: flex; flex-wrap: wrap; gap: 6px 12px; padding: 8px 12px; font-size: 14px; font-weight: 600; color: var(--doux); background: var(--carte); }
+  .legende-plan i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; background: var(--rose); vertical-align: 0; }
+  .legende-plan i.g { background: var(--cyan); }
+  .programme { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .programme li { display: flex; gap: 12px; padding: 10px 12px; border-radius: 14px; background: var(--carte); border: 1px solid var(--bord); cursor: pointer; transition: border-color .15s; }
+  .programme li:hover { border-color: var(--violet); }
+  .programme .h { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 15px; color: var(--cyan); min-width: 54px; }
+  .programme .t b { display: block; font-weight: 700; }
+  .programme .t small { color: var(--doux); font-weight: 600; font-size: 15px; }
+  .programme li.passe { opacity: .45; }
+  .programme li.encours { border-color: var(--rose); box-shadow: 0 0 0 1px var(--rose), 0 8px 24px -12px var(--rose); }
+  .programme li.encours .h::after { content: " ● EN COURS"; font-size: 10px; color: var(--rose); animation: clignote 1.4s infinite; }
+  .programme li.choisi { border-color: var(--cyan); }
+
+  /* Avis */
+  .ferme { text-align: center; padding: 24px 16px; }
+  .ferme .grosse-icone { font-size: 54px; }
+  .compte { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 26px; margin: 8px 0; }
+  form.avis fieldset { border: 0; padding: 0; margin: 0 0 18px; }
+  form.avis legend { font-weight: 700; font-size: 18px; margin-bottom: 8px; }
+  form.avis legend small { color: var(--doux); font-weight: 600; }
+  .emojis { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .emojis label, .puces label, .reponses label { cursor: pointer; }
+  .emojis input, .puces input, .reponses input { position: absolute; opacity: 0; pointer-events: none; }
+  .emojis span { display: grid; place-items: center; height: 58px; font-size: 32px; border-radius: 16px; background: var(--carte); border: 2px solid var(--bord); transition: transform .12s, border-color .12s; }
+  .emojis input:checked + span { border-color: var(--jaune); transform: scale(1.08); background: rgba(255, 210, 63, .12); }
+  .puces { display: flex; flex-wrap: wrap; gap: 8px; }
+  .puces span, .reponses span { display: inline-block; padding: 8px 13px; border-radius: 999px; background: var(--carte); border: 1px solid var(--bord); font-weight: 700; }
+  .puces input:checked + span, .reponses input:checked + span { background: var(--violet); border-color: var(--violet); color: #fff; box-shadow: 0 0 14px rgba(176, 38, 255, .45); }
+  .emojis input:focus-visible + span, .puces input:focus-visible + span, .reponses input:focus-visible + span { outline: 3px solid var(--cyan); outline-offset: 2px; }
+  .reponses { display: flex; gap: 8px; flex-wrap: wrap; }
+  form.avis textarea { width: 100%; min-height: 84px; resize: vertical; border-radius: 14px; border: 1px solid var(--bord); background: var(--carte); padding: 10px 12px; font-size: 17px; }
+  form.avis textarea:focus { outline: none; border-color: var(--cyan); }
+  .compteur { text-align: right; font-size: 13px; color: var(--doux); }
+  .progression { height: 8px; border-radius: 4px; background: var(--carte); border: 1px solid var(--bord); overflow: hidden; }
+  .progression i { display: block; height: 100%; width: 0; background: var(--degrade); transition: width .3s; }
+  .etape { margin: 8px 0 14px; color: var(--doux); font-weight: 700; font-size: 15px; }
+  form.avis .question { animation: entre .25s ease-out; }
+  @keyframes entre { from { opacity: 0; transform: translateX(14px); } }
+  form.avis legend { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 19px; line-height: 1.3; margin-bottom: 14px; }
+  .reponses { flex-direction: column; }
+  .reponses label span { display: block; padding: 13px 16px; border-radius: 16px; font-size: 17.5px; }
+  .champ { width: 100%; border-radius: 14px; border: 1px solid var(--bord); background: var(--carte); padding: 12px 14px; font-size: 17px; }
+  .champ:focus { outline: none; border-color: var(--cyan); }
+  .nav-questions { display: flex; gap: 10px; }
+  .nav-questions .bouton { flex: 1; }
+  .secondaire { border: 1px solid var(--bord); border-radius: 16px; padding: 14px 16px; background: var(--carte); font-weight: 700; cursor: pointer; }
+  .secondaire:disabled { opacity: .35; cursor: default; }
+  .piege { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .bouton { display: inline-flex; justify-content: center; align-items: center; gap: 8px; width: 100%; border: 0; border-radius: 16px; padding: 15px 18px; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 16px; letter-spacing: .03em; color: #fff; background: var(--degrade); box-shadow: 0 10px 28px -10px var(--violet); cursor: pointer; }
+  .bouton:disabled { opacity: .5; cursor: default; }
+  .erreur { color: #ff8ab8; font-weight: 700; min-height: 22px; }
+  .anonyme { font-size: 15px; color: var(--doux); font-weight: 600; margin: -6px 0 16px; }
+  footer { margin-top: 26px; text-align: center; color: var(--doux); font-size: 14px; font-weight: 600; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="haut">
+    <svg viewBox="0 0 40 46" aria-hidden="true">
+      <defs><linearGradient id="dg" x1="0" x2="1"><stop offset="0" stop-color="#00E5FF"/><stop offset=".55" stop-color="#7B2CFF"/><stop offset="1" stop-color="#FF2BD6"/></linearGradient></defs>
+      <polygon points="20,2 38,12.5 38,33.5 20,44 2,33.5 2,12.5" fill="#0B0A1F" stroke="url(#dg)" stroke-width="3.2"/>
+      <text x="20" y="28" text-anchor="middle" font-family="Orbitron, sans-serif" font-weight="900" font-size="10.5" fill="#fff">2K27</text>
+      <rect x="9" y="31" width="22" height="1.4" fill="url(#dg)"/>
+    </svg>
+    <div class="titres"><b class="degrade-texte">GAMING TOUSSAINT</b><span>Halle de Cestas · 20 et 21 octobre 2026</span></div>
+  </header>
+
+  <!-- Accueil : les 3 propositions du bracelet -->
+  <section class="ecran" id="ecran-accueil">
+    <div class="bonjour">
+      <h1>Salut ! 👋</h1>
+      <p>Ton bracelet t'emmène où tu veux :</p>
+    </div>
+    <a class="choix c1" href="../">
+      <span class="icone" aria-hidden="true">🌐</span>
+      <span class="txt"><b>Le site du festival</b><small>Le programme, les jeux, le cinéma…</small></span>
+      <span class="fleche" aria-hidden="true">›</span>
+    </a>
+    <a class="choix c2" href="#plan">
+      <span class="icone" aria-hidden="true">🗺️</span>
+      <span class="txt"><b>Le plan en direct</b><small>Où aller, et ce qui se passe maintenant</small><span class="etiquette" id="etat-plan"></span></span>
+      <span class="fleche" aria-hidden="true">›</span>
+    </a>
+    <a class="choix c3" href="#avis">
+      <span class="icone" aria-hidden="true">💬</span>
+      <span class="txt"><b>Le questionnaire</b><small>Quelques questions sur ta journée</small><span class="etiquette" id="etat-avis"></span></span>
+      <span class="fleche" aria-hidden="true">›</span>
+    </a>
+  </section>
+
+  <!-- Le plan en direct -->
+  <section class="ecran" id="ecran-plan" hidden>
+    <a class="retour" href="#">‹ Retour</a>
+    <h2>🗺️ Le plan en direct</h2>
+    <p class="bandeau">Horaires provisoires : ils peuvent encore bouger. En cas de doute, demande à un animateur.</p>
+    <div class="onglets" role="group" aria-label="Choisir le jour">
+      <button type="button" data-jour="mardi">Mardi 20</button>
+      <button type="button" data-jour="mercredi">Mercredi 21</button>
+    </div>
+    <div class="carte maintenant" aria-live="polite">
+      <h3 id="maintenant-titre">EN CE MOMENT</h3>
+      <div class="gros" id="maintenant-quoi"></div>
+      <div class="detail" id="maintenant-detail"></div>
+      <div class="ensuite" id="ensuite" hidden></div>
+      <div class="ton-groupe" id="ton-groupe" hidden></div>
+    </div>
+    <div class="groupes" id="groupes" role="group" aria-label="Ton groupe"><span>Ton groupe :</span></div>
+    <div class="plan">
+      <svg id="plan-svg" viewBox="120 30 890 785" role="img" aria-label="Plan de la Halle : les espaces allumés sont ceux où il se passe quelque chose en ce moment">
+        <image href="../plan-halle.png" x="0" y="0" width="1169" height="826"/>
+        <g id="zones"></g>
+        <g id="etiquettes"></g>
+      </svg>
+      <div class="legende-plan"><span><i></i>En ce moment</span><span><i class="g"></i>Ton groupe</span><span>Touche une activité du programme pour la voir sur le plan.</span></div>
+    </div>
+    <ol class="programme" id="programme"></ol>
+  </section>
+
+  <!-- Ton avis -->
+  <section class="ecran" id="ecran-avis" hidden>
+    <a class="retour" href="#">‹ Retour</a>
+    <h2>💬 Le questionnaire</h2>
+    <div id="avis-ferme" class="carte ferme" hidden>
+      <div class="grosse-icone" aria-hidden="true">⏳</div>
+      <p id="avis-ferme-texte"></p>
+      <div class="compte" id="avis-compte"></div>
+    </div>
+    <div id="avis-merci" class="carte ferme" hidden>
+      <div class="grosse-icone" aria-hidden="true">💜</div>
+      <p><b>Merci, tes réponses sont bien arrivées !</b><br>Elles vont aider l'équipe à préparer l'édition de février.</p>
+    </div>
+    <p class="bandeau" id="avis-apercu" hidden>Aperçu : le questionnaire est affiché pour vérification, mais l'envoi est désactivé.</p>
+    <form class="avis" id="form-avis" hidden novalidate>
+      <p class="sous" id="avis-jour"></p>
+      <p class="anonyme">🔒 C'est anonyme : on ne te demande pas ton nom, n'en écris pas non plus.</p>
+      <div class="progression" aria-hidden="true"><i id="avis-barre"></i></div>
+      <p class="etape" id="avis-etape" aria-live="polite"></p>
+
+      <fieldset class="question" data-obligatoire>
+        <legend>Comment s'est passée ta journée ?</legend>
+        <div class="emojis">
+          <label><input type="radio" name="note" value="1"><span aria-label="Pas bien">😞</span></label>
+          <label><input type="radio" name="note" value="2"><span aria-label="Bof">🙁</span></label>
+          <label><input type="radio" name="note" value="3"><span aria-label="Moyen">😐</span></label>
+          <label><input type="radio" name="note" value="4"><span aria-label="Bien">🙂</span></label>
+          <label><input type="radio" name="note" value="5"><span aria-label="Génial">🤩</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="question">
+        <legend>Ton activité préférée ?</legend>
+        <div class="puces" id="activites"></div>
+      </fieldset>
+      <fieldset class="question">
+        <legend>Tu as trouvé facilement où aller ?</legend>
+        <div class="reponses">
+          <label><input type="radio" name="trouver" value="facile"><span>😎 Oui, facilement</span></label>
+          <label><input type="radio" name="trouver" value="un-peu-perdu"><span>🤔 Un peu perdu·e</span></label>
+          <label><input type="radio" name="trouver" value="perdu"><span>😵 Pas du tout</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="question">
+        <legend>Le temps passé dans chaque espace, c'était…</legend>
+        <div class="reponses">
+          <label><input type="radio" name="temps" value="trop-court"><span>⏩ Trop court</span></label>
+          <label><input type="radio" name="temps" value="parfait"><span>👌 Parfait</span></label>
+          <label><input type="radio" name="temps" value="trop-long"><span>🐢 Trop long</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="question">
+        <legend>Et le cinéma ?</legend>
+        <div class="reponses">
+          <label><input type="radio" name="cinema" value="genial"><span>🤩 Génial</span></label>
+          <label><input type="radio" name="cinema" value="bien"><span>🙂 Bien</span></label>
+          <label><input type="radio" name="cinema" value="bof"><span>😐 Bof</span></label>
+          <label><input type="radio" name="cinema" value="pas-alle"><span>🚫 Je n'y suis pas allé·e</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="question">
+        <legend>L'ambiance et les animateurs ?</legend>
+        <div class="emojis">
+          <label><input type="radio" name="ambiance" value="1"><span aria-label="Pas bien">😞</span></label>
+          <label><input type="radio" name="ambiance" value="2"><span aria-label="Bof">🙁</span></label>
+          <label><input type="radio" name="ambiance" value="3"><span aria-label="Moyen">😐</span></label>
+          <label><input type="radio" name="ambiance" value="4"><span aria-label="Bien">🙂</span></label>
+          <label><input type="radio" name="ambiance" value="5"><span aria-label="Génial">🤩</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="question">
+        <legend>Tu reviendrais en février ?</legend>
+        <div class="reponses">
+          <label><input type="radio" name="revenir" value="oui"><span>👍 Oui</span></label>
+          <label><input type="radio" name="revenir" value="peut-etre"><span>🤔 Peut-être</span></label>
+          <label><input type="radio" name="revenir" value="non"><span>👎 Non</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="question">
+        <legend>Un jeu que tu voudrais voir en février ?</legend>
+        <input class="champ" type="text" name="jeu" maxlength="60" placeholder="Ex : Rocket League" aria-label="Un jeu pour février" autocomplete="off">
+      </fieldset>
+      <fieldset class="question">
+        <legend>Qu'est-ce qu'on pourrait améliorer ?</legend>
+        <textarea name="ameliorer" maxlength="300" aria-label="Ce qu'on pourrait améliorer"></textarea>
+        <div class="compteur" data-pour="ameliorer">0 / 300</div>
+      </fieldset>
+
+      <div class="piege" aria-hidden="true"><label>Ne pas remplir <input name="site" tabindex="-1" autocomplete="off"></label></div>
+      <p class="erreur" id="avis-erreur" role="alert"></p>
+      <div class="nav-questions">
+        <button class="secondaire" type="button" id="avis-precedent">‹ Retour</button>
+        <button class="bouton" type="button" id="avis-suivant">Suivant ›</button>
+        <button class="bouton" type="submit" id="avis-envoyer" hidden>Envoyer 🚀</button>
+      </div>
+    </form>
+  </section>
+
+  <footer>Gaming Toussaint · Gaming Interco 2K27 · SAJ de Cestas</footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  const $ = (s) => document.querySelector(s);
+  const params = new URLSearchParams(location.search);
+
+  // ---------------------------------------------------------------------------
+  // L'heure : celle du téléphone. Pour vérifier la page avant le festival :
+  // ?heure=2026-10-20T14:30 (simule ce moment-là), ?apercu (montre le questionnaire sans l'envoyer).
+  // ---------------------------------------------------------------------------
+  const DECALAGE = (() => {
+    const h = params.get('heure');
+    const d = h ? new Date(h) : null;
+    return d && !isNaN(d) ? d.getTime() - Date.now() : 0;
+  })();
+  const maintenant = () => new Date(Date.now() + DECALAGE);
+  const APERCU = params.has('apercu');
+  // Avec une heure simulée, les réponses vont dans un espace de test : les vrais avis restent propres.
+  const SIMULE = DECALAGE !== 0;
+  const BASE_AVIS = SIMULE ? 'festival2k27_avis_test' : 'festival2k27_avis';
+
+  const JOURS = { mardi: '2026-10-20', mercredi: '2026-10-21' };
+  const NOMS_JOURS = { mardi: 'mardi 20 octobre', mercredi: 'mercredi 21 octobre' };
+  const aLHeure = (jour, hhmm) => new Date(JOURS[jour] + 'T' + hhmm + ':00');
+  const hhmm = (d) => d.toTimeString().slice(0, 5).replace(':', 'h');
+  function jourDe(d) {
+    const iso = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    return Object.keys(JOURS).find((j) => JOURS[j] === iso) || null;
+  }
+  function dans(ms) {
+    const min = Math.max(1, Math.round(ms / 60000));
+    if (min < 60) return min + ' min';
+    const h = Math.floor(min / 60), m = min % 60;
+    if (h < 24) return h + ' h' + (m ? ' ' + String(m).padStart(2, '0') : '');
+    const j = Math.ceil(ms / 86400000);
+    return j + ' jour' + (j > 1 ? 's' : '');
+  }
+
+  // ---------------------------------------------------------------------------
+  // Le programme (d'après le déroulé provisoire du SAJ) et les espaces du plan
+  // ---------------------------------------------------------------------------
+  const PROGRAMME = {
+    mardi: [
+      { h: '10:00', titre: 'Accueil', detail: 'Pointage, bracelets PEGI, dépôt des affaires, règles.', lieux: ['accueil', 'depot'] },
+      { h: '10:15', titre: 'Mot du Maire', detail: 'Sur la scène.', lieux: ['scene'] },
+      { h: '10:25', titre: 'Départ au cinéma', detail: 'Groupes A, B et C.', lieux: ['cinema'] },
+      { h: '10:30', titre: 'Sélections Mario Kart', detail: 'Groupes D et E.', lieux: ['mario1', 'mario2'] },
+      { h: '11:00', fin: '12:40', titre: 'Cinéma : Super Mario Galaxy', detail: 'Groupes A, B et C, au niveau −1.', lieux: ['cinema'] },
+      { h: '12:30', titre: 'Pique-nique, 1er service', detail: 'Les qualifiés partent au cinéma.', lieux: ['repas'] },
+      { h: '12:40', fin: '13:30', titre: 'Finale Mario Kart sur grand écran', detail: 'Au cinéma, sur Switch.', lieux: ['cinema'] },
+      { h: '13:30', titre: 'Pique-nique, 2e service', detail: 'Pour les groupes A, B et C. Les groupes D et E jouent.', lieux: ['repas'] },
+      { h: '14:15', titre: 'Rotation 1', detail: 'Chaque groupe dans son espace : choisis ton groupe pour voir le tien.', lieux: [] },
+      { h: '15:10', titre: 'Rotation 2', detail: 'Chaque groupe change d’espace.', lieux: [] },
+      { h: '15:40', titre: 'Goûter et Kahoot géant', detail: 'En bord de scène.', lieux: ['scene'] },
+      { h: '16:00', titre: 'Départs', detail: 'Jeunes du SAJ : jeu libre jusqu’à 17h.', lieux: ['accueil'] },
+      { h: '17:00', fin: '17:15', titre: 'Fin de la journée', detail: 'À demain !', lieux: [] },
+    ],
+    mercredi: [
+      { h: '10:00', titre: 'Accueil', detail: 'Bracelets PEGI, dépôt, règles, résultats de la finale de mardi.', lieux: ['accueil', 'depot'] },
+      { h: '10:25', titre: 'Départ au cinéma', detail: 'Groupes A, B et C.', lieux: ['cinema'] },
+      { h: '10:30', titre: 'Sélections Mario Kart', detail: 'Groupes D, E et F.', lieux: ['mario1', 'mario2'] },
+      { h: '11:00', fin: '12:40', titre: 'Cinéma : Super Mario Galaxy', detail: 'Groupes A, B et C, au niveau −1.', lieux: ['cinema'] },
+      { h: '12:30', titre: 'Pique-nique, 1er service', detail: '', lieux: ['repas'] },
+      { h: '12:40', fin: '13:30', titre: 'Finale Mario Kart sur grand écran', detail: 'Au cinéma, sur Switch.', lieux: ['cinema'] },
+      { h: '13:30', titre: 'Pique-nique, 2e service', detail: 'Pour les groupes A, B et C.', lieux: ['repas'] },
+      { h: '14:15', titre: 'Rotation', detail: 'Chaque groupe dans son espace : choisis ton groupe pour voir le tien.', lieux: [] },
+      { h: '15:05', titre: 'Finales des tournois découverte', detail: 'Sur la scène, tout le monde en tribune.', lieux: ['scene'] },
+      { h: '15:40', titre: 'Goûter, remise des prix et clôture', detail: 'En bord de scène.', lieux: ['scene'] },
+      { h: '16:00', titre: 'Départs', detail: 'Jeunes du SAJ : rangement et jeu libre jusqu’à 17h.', lieux: ['accueil'] },
+      { h: '17:00', fin: '17:15', titre: 'Fin des activités de la journée', detail: 'Ce soir 20h30 : Ready Player One en 3D (sur inscription).', lieux: [] },
+      { h: '20:30', fin: '22:50', titre: 'Soirée cinéma : Ready Player One', detail: 'En 3D, sur inscription, avec autorisation parentale.', lieux: ['cinema'] },
+    ],
+  };
+  // Fin de chaque activité : sa fin indiquée, sinon le début de la suivante.
+  for (const jour of Object.keys(PROGRAMME)) {
+    PROGRAMME[jour].forEach((a, i, liste) => { a.f = a.fin || (liste[i + 1] ? liste[i + 1].h : '17:00'); });
+  }
+
+  // Où est chaque groupe (rotations provisoires), et à quelle heure.
+  const CRENEAUX = {
+    mardi: [['10:30', '12:30'], ['13:30', '14:15'], ['14:15', '15:10'], ['15:10', '15:40']],
+    mercredi: [['10:30', '12:30'], ['13:30', '14:15'], ['14:15', '15:05']],
+  };
+  const ROTATIONS = {
+    A: ['Ciné', 'Repas', 'PC', 'Smash', 'Ciné', 'Repas', 'Scène'],
+    B: ['Ciné', 'Repas', 'Stands', 'Scène', 'Ciné', 'Repas', 'Mario Kart'],
+    C: ['Ciné', 'Repas', 'Mario Kart', 'Stands', 'Ciné', 'Repas', 'Rétro'],
+    D: ['Mario Kart', 'Scène', 'Smash', 'PC', 'Mario Kart', 'Scène', 'PC'],
+    E: ['PC', 'Stands', 'Scène', 'Mario Kart', 'PC', 'Stands', 'Smash'],
+    F: [null, null, null, null, 'Smash', 'Rétro', 'Stands'],
+  };
+  const GROUPES_DU_JOUR = { mardi: ['A', 'B', 'C', 'D', 'E'], mercredi: ['A', 'B', 'C', 'D', 'E', 'F'] };
+  const NOM_LIEU = { 'Ciné': 'au cinéma (niveau −1)', 'Repas': "à l'espace repas", 'PC': 'aux PC (LAN)', 'Smash': 'à Smash Bros', 'Scène': 'à la scène (Just Dance)', 'Mario Kart': 'à Mario Kart', 'Stands': 'aux stands des structures', 'Rétro': 'au rétrogaming de Mios' };
+  const LIEUX_ROTATION = { 'Ciné': ['cinema'], 'Repas': ['repas'], 'PC': ['pc'], 'Smash': ['smash'], 'Scène': ['scene'], 'Mario Kart': ['mario1', 'mario2'], 'Stands': ['leognan', 'stand2', 'stand3'], 'Rétro': ['stand3'] };
+
+  // Les espaces, aux mêmes coordonnées que le plan du site (repère 1169 × 826).
+  const ZONES = {
+    fifa: { r: [190, 58, 155, 90], c: '#0f8a8a', nom: 'FIFA' },
+    mario1: { r: [350, 58, 118, 90], c: '#d2452b', nom: 'Mario Kart 1' },
+    brawl: { r: [470, 58, 88, 90], c: '#c98a12', nom: 'Brawl Stars' },
+    scene: { r: [612, 58, 190, 90], c: '#e0338a', nom: 'Scène' },
+    smash: { r: [808, 58, 85, 90], c: '#2b7fd2', nom: 'Smash' },
+    pegi16: { r: [190, 168, 112, 236], c: '#9b1c3a', nom: 'PEGI 16' },
+    mario2: { r: [318, 186, 102, 108], c: '#d2452b', nom: 'Mario Kart 2' },
+    leognan: { r: [495, 186, 66, 108], c: '#c98a12', nom: 'Léognan' },
+    stand2: { r: [566, 186, 66, 108], c: '#2b7fd2', nom: { mardi: 'Jeux coop', mercredi: 'ABCS' } },
+    stand3: { r: [637, 186, 66, 108], c: '#c2407f', nom: { mardi: 'Société', mercredi: 'Rétro' } },
+    pc: { r: [750, 186, 143, 152], c: '#7a45c9', nom: 'PC · LAN' },
+    repas: { r: [750, 380, 143, 158], c: '#5f6b7a', nom: 'Repas' },
+    depot: { r: [662, 318, 44, 100], c: '#5f6b7a', nom: 'Dépôt' },
+    accueil: { r: [662, 428, 44, 110], c: '#1f9a6b', nom: 'Accueil' },
+    cinema: { cercle: [480, 560, 26], c: '#7b2cff', nom: 'Cinéma −1' },
+  };
+
+  // ---------------------------------------------------------------------------
+  // Le plan en direct
+  // ---------------------------------------------------------------------------
+  let jourChoisi = null;
+  let groupe = (() => { try { return localStorage.getItem('2k27-groupe') || ''; } catch (e) { return ''; } })();
+  let activiteChoisie = null;
+
+  function activitesEnCours(jour, d) {
+    return PROGRAMME[jour].filter((a) => aLHeure(jour, a.h) <= d && d < aLHeure(jour, a.f));
+  }
+  function prochaine(jour, d) {
+    return PROGRAMME[jour].find((a) => aLHeure(jour, a.h) > d) || null;
+  }
+  function creneauDuGroupe(jour, d) {
+    const debutIndex = jour === 'mardi' ? 0 : 4;
+    const i = CRENEAUX[jour].findIndex(([a, b]) => aLHeure(jour, a) <= d && d < aLHeure(jour, b));
+    if (i < 0 || !groupe || !ROTATIONS[groupe]) return null;
+    const lieu = ROTATIONS[groupe][debutIndex + i];
+    return lieu ? { lieu, fin: CRENEAUX[jour][i][1] } : null;
+  }
+  function prochainCreneau(jour, d) {
+    const debutIndex = jour === 'mardi' ? 0 : 4;
+    const i = CRENEAUX[jour].findIndex(([a]) => aLHeure(jour, a) > d);
+    if (i < 0 || !groupe || !ROTATIONS[groupe]) return null;
+    const lieu = ROTATIONS[groupe][debutIndex + i];
+    return lieu ? { lieu, debut: CRENEAUX[jour][i][0] } : null;
+  }
+
+  function dessinerPlan(allumees, duGroupe, jour) {
+    const zones = $('#zones'), etiquettes = $('#etiquettes');
+    zones.textContent = '';
+    etiquettes.textContent = '';
+    const ns = 'http://www.w3.org/2000/svg';
+    for (const [id, z] of Object.entries(ZONES)) {
+      const el = document.createElementNS(ns, z.cercle ? 'circle' : 'rect');
+      if (z.cercle) { el.setAttribute('cx', z.cercle[0]); el.setAttribute('cy', z.cercle[1]); el.setAttribute('r', z.cercle[2]); }
+      else { const [x, y, l, h] = z.r; el.setAttribute('x', x); el.setAttribute('y', y); el.setAttribute('width', l); el.setAttribute('height', h); el.setAttribute('rx', 4); }
+      el.setAttribute('class', 'zone' + (duGroupe.includes(id) ? ' groupe' : allumees.includes(id) ? ' allumee' : ''));
+      el.style.setProperty('--zc', duGroupe.includes(id) ? '#22e8ff' : allumees.includes(id) ? '#ff2e88' : z.c);
+      zones.append(el);
+      if (allumees.includes(id) || duGroupe.includes(id)) {
+        const t = document.createElementNS(ns, 'text');
+        const nom = typeof z.nom === 'string' ? z.nom : z.nom[jour];
+        const [cx, cy] = z.cercle ? [z.cercle[0], z.cercle[1] - z.cercle[2] - 10] : [z.r[0] + z.r[2] / 2, z.r[1] + z.r[3] / 2 + 7];
+        t.setAttribute('x', cx);
+        t.setAttribute('y', cy);
+        t.setAttribute('text-anchor', 'middle');
+        t.setAttribute('class', 'etiquette-zone');
+        // Le nom tient dans sa zone : plus petit pour les stands étroits.
+        const largeur = z.cercle ? 140 : z.r[2];
+        t.style.fontSize = Math.max(10, Math.min(20, (largeur - 6) / (nom.length * 0.7))) + 'px';
+        t.textContent = nom;
+        etiquettes.append(t);
+      }
+    }
+  }
+
+  function afficherPlan() {
+    const d = maintenant();
+    const aujourdHui = jourDe(d);
+    if (!jourChoisi) jourChoisi = aujourdHui || (d < aLHeure('mardi', '00:00') ? 'mardi' : 'mercredi');
+    const jour = jourChoisi;
+    document.querySelectorAll('.onglets button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.jour === jour)));
+
+    // Les groupes du jour
+    const boite = $('#groupes');
+    boite.querySelectorAll('button').forEach((b) => b.remove());
+    for (const g of ['A', 'B', 'C', 'D', 'E', 'F']) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = g;
+      b.disabled = !GROUPES_DU_JOUR[jour].includes(g);
+      b.setAttribute('aria-pressed', String(groupe === g));
+      b.setAttribute('aria-label', 'Groupe ' + g);
+      b.addEventListener('click', () => {
+        groupe = groupe === g ? '' : g;
+        try { localStorage.setItem('2k27-groupe', groupe); } catch (e) { /* rien */ }
+        afficherPlan();
+      });
+      boite.append(b);
+    }
+
+    // En ce moment / ensuite
+    const enDirect = aujourdHui === jour;
+    let allumees = [], duGroupe = [];
+    const quoi = $('#maintenant-quoi'), detail = $('#maintenant-detail'), ensuite = $('#ensuite'), tonGroupe = $('#ton-groupe');
+    ensuite.hidden = true;
+    tonGroupe.hidden = true;
+    if (enDirect) {
+      const encours = activitesEnCours(jour, d);
+      const suivante = prochaine(jour, d);
+      $('#maintenant-titre').textContent = 'EN CE MOMENT · ' + hhmm(d);
+      if (encours.length) {
+        quoi.textContent = encours.map((a) => a.titre).join(' · ');
+        detail.textContent = encours.map((a) => a.detail).filter(Boolean).join(' ');
+        allumees = encours.flatMap((a) => a.lieux);
+      } else if (d < aLHeure(jour, PROGRAMME[jour][0].h)) {
+        quoi.textContent = 'Ouverture à ' + PROGRAMME[jour][0].h.replace(':', 'h');
+        detail.textContent = 'Encore ' + dans(aLHeure(jour, PROGRAMME[jour][0].h) - d) + ' de patience !';
+      } else {
+        quoi.textContent = 'Les activités sont finies pour aujourd’hui';
+        detail.textContent = 'Merci d’être venu·e ! Pense à répondre au questionnaire 💬';
+      }
+      if (suivante) {
+        ensuite.hidden = false;
+        ensuite.textContent = '';
+        const b = document.createElement('b');
+        b.textContent = 'Ensuite, à ' + suivante.h.replace(':', 'h') + ' (dans ' + dans(aLHeure(jour, suivante.h) - d) + ') : ';
+        ensuite.append(b, suivante.titre);
+      }
+      const g = creneauDuGroupe(jour, d);
+      if (g) {
+        tonGroupe.hidden = false;
+        tonGroupe.textContent = '👉 Groupe ' + groupe + ' : tu es ' + NOM_LIEU[g.lieu] + " jusqu'à " + g.fin.replace(':', 'h') + '.';
+        duGroupe = LIEUX_ROTATION[g.lieu] || [];
+      } else if (groupe) {
+        const p = prochainCreneau(jour, d);
+        if (p) {
+          tonGroupe.hidden = false;
+          tonGroupe.textContent = '👉 Groupe ' + groupe + ' : à ' + p.debut.replace(':', 'h') + ', tu iras ' + NOM_LIEU[p.lieu] + '.';
+        }
+      }
+    } else {
+      const debut = aLHeure(jour, PROGRAMME[jour][0].h);
+      $('#maintenant-titre').textContent = d < debut ? 'BIENTÔT' : 'C’EST PASSÉ';
+      quoi.textContent = d < debut ? 'Rendez-vous le ' + NOMS_JOURS[jour] + ' à 10h !' : 'Cette journée est terminée';
+      detail.textContent = d < debut ? 'Plus que ' + dans(debut - d) + '. Le plan s’allumera en direct pendant la journée.' : 'Merci à tous ! Le programme reste affiché ci-dessous.';
+    }
+    if (activiteChoisie && activiteChoisie.jour === jour) allumees = activiteChoisie.lieux;
+    dessinerPlan(allumees, duGroupe, jour);
+
+    // Le programme du jour
+    const liste = $('#programme');
+    liste.textContent = '';
+    for (const a of PROGRAMME[jour]) {
+      const li = document.createElement('li');
+      const passe = enDirect ? aLHeure(jour, a.f) <= d : d > aLHeure(jour, a.f);
+      const encours = enDirect && aLHeure(jour, a.h) <= d && d < aLHeure(jour, a.f);
+      li.className = (encours ? 'encours' : passe ? 'passe' : '') + (activiteChoisie && activiteChoisie.a === a ? ' choisi' : '');
+      li.tabIndex = 0;
+      const h = document.createElement('span');
+      h.className = 'h';
+      h.textContent = a.h.replace(':', 'h');
+      const t = document.createElement('span');
+      t.className = 't';
+      const b = document.createElement('b');
+      b.textContent = a.titre;
+      const s = document.createElement('small');
+      s.textContent = a.detail;
+      t.append(b, s);
+      li.append(h, t);
+      const choisir = () => {
+        activiteChoisie = activiteChoisie && activiteChoisie.a === a ? null : { a, jour, lieux: a.lieux };
+        afficherPlan();
+        if (activiteChoisie && a.lieux.length) $('.plan').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      };
+      li.addEventListener('click', choisir);
+      li.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choisir(); } });
+      liste.append(li);
+    }
+  }
+  document.querySelectorAll('.onglets button').forEach((b) => b.addEventListener('click', () => {
+    jourChoisi = b.dataset.jour;
+    activiteChoisie = null;
+    afficherPlan();
+  }));
+
+  // ---------------------------------------------------------------------------
+  // Ton avis : le questionnaire ouvre à la fin de chaque journée
+  // ---------------------------------------------------------------------------
+  const OUVERTURES = {
+    mardi: [new Date('2026-10-20T15:30:00+02:00'), new Date('2026-10-20T23:59:59+02:00')],
+    mercredi: [new Date('2026-10-21T15:30:00+02:00'), new Date('2026-10-21T23:59:59+02:00')],
+  };
+  const ACTIVITES = [
+    ['mario-kart', '🏎️ Mario Kart'], ['fortnite', '🔫 Fortnite (PC)'], ['valorant', '🎯 Valorant (16+)'], ['smash', '🥊 Smash Bros'],
+    ['fifa', '⚽ FIFA'], ['just-dance', '💃 Just Dance'], ['brawl-stars', '📱 Brawl Stars'], ['stands', '🎮 Stands des structures'],
+    ['retro', '👾 Rétrogaming', 'mercredi'], ['kahoot', '❓ Kahoot géant', 'mardi'], ['cinema', '🎬 Cinéma'], ['autre', '✨ Autre'],
+  ];
+  const FIREBASE = {
+    cle: 'AIzaSyCFd2YAtKt8efLtsQIeyvCr0B8rVBs7VZ0',
+    base: 'https://festival2k27-default-rtdb.europe-west1.firebasedatabase.app',
+  };
+  const dejaRepondu = (jour) => { try { return localStorage.getItem('2k27-avis-' + jour) === 'oui'; } catch (e) { return false; } };
+
+  function etatAvis() {
+    const d = maintenant();
+    for (const jour of Object.keys(OUVERTURES)) {
+      const [debut, fin] = OUVERTURES[jour];
+      if (d >= debut && d <= fin) return { ouvert: true, jour };
+    }
+    const suivant = Object.keys(OUVERTURES).find((j) => d < OUVERTURES[j][0]);
+    return suivant ? { ouvert: false, jour: suivant, dans: OUVERTURES[suivant][0] - d } : { ouvert: false, fini: true };
+  }
+
+  // Une question à la fois, avec une barre de progression.
+  let etape = 0;
+  const questions = () => Array.from(document.querySelectorAll('form.avis .question'));
+  function montrerEtape(i) {
+    const liste = questions();
+    etape = Math.max(0, Math.min(liste.length - 1, i));
+    liste.forEach((q, j) => { q.hidden = j !== etape; });
+    const derniere = etape === liste.length - 1;
+    $('#avis-etape').textContent = 'Question ' + (etape + 1) + ' sur ' + liste.length + (liste[etape].hasAttribute('data-obligatoire') ? '' : ' · facultative');
+    $('#avis-barre').style.width = ((etape + 1) / liste.length * 100) + '%';
+    $('#avis-precedent').disabled = etape === 0;
+    $('#avis-suivant').hidden = derniere;
+    $('#avis-envoyer').hidden = !derniere;
+    $('#avis-erreur').textContent = '';
+  }
+  function suivant() {
+    const q = questions()[etape];
+    if (q.hasAttribute('data-obligatoire') && !q.querySelector('input:checked')) {
+      $('#avis-erreur').textContent = 'Choisis une réponse pour continuer 🙂';
+      return;
+    }
+    montrerEtape(etape + 1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  let formulairePret = false;
+  function preparerFormulaire(jour) {
+    $('#avis-jour').textContent = 'Ta journée du ' + NOMS_JOURS[jour] + ' :';
+    if (!formulairePret) montrerEtape(0);
+    const boite = $('#activites');
+    boite.textContent = '';
+    for (const [id, nom, seulement] of ACTIVITES) {
+      if (seulement && seulement !== jour) continue;
+      const l = document.createElement('label');
+      const i = document.createElement('input');
+      i.type = 'radio';
+      i.name = 'prefere';
+      i.value = id;
+      const s = document.createElement('span');
+      s.textContent = nom;
+      l.append(i, s);
+      boite.append(l);
+    }
+    if (formulairePret) return;
+    formulairePret = true;
+    document.querySelectorAll('form.avis textarea').forEach((z) => {
+      const c = document.querySelector('.compteur[data-pour="' + z.name + '"]');
+      z.addEventListener('input', () => { c.textContent = z.value.length + ' / 300'; });
+    });
+    const form = $('#form-avis');
+    // Un choix fait passer tout seul à la question suivante.
+    form.addEventListener('change', (e) => {
+      if (e.target.type !== 'radio') return;
+      const q = e.target.closest('.question');
+      if (q && questions().indexOf(q) === etape && etape < questions().length - 1) setTimeout(suivant, 320);
+    });
+    $('#avis-suivant').addEventListener('click', suivant);
+    $('#avis-precedent').addEventListener('click', () => montrerEtape(etape - 1));
+    form.addEventListener('submit', (e) => {
+      if (etape < questions().length - 1) { e.preventDefault(); suivant(); return; }
+      envoyer(e);
+    });
+  }
+
+  function afficherAvis() {
+    const e = etatAvis();
+    const ferme = $('#avis-ferme'), merci = $('#avis-merci'), form = $('#form-avis');
+    ferme.hidden = true; merci.hidden = true; form.hidden = true;
+    $('#avis-apercu').hidden = !APERCU;
+    if (APERCU) {
+      preparerFormulaire(e.ouvert || e.jour ? e.jour : 'mercredi');
+      form.hidden = false;
+      return;
+    }
+    if (e.ouvert && dejaRepondu(e.jour)) { merci.hidden = false; return; }
+    if (e.ouvert) { preparerFormulaire(e.jour); form.hidden = false; return; }
+    ferme.hidden = false;
+    if (e.fini) {
+      $('#avis-ferme-texte').textContent = 'Le questionnaire est fermé. Merci à tous ceux qui ont donné leur avis !';
+      $('#avis-compte').textContent = '';
+    } else {
+      $('#avis-ferme-texte').textContent = 'Le questionnaire ouvre à la fin de la journée, le ' + NOMS_JOURS[e.jour] + ' à 15h30. Reviens à ce moment-là !';
+      $('#avis-compte').textContent = 'Dans ' + dans(e.dans);
+    }
+  }
+
+  async function jeton() {
+    const r = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + FIREBASE.cle, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ returnSecureToken: true }),
+    });
+    if (!r.ok) throw new Error('connexion ' + r.status);
+    return (await r.json()).idToken;
+  }
+
+  async function envoyer(ev) {
+    ev.preventDefault();
+    const f = ev.target;
+    const erreur = $('#avis-erreur');
+    const note = f.querySelector('input[name="note"]:checked');
+    if (!note) { montrerEtape(0); erreur.textContent = 'Dis-nous d’abord comment s’est passée ta journée 🙂'; return; }
+    if (APERCU) { erreur.textContent = 'Aperçu : rien n’a été envoyé.'; return; }
+    const e = etatAvis();
+    if (!e.ouvert) { afficherAvis(); return; }
+    if (f.site.value) { merciAffiche(e.jour); return; } // un robot a rempli le champ piège
+    const choisi = (nom) => { const x = f.querySelector('input[name="' + nom + '"]:checked'); return x ? x.value : ''; };
+    const ambiance = choisi('ambiance');
+    const avis = {
+      note: Number(note.value),
+      prefere: choisi('prefere'),
+      trouver: choisi('trouver'),
+      temps: choisi('temps'),
+      cinema: choisi('cinema'),
+      ambiance: ambiance ? Number(ambiance) : '',
+      revenir: choisi('revenir'),
+      jeu: f.jeu.value.trim().slice(0, 60),
+      ameliorer: f.ameliorer.value.trim().slice(0, 300),
+      quand: { '.sv': 'timestamp' },
+    };
+    const bouton = $('#avis-envoyer');
+    bouton.disabled = true;
+    bouton.textContent = 'Envoi…';
+    erreur.textContent = '';
+    try {
+      const t = await jeton();
+      const r = await fetch(FIREBASE.base + '/' + BASE_AVIS + '/' + e.jour + '.json?auth=' + encodeURIComponent(t), {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(avis),
+      });
+      if (!r.ok) throw new Error('envoi ' + r.status);
+      merciAffiche(e.jour);
+    } catch (err) {
+      erreur.textContent = 'Oups, l’envoi n’a pas marché. Vérifie ta connexion et réessaie.';
+      bouton.disabled = false;
+      bouton.textContent = 'Envoyer 🚀';
+    }
+  }
+  function merciAffiche(jour) {
+    if (!SIMULE) { try { localStorage.setItem('2k27-avis-' + jour, 'oui'); } catch (e) { /* rien */ } }
+    $('#form-avis').hidden = true;
+    $('#avis-merci').hidden = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ---------------------------------------------------------------------------
+  // Accueil, écrans et rafraîchissement
+  // ---------------------------------------------------------------------------
+  function majAccueil() {
+    const d = maintenant();
+    const aujourdHui = jourDe(d);
+    const ep = $('#etat-plan');
+    if (aujourdHui && d >= aLHeure(aujourdHui, '09:30') && d < aLHeure(aujourdHui, '17:15')) { ep.textContent = 'En direct'; ep.className = 'etiquette direct'; }
+    else { ep.textContent = 'Le programme de chaque jour'; ep.className = 'etiquette'; }
+    const e = etatAvis(), ea = $('#etat-avis');
+    if (e.ouvert) { ea.textContent = dejaRepondu(e.jour) ? 'Merci, c’est envoyé !' : 'Ouvert maintenant'; ea.className = 'etiquette' + (dejaRepondu(e.jour) ? '' : ' ouvert'); }
+    else if (e.fini) { ea.textContent = 'Fermé'; ea.className = 'etiquette'; }
+    else { ea.textContent = 'Ouvre le ' + NOMS_JOURS[e.jour] + ' à 15h30'; ea.className = 'etiquette'; }
+  }
+
+  function router() {
+    const ecran = location.hash === '#plan' ? 'plan' : location.hash === '#avis' ? 'avis' : 'accueil';
+    for (const n of ['accueil', 'plan', 'avis']) $('#ecran-' + n).hidden = n !== ecran;
+    if (ecran === 'plan') afficherPlan();
+    if (ecran === 'avis') afficherAvis();
+    majAccueil();
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener('hashchange', router);
+  router();
+  // Toutes les 30 secondes : le direct avance (sans toucher au questionnaire en cours de remplissage).
+  setInterval(() => {
+    majAccueil();
+    if (!$('#ecran-plan').hidden) afficherPlan();
+    if (!$('#ecran-avis').hidden && $('#form-avis').hidden) afficherAvis();
+  }, 30000);
+})();
+</script>
+</body>
+</html>
