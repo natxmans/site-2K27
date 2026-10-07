@@ -1405,6 +1405,7 @@
       <h3>Espace Valorant (16+)</h3>
       <p>Un espace fermé et filtré, réservé aux 16 ans et plus.</p>
       <p>PEGI 16 · 8 places</p>
+      <p class="pending">à confirmer</p>
     </div>
     <div class="card">
       <h3>FIFA</h3>
@@ -1447,7 +1448,7 @@
   <div class="section-head">
     <div class="tag">Se repérer</div>
     <h2>Le plan de la Halle</h2>
-    <p>On entre par le préau. À gauche : accueil et dépôt. À droite : le repas, puis les PC. Après le virage à gauche : les stands invités le long du mur. En haut : FIFA, Mario Kart, Brawl Stars chill, la scène Just Dance et Smash. PEGI 16 au fond de la réserve.</p>
+    <p>On entre par le préau. À gauche : accueil et dépôt. À droite : le repas, puis les PC. Après le virage à gauche : les stands invités le long du mur. En haut : FIFA, Mario Kart, Brawl Stars chill, la scène Just Dance et Smash. PEGI 16 (à confirmer) au fond de la réserve.</p>
   </div>
   <div class="plan-grille">
   <div class="plan-col-plan">
@@ -1510,7 +1511,7 @@
       <line x1="893" y1="74" x2="893" y2="130" stroke="#123a8a" stroke-width="4" stroke-linecap="round"></line>
       <rect x="820" y="92" width="19" height="43" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect>
       <circle cx="850" cy="90" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="850" cy="106" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="850" cy="122" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="850" cy="138" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle>
-      <g><rect x="190" y="168" width="112" height="236" rx="3" fill="#9b1c3a" fill-opacity=".13" stroke="#9b1c3a" stroke-width="1.6"></rect><text class="lbl" x="200" y="184">PEGI 16</text><text class="sm" x="200" y="196">Valorant · 4 PC</text></g>
+      <g><rect x="190" y="168" width="112" height="236" rx="3" fill="#9b1c3a" fill-opacity=".13" stroke="#9b1c3a" stroke-width="1.6" stroke-dasharray="6 4"></rect><text class="lbl" x="200" y="184">PEGI 16</text><text class="sm" x="200" y="196">Valorant · 4 PC</text><text class="sm" x="200" y="208">à confirmer</text></g>
       <line x1="305" y1="164" x2="305" y2="405" stroke="#4a4f5a" stroke-width="5"></line>
       <line x1="190" y1="164" x2="268" y2="164" stroke="#9b1c3a" stroke-width="4" stroke-dasharray="3 3"></line>
       <text class="sm" x="268" y="176">entrée</text>
@@ -1628,7 +1629,7 @@
     <div class="legende-col">
       <h3>Bon à savoir</h3>
       <ul class="legende-conseils">
-        <li><span class="e" aria-hidden="true">🎟️</span><div><b>Badge PEGI</b> — remis à l'accueil, selon l'âge. Les animateurs le vérifient à chaque espace ; l'espace PEGI 16 est réservé aux 16 ans et plus.</div></li>
+        <li><span class="e" aria-hidden="true">🎟️</span><div><b>Badge PEGI</b> — remis à l'accueil, selon l'âge. Les animateurs le vérifient à chaque espace ; l'espace PEGI 16 (à confirmer) est réservé aux 16 ans et plus.</div></li>
         <li><span class="e" aria-hidden="true">🚪</span><div><b>Entrée</b> — par le préau, à l'extérieur. Il n'est pas utilisé pour les activités.</div></li>
         <li><span class="e" aria-hidden="true">🎒</span><div><b>Dépôt des affaires</b> — dans les bacs, à gauche en entrant.</div></li>
         <li><span class="e" aria-hidden="true">🥪</span><div><b>Repas</b> — pique-nique apporté par chaque jeune, en deux services (12h30 et 13h30). Le goûter est offert.</div></li>
@@ -2067,7 +2068,7 @@
       desc: 'Dans le coin en haut à droite de la Halle, sur une TV.' },
     { id: 'pc', g: 'jeux', nom: 'PC · LAN', sous: 'Fortnite et jeux tout public, en réseau', pegi: 12, places: 26, j: 'both', c: '#7a45c9', r: [750, 186, 143, 152],
       desc: '10 PC reliés en réseau local (5 PC du SAJ et 5 PC gamer loués). Un écran spectateur permet de suivre les parties en attendant son tour.' },
-    { id: 'pegi16', g: 'jeux', nom: 'Espace PEGI 16', sous: 'Valorant sur 4 PC', pegi: 16, places: 8, j: 'both', c: '#9b1c3a', r: [190, 168, 112, 236],
+    { id: 'pegi16', g: 'jeux', nom: 'Espace PEGI 16', sous: 'Valorant sur 4 PC', pegi: 16, places: 8, j: 'both', c: '#9b1c3a', r: [190, 168, 112, 236], aConf: true,
       desc: 'Un espace fermé, au fond de la réserve. L\'accès se fait avec un badge PEGI 16 : un adulte vérifie les badges à l\'entrée.' },
     { id: 'leognan', g: 'jeux', nom: 'Stand Léognan', sous: 'Gang Beasts · Boomerang Fu', pegi: null, places: 10, j: 'both', c: '#c98a12', r: [495, 186, 66, 108],
       desc: 'Le stand de la Maison des Jeunes de Léognan, avec sa Switch, le long du mur. Présent mardi et mercredi.' },
@@ -2308,6 +2309,7 @@
     info.appendChild(h('div', 'pi-sous', ep.sous));
     info.appendChild(h('div', 'pi-desc', ep.desc));
     var puces = h('div', 'puces');
+    if (ep.aConf) puces.appendChild(h('span', 'puce-info prix', 'À confirmer'));
     if (ep.pegi) puces.appendChild(badgePegi(ep.pegi));
     else if (ep.g === 'jeux') puces.appendChild(h('span', 'puce-info jour', 'PEGI à évaluer'));
     if (ep.places) puces.appendChild(h('span', 'puce-info', ep.places + ' places' + (ep.plus ? ' (' + ep.plus + ')' : '')));
