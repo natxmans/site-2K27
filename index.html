@@ -1171,6 +1171,19 @@
     background: rgba(34,232,255,0.1);
     box-shadow: 0 0 22px rgba(34,232,255,0.25);
   }
+  .legende-detail{
+    margin-top: 14px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--ic, var(--neon-cyan));
+    border-left-width: 5px;
+    background: rgba(255,255,255,0.04);
+    font-size: 0.95rem;
+    color: var(--text-dim);
+  }
+  .legende-detail[hidden]{ display: none; }
+  .legende-detail b{ color: var(--text); }
+  .legende-detail .legende-detail-fin{ display: block; margin-top: 6px; font-size: 0.82rem; opacity: 0.8; }
   .legende-conseils{ list-style: none; display: grid; gap: 14px; }
   .legende-conseils li{ display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: start; font-size: 0.95rem; color: var(--text-dim); }
   .legende-conseils .e{
@@ -1610,6 +1623,7 @@
           <span>Préau (à l'extérieur)</span>
         </button>
       </div>
+      <div class="legende-detail" id="legende-detail" aria-live="polite" hidden></div>
     </div>
     <div class="legende-col">
       <h3>Bon à savoir</h3>
@@ -2210,12 +2224,18 @@
       if (etat.symbole) montrerPlan();
     });
   });
+  // remonte jusqu'au plan sauf s'il est déjà presque entièrement visible (sinon le symbole
+  // s'allume hors de l'écran et on croit que le bouton ne fait rien)
+  var entete = document.querySelector('header');
   function montrerPlan(){
+    var haut = (entete ? entete.offsetHeight : 70) + 10;
+    var bas = window.innerHeight - 10;
     var rc = cadre.getBoundingClientRect();
-    if (rc.bottom < 80 || rc.top > window.innerHeight * 0.55){
-      cadre.scrollIntoView({ block: 'start', behavior: reduit ? 'auto' : 'smooth' });
-    }
+    var visible = Math.min(rc.bottom, bas) - Math.max(rc.top, haut);
+    if (visible >= Math.min(rc.height, bas - haut) * 0.9) return;
+    window.scrollTo({ top: window.scrollY + rc.top - haut, behavior: reduit ? 'auto' : 'smooth' });
   }
+  var detailSym = $('#legende-detail');
 
   var dernierGroupe = null;
   ESP.forEach(function(e){
@@ -2255,9 +2275,11 @@
     // « e » : l'espace mis en surbrillance sur le plan (survol du plan, d'une pastille, ou sélection)
     // « ep » : l'espace décrit dans la fiche — le survol d'une pastille ne change JAMAIS la fiche,
     // sinon la fiche change de hauteur, pousse les pastilles et la souris se retrouve sur une autre.
-    var e = parId(etat.survol || etat.survolPuce || etat.epingle);
+    // tant qu'un symbole de la légende est choisi, le survol ne le remplace pas : en remontant vers
+    // le plan, le curseur se retrouve au-dessus d'une zone et le navigateur envoie un survol tout seul
+    var e = parId(etat.symbole ? null : (etat.survol || etat.survolPuce || etat.epingle));
     if (e && !dispo(e)) e = null;
-    var ep = parId(etat.survol || etat.epingle);
+    var ep = parId(etat.symbole ? null : (etat.survol || etat.epingle));
     if (ep && !dispo(ep)) ep = null;
     var sym = (!e && etat.symbole) ? SYMBOLES[etat.symbole] : null;
     var symFiche = (!ep && etat.symbole) ? SYMBOLES[etat.symbole] : null;
@@ -2265,6 +2287,16 @@
     boutonsSym.forEach(function(b){
       b.setAttribute('aria-pressed', sym && b.getAttribute('data-sym') === etat.symbole ? 'true' : 'false');
     });
+    if (detailSym){
+      detailSym.textContent = '';
+      detailSym.hidden = !sym;
+      if (sym){
+        detailSym.style.setProperty('--ic', sym.c);
+        detailSym.appendChild(h('b', null, sym.nom));
+        detailSym.appendChild(document.createTextNode(' — ' + sym.desc));
+        detailSym.appendChild(h('span', 'legende-detail-fin', 'Il est surligné sur le plan. Touche le symbole à nouveau pour l\'enlever.'));
+      }
+    }
 
     if (sym){
       voile.setAttribute('d', 'M0 0H1169V826H0Z');
