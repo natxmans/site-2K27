@@ -132,6 +132,10 @@
   .emojis input, .puces input, .reponses input { position: absolute; opacity: 0; pointer-events: none; }
   .emojis span { display: grid; place-items: center; height: 58px; font-size: 32px; border-radius: 16px; background: var(--carte); border: 2px solid var(--bord); transition: transform .12s, border-color .12s; }
   .emojis input:checked + span { border-color: var(--jaune); transform: scale(1.08); background: rgba(255, 210, 63, .12); }
+  .emojis label { display: flex; flex-direction: column; align-items: stretch; gap: 4px; }
+  .emojis .grad { text-align: center; font-size: 15px; font-weight: 800; color: var(--doux); }
+  .emojis input:checked + span + .grad { color: var(--jaune); }
+  .echelle { display: flex; justify-content: space-between; margin-top: 4px; font-size: 13px; font-weight: 600; color: var(--doux); }
   .puces { display: flex; flex-wrap: wrap; gap: 8px; }
   .puces span, .reponses span { display: inline-block; padding: 8px 13px; border-radius: 999px; background: var(--carte); border: 1px solid var(--bord); font-weight: 700; }
   .puces input:checked + span, .reponses input:checked + span { background: var(--violet); border-color: var(--violet); color: #fff; box-shadow: 0 0 14px rgba(176, 38, 255, .45); }
@@ -249,12 +253,13 @@
       <fieldset class="question" data-obligatoire>
         <legend>Comment s'est passée ta journée ?</legend>
         <div class="emojis">
-          <label><input type="radio" name="note" value="1"><span aria-label="Pas bien">😞</span></label>
-          <label><input type="radio" name="note" value="2"><span aria-label="Bof">🙁</span></label>
-          <label><input type="radio" name="note" value="3"><span aria-label="Moyen">😐</span></label>
-          <label><input type="radio" name="note" value="4"><span aria-label="Bien">🙂</span></label>
-          <label><input type="radio" name="note" value="5"><span aria-label="Génial">🤩</span></label>
+          <label><input type="radio" name="note" value="1"><span aria-label="Pas bien">😞</span><b class="grad" aria-hidden="true">1</b></label>
+          <label><input type="radio" name="note" value="2"><span aria-label="Bof">🙁</span><b class="grad" aria-hidden="true">2</b></label>
+          <label><input type="radio" name="note" value="3"><span aria-label="Moyen">😐</span><b class="grad" aria-hidden="true">3</b></label>
+          <label><input type="radio" name="note" value="4"><span aria-label="Bien">🙂</span><b class="grad" aria-hidden="true">4</b></label>
+          <label><input type="radio" name="note" value="5"><span aria-label="Génial">🤩</span><b class="grad" aria-hidden="true">5</b></label>
         </div>
+        <div class="echelle" aria-hidden="true"><span>Pas bien</span><span>Génial</span></div>
       </fieldset>
       <fieldset class="question">
         <legend>Ton activité préférée ?</legend>
@@ -288,12 +293,13 @@
       <fieldset class="question">
         <legend>L'ambiance et les animateurs ?</legend>
         <div class="emojis">
-          <label><input type="radio" name="ambiance" value="1"><span aria-label="Pas bien">😞</span></label>
-          <label><input type="radio" name="ambiance" value="2"><span aria-label="Bof">🙁</span></label>
-          <label><input type="radio" name="ambiance" value="3"><span aria-label="Moyen">😐</span></label>
-          <label><input type="radio" name="ambiance" value="4"><span aria-label="Bien">🙂</span></label>
-          <label><input type="radio" name="ambiance" value="5"><span aria-label="Génial">🤩</span></label>
+          <label><input type="radio" name="ambiance" value="1"><span aria-label="Pas bien">😞</span><b class="grad" aria-hidden="true">1</b></label>
+          <label><input type="radio" name="ambiance" value="2"><span aria-label="Bof">🙁</span><b class="grad" aria-hidden="true">2</b></label>
+          <label><input type="radio" name="ambiance" value="3"><span aria-label="Moyen">😐</span><b class="grad" aria-hidden="true">3</b></label>
+          <label><input type="radio" name="ambiance" value="4"><span aria-label="Bien">🙂</span><b class="grad" aria-hidden="true">4</b></label>
+          <label><input type="radio" name="ambiance" value="5"><span aria-label="Génial">🤩</span><b class="grad" aria-hidden="true">5</b></label>
         </div>
+        <div class="echelle" aria-hidden="true"><span>Pas bien</span><span>Génial</span></div>
       </fieldset>
       <fieldset class="question">
         <legend>Tu reviendrais en février ?</legend>
