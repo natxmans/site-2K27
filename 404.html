@@ -8,17 +8,16 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230a0a14'/><rect x='2' y='2' width='60' height='60' rx='12' fill='none' stroke='%2322e8ff' stroke-width='3'/><text x='32' y='43' font-family='Arial,Helvetica,sans-serif' font-weight='900' font-size='24' fill='%2322e8ff' text-anchor='middle'>2K</text></svg>">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&display=swap');
 
   :root{
     --bg: #0a0a14;
-    --bg-alt: #10101c;
     --neon-purple: #b026ff;
     --neon-cyan: #22e8ff;
     --neon-pink: #ff2e88;
     --text: #e8e8f5;
     --text-dim: #9494b0;
-    --border: rgba(255,255,255,0.1);
+    --border: rgba(255,255,255,0.14);
   }
 
   *{ margin:0; padding:0; box-sizing:border-box; }
@@ -31,32 +30,54 @@
     justify-content: center;
     text-align: center;
     padding: 40px 6%;
-    background: var(--bg);
+    background:
+      radial-gradient(circle at 15% 20%, rgba(176,38,255,0.18), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(34,232,255,0.14), transparent 45%),
+      var(--bg);
     color: var(--text);
     font-family: 'Rajdhani', sans-serif;
-    font-size: 18px;
+    font-size: 19px;
+    line-height: 1.5;
+  }
+
+  .etiquette{
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--neon-pink);
   }
 
   h1{
     font-family: 'Orbitron', sans-serif;
-    font-size: clamp(3rem, 14vw, 6rem);
+    font-size: clamp(4rem, 20vw, 8rem);
+    line-height: 1.05;
     font-weight: 900;
     letter-spacing: 4px;
     background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan), var(--neon-pink));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    filter: drop-shadow(0 0 30px rgba(176,38,255,0.35));
+  }
+
+  h2{
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.1rem, 4vw, 1.6rem);
+    margin-top: 6px;
   }
 
   p{
     color: var(--text-dim);
-    margin: 18px 0 32px;
-    max-width: 480px;
+    margin: 16px 0 34px;
+    max-width: 520px;
   }
+
+  .actions{ display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
 
   a.btn{
     display: inline-block;
-    padding: 14px 34px;
+    padding: 14px 30px;
     border-radius: 30px;
     background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan));
     color: #06060c;
@@ -66,11 +87,24 @@
     font-size: 0.9rem;
     text-decoration: none;
   }
+  a.btn.ghost{
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  a.btn:hover{ filter: brightness(1.12); }
+  a.btn:focus-visible{ outline: 3px solid #fff; outline-offset: 3px; }
 </style>
 </head>
 <body>
+  <div class="etiquette">Oups…</div>
   <h1>404</h1>
-  <p>Cette page n'existe pas (ou plus). Le festival 2K27, lui, existe bien !</p>
-  <a class="btn" href="index.html">Retour à l'accueil</a>
+  <h2>Cette page s'est perdue dans le jeu</h2>
+  <p>Elle n'existe pas, ou plus. Mais le festival, lui, existe bien : mardi 20 et mercredi 21 octobre 2026, à la Halle du Centre Culturel de Cestas.</p>
+  <div class="actions">
+    <a class="btn" href="https://natxmans.github.io/site-2K27/">Retour à l'accueil</a>
+    <a class="btn ghost" href="https://natxmans.github.io/site-2K27/#programme">Voir le programme</a>
+    <a class="btn ghost" href="https://natxmans.github.io/site-2K27/#plan">Voir le plan</a>
+  </div>
 </body>
 </html>

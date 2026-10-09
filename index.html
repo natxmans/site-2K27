@@ -1234,6 +1234,24 @@
     .plan-svg-wrap svg, #plan-voile, #plan-sel, .plan-jour-toggle::before{ transition: none; }
     .btn, .btn:hover{ transition: none; transform: none; }
   }
+
+  /* Menu un peu plus serré sur les écrans moyens, pour que le nouveau lien « Questions » tienne sur une ligne */
+  @media (min-width: 721px) and (max-width: 1100px){ nav ul{ gap: 10px 14px; } nav a{ font-size: 0.8rem; letter-spacing: 0.5px; } }
+  /* ---- Questions fréquentes et bouton « Une question ? » ---- */
+  .faq{ max-width: 820px; margin: 0 auto; display: grid; gap: 12px; }
+  .faq-item{ border: 1px solid var(--border); border-radius: 16px; background: linear-gradient(165deg, rgba(255,255,255,0.05), transparent 60%), var(--bg-alt); overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s; }
+  .faq-item[open]{ border-color: rgba(34,232,255,0.55); box-shadow: 0 0 26px rgba(34,232,255,0.12); }
+  .faq-item summary{ cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 22px; font-weight: 700; font-size: 1.08rem; }
+  .faq-item summary::-webkit-details-marker{ display: none; }
+  .faq-item summary::after{ content: "+"; flex-shrink: 0; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--border); color: var(--neon-cyan); font-size: 1.3rem; line-height: 1; }
+  .faq-item[open] summary::after{ content: "–"; background: rgba(34,232,255,0.12); }
+  .faq-item summary:focus-visible{ outline: 2px solid var(--neon-cyan); outline-offset: -2px; }
+  .faq-item p{ padding: 0 22px 20px; margin: 0; color: var(--text-dim); }
+  .question-flottante{ position: fixed; right: 18px; bottom: 18px; z-index: 90; display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 30px; background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan)); color: #06060c; font-weight: 700; text-decoration: none; box-shadow: 0 10px 30px rgba(0,0,0,0.45), 0 0 24px rgba(176,38,255,0.4); transition: opacity 0.25s; }
+  .question-flottante:hover{ filter: brightness(1.1); }
+  .question-flottante:focus-visible{ outline: 3px solid #fff; outline-offset: 3px; }
+  .question-flottante.masque{ opacity: 0; pointer-events: none; }
+  @media (max-width: 560px){ .question-flottante{ right: 12px; bottom: 12px; padding: 10px 16px; } .faq-item summary{ padding: 16px 18px; } .faq-item p{ padding: 0 18px 18px; } }
 </style>
 </head>
 <body>
@@ -1286,6 +1304,7 @@
       <li><a href="#plan">Plan</a></li>
       <li><a href="#cinema">Cinéma</a></li>
       <li><a href="#programme">Programme</a></li>
+      <li><a href="#questions">Questions</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
@@ -1732,6 +1751,48 @@
         <li><time>20h30</time><span>Soirée cinéma 3D <i>Ready Player One</i>, sur inscription.</span></li>
       </ul>
     </div>
+  </div>
+</section>
+
+<section id="questions">
+  <div class="section-head">
+    <div class="tag">Besoin d'aide ?</div>
+    <h2>Questions fréquentes</h2>
+    <p>Les réponses aux questions qu'on nous pose le plus. Tu ne trouves pas la tienne ? Écris-nous ou appelle, juste en dessous.</p>
+  </div>
+  <div class="faq">
+    <details class="faq-item">
+      <summary>C'est quoi Gaming Toussaint ?</summary>
+      <p>Un festival gaming pour les jeunes, organisé par le SAJ de Cestas avec l'association de jeunes Gaming Interco 2K27. Au programme : des tournois, des jeux en réseau sur PC, du cinéma et des stands. C'est mardi 20 et mercredi 21 octobre 2026, à la Halle du Centre Culturel de Cestas.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Qui peut venir ?</summary>
+      <p>Les jeunes du SAJ de Cestas (36 places par jour) et les groupes des structures jeunesse invitées, avec leurs animateurs. Pour savoir comment s'inscrire, le plus simple est d'appeler ou d'écrire au SAJ (les coordonnées sont juste en dessous).</p>
+    </details>
+    <details class="faq-item">
+      <summary>C'est gratuit ?</summary>
+      <p>Oui, la participation est gratuite pour les jeunes. Chacun apporte son pique-nique et le goûter est offert. Seule la soirée cinéma en 3D du mercredi est payante (5,70 € avec les lunettes) et se réserve à part.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Qu'est-ce qu'il faut apporter ?</summary>
+      <p>Son pique-nique pour le midi (deux services : 12h30 et 13h30). Les sacs et les vestes se déposent dans les bacs à l'accueil. Les ordinateurs, les consoles et les jeux sont fournis.</p>
+    </details>
+    <details class="faq-item">
+      <summary>À quelle heure ça commence et ça finit ?</summary>
+      <p>L'accueil est à 10h. La journée se termine vers 16h pour les structures invitées et vers 17h pour les jeunes du SAJ. Le détail heure par heure est dans la section Programme : il peut encore évoluer. Le mercredi soir, la soirée cinéma en 3D commence à 20h30.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Comment savoir à quels jeux on a le droit de jouer ?</summary>
+      <p>À l'accueil, chaque jeune reçoit un badge PEGI de la couleur de son âge. Les animateurs le vérifient avant de laisser jouer. Il n'y a aucun jeu PEGI 18.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Comment participer au tournoi Mario Kart ?</summary>
+      <p>Les inscriptions sont gérées par le SAJ : un lien est envoyé par mail aux parents ou au responsable légal. En cas de doute, appelez ou écrivez au SAJ.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Où ça se passe, et comment venir ?</summary>
+      <p>À la Halle du Centre Culturel de Cestas, en Gironde. On entre par le préau, à l'extérieur. Dans la section Programme, le bouton « Itinéraire » ouvre le trajet dans Google Maps.</p>
+    </details>
   </div>
 </section>
 
@@ -2369,6 +2430,23 @@
 
   rendre();
 })();
+</script>
+<a class="question-flottante" href="#questions" id="question-flottante">💬 Une question ?</a>
+<script>
+  // Le bouton « Une question ? » disparaît quand on est déjà sur les questions ou sur le contact.
+  (function(){
+    try{
+      var bouton = document.getElementById('question-flottante');
+      var cibles = [document.getElementById('questions'), document.getElementById('contact')];
+      if (!bouton || !('IntersectionObserver' in window)) return;
+      var visibles = {};
+      var obs = new IntersectionObserver(function(entrees){
+        entrees.forEach(function(e){ visibles[e.target.id] = e.isIntersecting; });
+        bouton.classList.toggle('masque', Object.keys(visibles).some(function(k){ return visibles[k]; }));
+      }, { threshold: 0.15 });
+      cibles.forEach(function(c){ if (c) obs.observe(c); });
+    }catch(e){}
+  })();
 </script>
 </body>
 </html>
