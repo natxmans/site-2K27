@@ -548,7 +548,7 @@
     border-top: 1px solid var(--border);
   }
 
-  @media (max-width: 720px){
+  @media (max-width: 880px){
     nav ul{
       position: fixed;
       top: 0; right: -100%;
@@ -1235,8 +1235,8 @@
     .btn, .btn:hover{ transition: none; transform: none; }
   }
 
-  /* Menu un peu plus serré sur les écrans moyens, pour que le nouveau lien « Questions » tienne sur une ligne */
-  @media (min-width: 721px) and (max-width: 1100px){ nav ul{ gap: 10px 14px; } nav a{ font-size: 0.8rem; letter-spacing: 0.5px; } }
+  /* Menu un peu plus serré sur les écrans moyens, pour que le lien « Questions » tienne sur une ligne ; en dessous de 880 px, c'est le menu en tiroir (plus de mot « Contact » tout seul sur une 2e ligne) */
+  @media (min-width: 881px) and (max-width: 1100px){ nav ul{ gap: 10px 14px; } nav a{ font-size: 0.8rem; letter-spacing: 0.5px; } }
   /* ---- Questions fréquentes et bouton « Une question ? » ---- */
   .faq{ max-width: 820px; margin: 0 auto; display: grid; gap: 12px; }
   .faq-item{ border: 1px solid var(--border); border-radius: 16px; background: linear-gradient(165deg, rgba(255,255,255,0.05), transparent 60%), var(--bg-alt); overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s; }
