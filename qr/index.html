@@ -217,16 +217,14 @@
       <div class="gros" id="maintenant-quoi"></div>
       <div class="detail" id="maintenant-detail"></div>
       <div class="ensuite" id="ensuite" hidden></div>
-      <div class="ton-groupe" id="ton-groupe" hidden></div>
     </div>
-    <div class="groupes" id="groupes" role="group" aria-label="Ton groupe"><span>Ton groupe :</span></div>
     <div class="plan">
       <svg id="plan-svg" viewBox="120 30 890 785" role="img" aria-label="Plan de la Halle : les espaces allumés sont ceux où il se passe quelque chose en ce moment">
         <image href="../plan-halle.png" x="0" y="0" width="1169" height="826"/>
         <g id="zones"></g>
         <g id="etiquettes"></g>
       </svg>
-      <div class="legende-plan"><span><i></i>En ce moment</span><span><i class="g"></i>Ton groupe</span><span>Touche une activité du programme pour la voir sur le plan.</span></div>
+      <div class="legende-plan"><span><i></i>En ce moment</span><span>Touche une activité du programme pour la voir sur le plan.</span></div>
     </div>
     <ol class="programme" id="programme"></ol>
   </section>
@@ -379,32 +377,37 @@
   // ---------------------------------------------------------------------------
   const PROGRAMME = {
     mardi: [
-      { h: '10:00', titre: 'Accueil', detail: 'Pointage, bracelets PEGI, dépôt des affaires, règles.', lieux: ['accueil', 'depot'] },
-      { h: '10:15', titre: 'Mot du Maire', detail: 'Sur la scène.', lieux: ['scene'] },
-      { h: '10:25', titre: 'Départ au cinéma', detail: 'Groupes A, B et C.', lieux: ['cinema'] },
-      { h: '10:30', titre: 'Sélections Mario Kart', detail: 'Groupes D et E.', lieux: ['mario1', 'mario2'] },
-      { h: '11:00', fin: '12:40', titre: 'Cinéma : Super Mario Galaxy', detail: 'Groupes A, B et C, au niveau −1.', lieux: ['cinema'] },
-      { h: '12:30', titre: 'Pique-nique, 1er service', detail: 'Les qualifiés partent au cinéma.', lieux: ['repas'] },
-      { h: '12:40', fin: '13:30', titre: 'Finale Mario Kart sur grand écran', detail: 'Au cinéma, sur Switch.', lieux: ['cinema'] },
-      { h: '13:30', titre: 'Pique-nique, 2e service', detail: 'Pour les groupes A, B et C. Les groupes D et E jouent.', lieux: ['repas'] },
-      { h: '14:15', titre: 'Rotation 1', detail: 'Chaque groupe dans son espace : choisis ton groupe pour voir le tien.', lieux: [] },
-      { h: '15:10', titre: 'Rotation 2', detail: 'Chaque groupe change d’espace.', lieux: [] },
-      { h: '15:40', titre: 'Goûter et Kahoot géant', detail: 'En bord de scène.', lieux: ['scene'] },
-      { h: '16:00', titre: 'Départs', detail: 'Jeunes du SAJ : jeu libre jusqu’à 17h.', lieux: ['accueil'] },
+      { h: '10:00', fin: '10:15', titre: 'Accueil', detail: 'Pointage, bracelets PEGI, dépôt des affaires, règles.', lieux: ['accueil', 'depot'] },
+      { h: '10:15', fin: '10:30', titre: 'Mot du Maire', detail: 'Sur la scène.', lieux: ['scene'] },
+      { h: '10:30', fin: '15:30', titre: 'Espace Fortnite', detail: 'Tournois à 10h30 et à 15h. L’espace reste ouvert en continu.', lieux: ['pegi16'] },
+      { h: '11:00', fin: '11:45', titre: 'Finales Mario Kart', detail: 'Les 16 finalistes, sur grand écran au cinéma (niveau −1).', lieux: ['cinema'] },
+      { h: '11:00', fin: '12:30', titre: 'Tournoi FIFA', detail: 'Sur grand écran, en haut de la Halle.', lieux: ['fifa'] },
+      { h: '11:00', fin: '12:30', titre: 'Tournoi Smash Bros', detail: 'Premier tournoi, sur TV.', lieux: ['smash'] },
+      { h: '11:45', fin: '13:25', titre: 'Film : Super Mario Galaxy', detail: 'Pour les 16 finalistes, au cinéma.', lieux: ['cinema'] },
+      { h: '12:30', fin: '13:30', titre: 'Pique-nique, 1er service', detail: '', lieux: ['repas'] },
+      { h: '13:30', fin: '14:00', titre: 'Pique-nique, 2e service', detail: 'Avec les finalistes, après le film.', lieux: ['repas'] },
+      { h: '14:00', fin: '15:00', titre: 'Tournoi découverte Mario Kart', detail: 'Pour tous, dans la Halle.', lieux: ['mario1', 'mario2'] },
+      { h: '14:00', fin: '15:00', titre: 'Finale FIFA', detail: 'Sur la scène.', lieux: ['scene'] },
+      { h: '14:00', fin: '15:40', titre: 'Tournoi Smash Bros', detail: 'Deuxième tournoi, sur TV.', lieux: ['smash'] },
+      { h: '15:40', fin: '16:00', titre: 'Goûter et Kahoot géant', detail: 'En bord de scène.', lieux: ['scene'] },
+      { h: '16:00', fin: '17:00', titre: 'Départs', detail: 'Jeunes du SAJ : jeu libre jusqu’à 17h.', lieux: ['accueil'] },
       { h: '17:00', fin: '17:15', titre: 'Fin de la journée', detail: 'À demain !', lieux: [] },
     ],
     mercredi: [
-      { h: '10:00', titre: 'Accueil', detail: 'Bracelets PEGI, dépôt, règles, résultats de la finale de mardi.', lieux: ['accueil', 'depot'] },
-      { h: '10:25', titre: 'Départ au cinéma', detail: 'Groupes A, B et C.', lieux: ['cinema'] },
-      { h: '10:30', titre: 'Sélections Mario Kart', detail: 'Groupes D, E et F.', lieux: ['mario1', 'mario2'] },
-      { h: '11:00', fin: '12:40', titre: 'Cinéma : Super Mario Galaxy', detail: 'Groupes A, B et C, au niveau −1.', lieux: ['cinema'] },
-      { h: '12:30', titre: 'Pique-nique, 1er service', detail: '', lieux: ['repas'] },
-      { h: '12:40', fin: '13:30', titre: 'Finale Mario Kart sur grand écran', detail: 'Au cinéma, sur Switch.', lieux: ['cinema'] },
-      { h: '13:30', titre: 'Pique-nique, 2e service', detail: 'Pour les groupes A, B et C.', lieux: ['repas'] },
-      { h: '14:15', titre: 'Rotation', detail: 'Chaque groupe dans son espace : choisis ton groupe pour voir le tien.', lieux: [] },
-      { h: '15:05', titre: 'Finales des tournois découverte', detail: 'Sur la scène, tout le monde en tribune.', lieux: ['scene'] },
-      { h: '15:40', titre: 'Goûter, remise des prix et clôture', detail: 'En bord de scène.', lieux: ['scene'] },
-      { h: '16:00', titre: 'Départs', detail: 'Jeunes du SAJ : rangement et jeu libre jusqu’à 17h.', lieux: ['accueil'] },
+      { h: '10:00', fin: '10:30', titre: 'Accueil', detail: 'Bracelets PEGI, dépôt, règles, résultats de la finale de mardi.', lieux: ['accueil', 'depot'] },
+      { h: '10:30', fin: '15:30', titre: 'Espace Fortnite', detail: 'Tournois à 10h30 et à 15h. L’espace reste ouvert en continu.', lieux: ['pegi16'] },
+      { h: '11:00', fin: '11:45', titre: 'Finales Mario Kart', detail: 'Les 16 finalistes, sur grand écran au cinéma (niveau −1).', lieux: ['cinema'] },
+      { h: '11:00', fin: '12:30', titre: 'Tournoi FIFA', detail: 'Sur grand écran, en haut de la Halle.', lieux: ['fifa'] },
+      { h: '11:00', fin: '12:30', titre: 'Tournoi Smash Bros', detail: 'Premier tournoi, sur TV.', lieux: ['smash'] },
+      { h: '11:45', fin: '13:25', titre: 'Film : Super Mario Galaxy', detail: 'Pour les 16 finalistes, au cinéma.', lieux: ['cinema'] },
+      { h: '12:30', fin: '13:30', titre: 'Pique-nique, 1er service', detail: '', lieux: ['repas'] },
+      { h: '13:30', fin: '14:00', titre: 'Pique-nique, 2e service', detail: 'Avec les finalistes, après le film.', lieux: ['repas'] },
+      { h: '14:00', fin: '15:00', titre: 'Tournoi découverte Mario Kart', detail: 'Pour tous, dans la Halle.', lieux: ['mario1', 'mario2'] },
+      { h: '14:00', fin: '15:00', titre: 'Finale FIFA', detail: 'Sur la scène.', lieux: ['scene'] },
+      { h: '14:00', fin: '15:40', titre: 'Tournoi Smash Bros', detail: 'Deuxième tournoi, sur TV.', lieux: ['smash'] },
+      { h: '15:05', fin: '15:40', titre: 'Finales des tournois découverte', detail: 'Sur la scène, tout le monde en tribune.', lieux: ['scene'] },
+      { h: '15:40', fin: '16:00', titre: 'Goûter, remise des prix et clôture', detail: 'En bord de scène.', lieux: ['scene'] },
+      { h: '16:00', fin: '17:00', titre: 'Départs', detail: 'Jeunes du SAJ : rangement et jeu libre jusqu’à 17h.', lieux: ['accueil'] },
       { h: '17:00', fin: '17:15', titre: 'Fin des activités de la journée', detail: 'Ce soir 20h30 : Ready Player One en 3D (sur inscription).', lieux: [] },
       { h: '20:30', fin: '22:50', titre: 'Soirée cinéma : Ready Player One', detail: 'En 3D, sur inscription, avec autorisation parentale.', lieux: ['cinema'] },
     ],
@@ -414,23 +417,6 @@
     PROGRAMME[jour].forEach((a, i, liste) => { a.f = a.fin || (liste[i + 1] ? liste[i + 1].h : '17:00'); });
   }
 
-  // Où est chaque groupe (rotations provisoires), et à quelle heure.
-  const CRENEAUX = {
-    mardi: [['10:30', '12:30'], ['13:30', '14:15'], ['14:15', '15:10'], ['15:10', '15:40']],
-    mercredi: [['10:30', '12:30'], ['13:30', '14:15'], ['14:15', '15:05']],
-  };
-  const ROTATIONS = {
-    A: ['Ciné', 'Repas', 'PC', 'Smash', 'Ciné', 'Repas', 'Scène'],
-    B: ['Ciné', 'Repas', 'Stands', 'Scène', 'Ciné', 'Repas', 'Mario Kart'],
-    C: ['Ciné', 'Repas', 'Mario Kart', 'Stands', 'Ciné', 'Repas', 'Rétro'],
-    D: ['Mario Kart', 'Scène', 'Smash', 'PC', 'Mario Kart', 'Scène', 'PC'],
-    E: ['PC', 'Stands', 'Scène', 'Mario Kart', 'PC', 'Stands', 'Smash'],
-    F: [null, null, null, null, 'Smash', 'Rétro', 'Stands'],
-  };
-  const GROUPES_DU_JOUR = { mardi: ['A', 'B', 'C', 'D', 'E'], mercredi: ['A', 'B', 'C', 'D', 'E', 'F'] };
-  const NOM_LIEU = { 'Ciné': 'au cinéma (niveau −1)', 'Repas': "à l'espace repas", 'PC': 'aux PC (LAN)', 'Smash': 'à Smash Bros', 'Scène': 'à la scène (Just Dance)', 'Mario Kart': 'à Mario Kart', 'Stands': 'aux stands des structures', 'Rétro': 'au rétrogaming de Mios' };
-  const LIEUX_ROTATION = { 'Ciné': ['cinema'], 'Repas': ['repas'], 'PC': ['pc'], 'Smash': ['smash'], 'Scène': ['scene'], 'Mario Kart': ['mario1', 'mario2'], 'Stands': ['leognan', 'stand2', 'stand3'], 'Rétro': ['stand3'] };
-
   // Les espaces, aux mêmes coordonnées que le plan du site (repère 1169 × 826).
   const ZONES = {
     fifa: { r: [190, 58, 155, 90], c: '#0f8a8a', nom: 'FIFA' },
@@ -438,7 +424,7 @@
     brawl: { r: [470, 58, 88, 90], c: '#c98a12', nom: 'Brawl Stars' },
     scene: { r: [612, 58, 190, 90], c: '#e0338a', nom: 'Scène' },
     smash: { r: [808, 58, 85, 90], c: '#2b7fd2', nom: 'Smash' },
-    pegi16: { r: [190, 168, 112, 236], c: '#9b1c3a', nom: 'PEGI 16' },
+    pegi16: { r: [190, 168, 112, 236], c: '#9b1c3a', nom: 'Fortnite' },
     mario2: { r: [318, 186, 102, 108], c: '#d2452b', nom: 'Mario Kart 2' },
     leognan: { r: [495, 186, 66, 108], c: '#c98a12', nom: 'Léognan' },
     stand2: { r: [566, 186, 66, 108], c: '#2b7fd2', nom: { mardi: 'Jeux coop', mercredi: 'ABCS' } },
@@ -454,7 +440,6 @@
   // Le plan en direct
   // ---------------------------------------------------------------------------
   let jourChoisi = null;
-  let groupe = (() => { try { return localStorage.getItem('2k27-groupe') || ''; } catch (e) { return ''; } })();
   let activiteChoisie = null;
 
   function activitesEnCours(jour, d) {
@@ -463,21 +448,6 @@
   function prochaine(jour, d) {
     return PROGRAMME[jour].find((a) => aLHeure(jour, a.h) > d) || null;
   }
-  function creneauDuGroupe(jour, d) {
-    const debutIndex = jour === 'mardi' ? 0 : 4;
-    const i = CRENEAUX[jour].findIndex(([a, b]) => aLHeure(jour, a) <= d && d < aLHeure(jour, b));
-    if (i < 0 || !groupe || !ROTATIONS[groupe]) return null;
-    const lieu = ROTATIONS[groupe][debutIndex + i];
-    return lieu ? { lieu, fin: CRENEAUX[jour][i][1] } : null;
-  }
-  function prochainCreneau(jour, d) {
-    const debutIndex = jour === 'mardi' ? 0 : 4;
-    const i = CRENEAUX[jour].findIndex(([a]) => aLHeure(jour, a) > d);
-    if (i < 0 || !groupe || !ROTATIONS[groupe]) return null;
-    const lieu = ROTATIONS[groupe][debutIndex + i];
-    return lieu ? { lieu, debut: CRENEAUX[jour][i][0] } : null;
-  }
-
   function dessinerPlan(allumees, duGroupe, jour) {
     const zones = $('#zones'), etiquettes = $('#etiquettes');
     zones.textContent = '';
@@ -514,30 +484,11 @@
     const jour = jourChoisi;
     document.querySelectorAll('.onglets button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.jour === jour)));
 
-    // Les groupes du jour
-    const boite = $('#groupes');
-    boite.querySelectorAll('button').forEach((b) => b.remove());
-    for (const g of ['A', 'B', 'C', 'D', 'E', 'F']) {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.textContent = g;
-      b.disabled = !GROUPES_DU_JOUR[jour].includes(g);
-      b.setAttribute('aria-pressed', String(groupe === g));
-      b.setAttribute('aria-label', 'Groupe ' + g);
-      b.addEventListener('click', () => {
-        groupe = groupe === g ? '' : g;
-        try { localStorage.setItem('2k27-groupe', groupe); } catch (e) { /* rien */ }
-        afficherPlan();
-      });
-      boite.append(b);
-    }
-
     // En ce moment / ensuite
     const enDirect = aujourdHui === jour;
-    let allumees = [], duGroupe = [];
-    const quoi = $('#maintenant-quoi'), detail = $('#maintenant-detail'), ensuite = $('#ensuite'), tonGroupe = $('#ton-groupe');
+    let allumees = [];
+    const quoi = $('#maintenant-quoi'), detail = $('#maintenant-detail'), ensuite = $('#ensuite');
     ensuite.hidden = true;
-    tonGroupe.hidden = true;
     if (enDirect) {
       const encours = activitesEnCours(jour, d);
       const suivante = prochaine(jour, d);
@@ -560,18 +511,6 @@
         b.textContent = 'Ensuite, à ' + suivante.h.replace(':', 'h') + ' (dans ' + dans(aLHeure(jour, suivante.h) - d) + ') : ';
         ensuite.append(b, suivante.titre);
       }
-      const g = creneauDuGroupe(jour, d);
-      if (g) {
-        tonGroupe.hidden = false;
-        tonGroupe.textContent = '👉 Groupe ' + groupe + ' : tu es ' + NOM_LIEU[g.lieu] + " jusqu'à " + g.fin.replace(':', 'h') + '.';
-        duGroupe = LIEUX_ROTATION[g.lieu] || [];
-      } else if (groupe) {
-        const p = prochainCreneau(jour, d);
-        if (p) {
-          tonGroupe.hidden = false;
-          tonGroupe.textContent = '👉 Groupe ' + groupe + ' : à ' + p.debut.replace(':', 'h') + ', tu iras ' + NOM_LIEU[p.lieu] + '.';
-        }
-      }
     } else {
       const debut = aLHeure(jour, PROGRAMME[jour][0].h);
       $('#maintenant-titre').textContent = d < debut ? 'BIENTÔT' : 'C’EST PASSÉ';
@@ -579,7 +518,7 @@
       detail.textContent = d < debut ? 'Plus que ' + dans(debut - d) + '. Le plan s’allumera en direct pendant la journée.' : 'Merci à tous ! Le programme reste affiché ci-dessous.';
     }
     if (activiteChoisie && activiteChoisie.jour === jour) allumees = activiteChoisie.lieux;
-    dessinerPlan(allumees, duGroupe, jour);
+    dessinerPlan(allumees, [], jour);
 
     // Le programme du jour
     const liste = $('#programme');
