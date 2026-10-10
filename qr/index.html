@@ -359,7 +359,7 @@
   <section class="ecran" id="ecran-equipe" hidden>
     <a class="retour" href="#">‹ Retour</a>
     <h2>🔒 Mode équipe</h2>
-    <p class="sous">Réservé aux animateurs. <b>À l'accueil</b> : scanne la puce du jeune, tape l'âge qu'il t'a dit (vérifié avec la liste) : la couleur de bande à lui donner s'affiche. <b>Ensuite, partout</b> : scanne sa puce pour revoir la couleur et la comparer à la bande qu'il porte.</p>
+    <p class="sous">Réservé aux animateurs. <b>À l'accueil</b> : scanne la puce du jeune, tape l'âge qu'il t'a dit (vérifié avec l'animateur de son groupe) : la couleur de bande à lui donner s'affiche. <b>Ensuite, partout</b> : scanne sa puce pour revoir la couleur et la comparer à la bande qu'il porte.</p>
     <div class="carte">
       <p class="equipe-etat" id="equipe-etat"></p>
       <form id="form-equipe" autocomplete="off">
@@ -912,7 +912,7 @@
     } else if (etat === 'saisie') {
       etiq.textContent = d && d.correction ? 'CORRIGER L\u2019ÂGE' : 'BRACELET PAS ENCORE ENREGISTRÉ';
       gros.textContent = '?'; coul.textContent = ''; regle.textContent = '';
-      conseil.textContent = 'Demande son âge au jeune, vérifie-le avec la liste, puis tape-le ici.';
+      conseil.textContent = 'Demande son âge au jeune, vérifie-le avec l\u2019animateur de son groupe, puis tape-le ici.';
       $('#bande-age-saisie').value = '';
       $('#bande-nom-saisie').value = d && d.correction && braceletEnCours && braceletEnCours.n ? braceletEnCours.n : '';
       setTimeout(() => $('#bande-age-saisie').focus(), 50);
