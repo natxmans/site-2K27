@@ -187,6 +187,9 @@
   #carte-bande .bande-id { margin: 14px 0 0; font-family: 'Orbitron', sans-serif; letter-spacing: .12em; font-size: 13px; opacity: .7; }
   #carte-bande .bande-boutons { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
   #carte-bande .bouton-plein { background: #fff; color: #0b0a1f !important; border-color: #fff !important; }
+  #carte-bande .bande-nom { margin: 10px 0 0; max-width: 92vw; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: clamp(24px, 8vw, 40px); line-height: 1.15; word-break: break-word; }
+  #carte-bande input[type=text] { width: min(300px, 92%); text-align: center; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 24px; padding: 10px; border-radius: 14px; border: 3px solid currentColor; background: rgba(255, 255, 255, .12); color: inherit; }
+  #carte-bande .note-nom { margin: 0; font-size: 14px; font-weight: 600; opacity: .8; }
   .equipe-etat { font-weight: 700; margin: 6px 0 14px; }
   .equipe-etat.actif { color: var(--vert); }
 </style>
@@ -382,10 +385,14 @@
     <div class="etiq" id="bande-etiq">BANDE DU JEUNE</div>
     <div class="gros" id="bande-age"></div>
     <div class="couleur" id="bande-couleur"></div>
+    <div class="bande-nom" id="bande-nom" hidden></div>
     <p class="regle" id="bande-regle"></p>
     <form id="bande-form" hidden autocomplete="off">
       <label for="bande-age-saisie">Quel âge a le jeune ?</label>
       <input type="number" id="bande-age-saisie" min="3" max="60" inputmode="numeric" pattern="[0-9]*" autocomplete="off">
+      <label for="bande-nom-saisie">Pseudo ou prénom (facultatif)</label>
+      <input type="text" id="bande-nom-saisie" maxlength="20" autocomplete="off" autocapitalize="words" placeholder="ex. Zorro42 ou Léo">
+      <p class="note-nom">Jamais de nom de famille. Sert à mettre le jeune sur un PC.</p>
       <p class="erreur-bande" id="bande-erreur" role="alert"></p>
       <button class="bouton-plein" type="submit" id="bande-enregistrer">Enregistrer</button>
     </form>
@@ -393,6 +400,7 @@
     <p class="bande-id" id="bande-id"></p>
     <div class="bande-boutons">
       <button type="button" id="bande-reessayer" hidden>Réessayer</button>
+      <button type="button" id="bande-copier" hidden>Copier le pseudo</button>
       <button type="button" id="bande-corriger" hidden>Corriger l'âge</button>
       <button type="button" id="bande-fermer">Fermer</button>
     </div>
@@ -896,6 +904,8 @@
     $('#bande-corriger').hidden = !(etat === 'categorie' && braceletEnCours && braceletEnCours.id && braceletEnCours.t && Date.now() - braceletEnCours.t < FENETRE_CORRECTION);
     $('#bande-id').textContent = braceletEnCours && braceletEnCours.id ? 'BRACELET ' + braceletEnCours.id : '';
     $('#bande-erreur').textContent = '';
+    $('#bande-nom').hidden = true;
+    $('#bande-copier').hidden = true;
     const etiq = $('#bande-etiq'), gros = $('#bande-age'), coul = $('#bande-couleur'), regle = $('#bande-regle'), conseil = $('#bande-conseil');
     if (etat === 'chargement') {
       etiq.textContent = 'LECTURE DU BRACELET…'; gros.textContent = '…'; coul.textContent = ''; regle.textContent = ''; conseil.textContent = '';
@@ -904,6 +914,7 @@
       gros.textContent = '?'; coul.textContent = ''; regle.textContent = '';
       conseil.textContent = 'Demande son âge au jeune, vérifie-le avec la liste, puis tape-le ici.';
       $('#bande-age-saisie').value = '';
+      $('#bande-nom-saisie').value = d && d.correction && braceletEnCours && braceletEnCours.n ? braceletEnCours.n : '';
       setTimeout(() => $('#bande-age-saisie').focus(), 50);
     } else if (etat === 'erreur') {
       etiq.textContent = 'OUPS'; gros.textContent = '!'; coul.textContent = ''; regle.textContent = d.message; conseil.textContent = '';
@@ -912,6 +923,7 @@
       etiq.textContent = d.neuf ? 'ENREGISTRÉ ✔  DONNE-LUI CETTE BANDE' : 'BANDE DU JEUNE';
       gros.textContent = b.age; coul.textContent = 'BANDE ' + b.nom; regle.textContent = b.regle;
       conseil.textContent = d.neuf ? 'Puis donne-lui la puce.' : 'Vérifie que la bande au poignet est de cette couleur.';
+      if (d.n) { $('#bande-nom').textContent = d.n; $('#bande-nom').hidden = false; $('#bande-copier').hidden = false; }
     }
   }
   async function ouvrirBracelet(id) {
@@ -923,7 +935,7 @@
     try {
       const d = await appelBracelet(id, 'GET');
       if (n !== carteNumero) return;
-      if (d && BANDES[d.c]) { braceletEnCours = { id, c: d.c, t: d.t }; carteEtat('categorie', braceletEnCours); }
+      if (d && BANDES[d.c]) { braceletEnCours = { id, c: d.c, t: d.t, n: d.n }; carteEtat('categorie', braceletEnCours); }
       else carteEtat('saisie');
     } catch (e) {
       if (n === carteNumero) carteEtat('erreur', { message: 'Pas de réponse de la base (' + e.message + '). Vérifie le réseau, puis réessaie.' });
@@ -941,8 +953,11 @@
     err.textContent = '';
     try {
       const c = categorieDepuisAge(age);
-      const d = await appelBracelet(id, 'PUT', { c, t: { '.sv': 'timestamp' } });
-      braceletEnCours = { id, c, t: d && d.t ? d.t : Date.now(), neuf: true };
+      const nom = $('#bande-nom-saisie').value.trim().slice(0, 20);
+      const corps = { c, t: { '.sv': 'timestamp' } };
+      if (nom) corps.n = nom;
+      const d = await appelBracelet(id, 'PUT', corps);
+      braceletEnCours = { id, c, t: d && d.t ? d.t : Date.now(), n: nom || undefined, neuf: true };
       carteEtat('categorie', braceletEnCours);
     } catch (e) {
       err.textContent = e.statut === 401 || e.statut === 403
@@ -953,6 +968,15 @@
   });
   $('#bande-corriger').addEventListener('click', () => carteEtat('saisie', { correction: true }));
   $('#bande-reessayer').addEventListener('click', () => { if (braceletEnCours && braceletEnCours.id) ouvrirBracelet(braceletEnCours.id); });
+  $('#bande-copier').addEventListener('click', async () => {
+    const nom = braceletEnCours && braceletEnCours.n;
+    if (!nom) return;
+    try {
+      await navigator.clipboard.writeText(nom);
+      $('#bande-copier').textContent = 'Copié ✔';
+      setTimeout(() => { $('#bande-copier').textContent = 'Copier le pseudo'; }, 1500);
+    } catch (e) { window.prompt('Copie le pseudo :', nom); }
+  });
 
   function majCarteBande() {
     const carte = $('#carte-bande');
