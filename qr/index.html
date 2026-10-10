@@ -177,6 +177,16 @@
   #carte-bande .regle { margin: 14px 0 0; max-width: 22em; font-weight: 700; font-size: 20px; line-height: 1.3; }
   #carte-bande .conseil { margin: 10px 0 0; max-width: 24em; font-weight: 600; font-size: 16px; opacity: .8; }
   #carte-bande button { margin-top: 22px; border: 3px solid #0b0a1f; border-radius: 16px; background: transparent; color: #0b0a1f; padding: 12px 26px; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 15px; cursor: pointer; }
+  #carte-bande.sombre { color: #fff; }
+  #carte-bande.sombre button { border-color: #fff; color: #fff; }
+  #carte-bande form { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 18px; width: min(340px, 100%); }
+  #carte-bande label { font-weight: 700; font-size: 19px; }
+  #carte-bande input[type=number] { width: 150px; text-align: center; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 36px; padding: 10px; border-radius: 14px; border: 3px solid currentColor; background: rgba(255, 255, 255, .12); color: inherit; }
+  #carte-bande .erreur-bande { min-height: 22px; margin: 0; font-weight: 700; font-size: 16px; }
+  #carte-bande.sombre .erreur-bande { color: #ff8ab8; }
+  #carte-bande .bande-id { margin: 14px 0 0; font-family: 'Orbitron', sans-serif; letter-spacing: .12em; font-size: 13px; opacity: .7; }
+  #carte-bande .bande-boutons { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  #carte-bande .bouton-plein { background: #fff; color: #0b0a1f !important; border-color: #fff !important; }
   .equipe-etat { font-weight: 700; margin: 6px 0 14px; }
   .equipe-etat.actif { color: var(--vert); }
 </style>
@@ -346,7 +356,7 @@
   <section class="ecran" id="ecran-equipe" hidden>
     <a class="retour" href="#">‹ Retour</a>
     <h2>🔒 Mode équipe</h2>
-    <p class="sous">Réservé aux animateurs : une fois activé sur ton téléphone, scanner la puce d'un bracelet affiche la couleur de sa bande (3+, 7+, 12+ ou 16+) en très grand.</p>
+    <p class="sous">Réservé aux animateurs. <b>À l'accueil</b> : scanne la puce du jeune, tape l'âge qu'il t'a dit (vérifié avec la liste) : la couleur de bande à lui donner s'affiche. <b>Ensuite, partout</b> : scanne sa puce pour revoir la couleur et la comparer à la bande qu'il porte.</p>
     <div class="carte">
       <p class="equipe-etat" id="equipe-etat"></p>
       <form id="form-equipe" autocomplete="off">
@@ -356,17 +366,36 @@
       </form>
       <button class="bouton" type="button" id="equipe-quitter" hidden>Désactiver sur ce téléphone</button>
     </div>
+    <div class="carte" id="equipe-numero-carte" hidden>
+      <p class="sous" style="margin-top:0">Le QR code d'une puce ne se scanne pas ? Tape son numéro (6 caractères, écrits sous le QR code).</p>
+      <form id="form-numero" autocomplete="off">
+        <input class="champ" id="equipe-numero" maxlength="6" placeholder="ABC234" autocapitalize="characters" autocomplete="off" aria-label="Numéro du bracelet">
+        <p class="erreur" id="equipe-numero-erreur" role="alert"></p>
+        <button class="bouton" type="submit">Ouvrir ce bracelet</button>
+      </form>
+    </div>
     <p class="sous">La couleur de la bande doit être la même que celle affichée. Sinon, le jeune a peut-être changé de bande : demande-lui sa catégorie à l'accueil.</p>
   </section>
 
-  <!-- Grand écran de couleur (mode équipe, après un scan de puce) -->
-  <div id="carte-bande" hidden role="dialog" aria-modal="true" aria-label="Bande du jeune">
-    <div class="etiq">BANDE DU JEUNE</div>
+  <!-- Grand écran du bracelet (mode équipe, après un scan de puce) -->
+  <div id="carte-bande" hidden role="dialog" aria-modal="true" aria-label="Bracelet">
+    <div class="etiq" id="bande-etiq">BANDE DU JEUNE</div>
     <div class="gros" id="bande-age"></div>
     <div class="couleur" id="bande-couleur"></div>
     <p class="regle" id="bande-regle"></p>
-    <p class="conseil">Vérifie que la bande au poignet est de cette couleur.</p>
-    <button type="button" id="bande-fermer">Fermer</button>
+    <form id="bande-form" hidden autocomplete="off">
+      <label for="bande-age-saisie">Quel âge a le jeune ?</label>
+      <input type="number" id="bande-age-saisie" min="3" max="60" inputmode="numeric" pattern="[0-9]*" autocomplete="off">
+      <p class="erreur-bande" id="bande-erreur" role="alert"></p>
+      <button class="bouton-plein" type="submit" id="bande-enregistrer">Enregistrer</button>
+    </form>
+    <p class="conseil" id="bande-conseil"></p>
+    <p class="bande-id" id="bande-id"></p>
+    <div class="bande-boutons">
+      <button type="button" id="bande-reessayer" hidden>Réessayer</button>
+      <button type="button" id="bande-corriger" hidden>Corriger l'âge</button>
+      <button type="button" id="bande-fermer">Fermer</button>
+    </div>
   </div>
 
   <footer>
@@ -785,9 +814,9 @@
 
 
   // ---------------------------------------------------------------------------
-  // Mode équipe : les puces se terminent par #v, #j, #o ou #r (couleur de la bande)
+  // Mode équipe : chaque puce a un numéro (#ABC234) ; l'âge est enregistré à l'accueil sous ce numéro, sans aucun nom
   // ---------------------------------------------------------------------------
-  // Ce code n'est qu'un petit filtre : ce qu'il montre (la catégorie d'âge) est déjà visible sur la bande.
+  // Ce code n'est qu'un petit filtre (il est lisible dans cette page) : ce qui est enregistré n'est que la catégorie d'âge, déjà visible sur la bande.
   const CODE_EQUIPE = 'STAFF27';
   const CLE_EQUIPE = '2k27-equipe';
   const BANDES = {
@@ -809,6 +838,8 @@
     etat.className = 'equipe-etat' + (actif ? ' actif' : '');
     $('#form-equipe').hidden = actif;
     $('#equipe-quitter').hidden = !actif;
+    $('#equipe-numero-carte').hidden = !actif;
+    $('#equipe-numero-erreur').textContent = '';
     $('#equipe-erreur').textContent = '';
     $('#equipe-code').value = '';
   }
@@ -818,19 +849,129 @@
     else { $('#equipe-erreur').textContent = 'Code incorrect.'; }
   });
   $('#equipe-quitter').addEventListener('click', () => { equipeReglerActive(false); afficherEquipe(); });
-  function majCarteBande() {
-    const m = location.hash.match(/^#([vjor])$/);
+  $('#form-numero').addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    const numero = $('#equipe-numero').value.trim().toUpperCase();
+    if (!/^[A-HJ-NP-Z2-9]{6}$/.test(numero)) { $('#equipe-numero-erreur').textContent = 'Numéro invalide : 6 caractères, sans O, I, 0 ni 1.'; return; }
+    $('#equipe-numero').value = '';
+    location.hash = '#' + numero;
+  });
+  const ID_BRACELET = /^#([A-HJ-NP-Z2-9]{6})$/;
+  const FENETRE_CORRECTION = 9 * 60 * 1000; // les règles de la base acceptent une correction pendant 10 minutes
+  const CHEMIN_BRACELETS = '/festival2k27_bracelets/';
+  let carteNumero = 0;        // pour ignorer une réponse arrivée après la fermeture de l'écran
+  let braceletEnCours = null; // { id, c, t }
+
+  // Un jeton par téléphone et par heure (et pas un par scan) : le wifi de la Halle partage une seule adresse.
+  async function jetonEquipe() {
+    try {
+      const m = JSON.parse(localStorage.getItem('2k27-jeton') || 'null');
+      if (m && m.t && m.exp > Date.now() + 5 * 60 * 1000) return m.t;
+    } catch (e) { /* rien */ }
+    const r = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + FIREBASE.cle, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ returnSecureToken: true }),
+    });
+    if (!r.ok) throw new Error('connexion ' + r.status);
+    const j = await r.json();
+    try { localStorage.setItem('2k27-jeton', JSON.stringify({ t: j.idToken, exp: Date.now() + (Number(j.expiresIn) || 3600) * 1000 })); } catch (e) { /* rien */ }
+    return j.idToken;
+  }
+  async function appelBracelet(id, methode, corps) {
+    const t = await jetonEquipe();
+    const r = await fetch(FIREBASE.base + CHEMIN_BRACELETS + id + '.json?auth=' + encodeURIComponent(t), {
+      method: methode, headers: { 'Content-Type': 'application/json' }, body: corps ? JSON.stringify(corps) : undefined,
+    });
+    if (!r.ok) { const e = new Error('base ' + r.status); e.statut = r.status; throw e; }
+    return r.json();
+  }
+  const categorieDepuisAge = (age) => (age >= 16 ? 'r' : age >= 12 ? 'o' : age >= 7 ? 'j' : 'v');
+
+  function carteEtat(etat, d) {
     const carte = $('#carte-bande');
-    if (!m || !equipeActive()) { carte.hidden = true; document.body.style.overflow = ''; return; }
-    const b = BANDES[m[1]];
-    carte.style.setProperty('--b', b.c);
-    $('#bande-age').textContent = b.age;
-    $('#bande-couleur').textContent = 'BANDE ' + b.nom;
-    $('#bande-regle').textContent = b.regle;
-    carte.hidden = false;
+    const sombre = etat !== 'categorie';
+    carte.classList.toggle('sombre', sombre);
+    carte.style.setProperty('--b', sombre ? '#1b1840' : BANDES[d.c].c);
+    $('#bande-form').hidden = etat !== 'saisie';
+    $('#bande-reessayer').hidden = etat !== 'erreur';
+    $('#bande-corriger').hidden = !(etat === 'categorie' && braceletEnCours && braceletEnCours.id && braceletEnCours.t && Date.now() - braceletEnCours.t < FENETRE_CORRECTION);
+    $('#bande-id').textContent = braceletEnCours && braceletEnCours.id ? 'BRACELET ' + braceletEnCours.id : '';
+    $('#bande-erreur').textContent = '';
+    const etiq = $('#bande-etiq'), gros = $('#bande-age'), coul = $('#bande-couleur'), regle = $('#bande-regle'), conseil = $('#bande-conseil');
+    if (etat === 'chargement') {
+      etiq.textContent = 'LECTURE DU BRACELET…'; gros.textContent = '…'; coul.textContent = ''; regle.textContent = ''; conseil.textContent = '';
+    } else if (etat === 'saisie') {
+      etiq.textContent = d && d.correction ? 'CORRIGER L\u2019ÂGE' : 'BRACELET PAS ENCORE ENREGISTRÉ';
+      gros.textContent = '?'; coul.textContent = ''; regle.textContent = '';
+      conseil.textContent = 'Demande son âge au jeune, vérifie-le avec la liste, puis tape-le ici.';
+      $('#bande-age-saisie').value = '';
+      setTimeout(() => $('#bande-age-saisie').focus(), 50);
+    } else if (etat === 'erreur') {
+      etiq.textContent = 'OUPS'; gros.textContent = '!'; coul.textContent = ''; regle.textContent = d.message; conseil.textContent = '';
+    } else {
+      const b = BANDES[d.c];
+      etiq.textContent = d.neuf ? 'ENREGISTRÉ ✔  DONNE-LUI CETTE BANDE' : 'BANDE DU JEUNE';
+      gros.textContent = b.age; coul.textContent = 'BANDE ' + b.nom; regle.textContent = b.regle;
+      conseil.textContent = d.neuf ? 'Puis donne-lui la puce.' : 'Vérifie que la bande au poignet est de cette couleur.';
+    }
+  }
+  async function ouvrirBracelet(id) {
+    const n = ++carteNumero;
+    braceletEnCours = { id };
+    $('#carte-bande').hidden = false;
     document.body.style.overflow = 'hidden';
+    carteEtat('chargement');
+    try {
+      const d = await appelBracelet(id, 'GET');
+      if (n !== carteNumero) return;
+      if (d && BANDES[d.c]) { braceletEnCours = { id, c: d.c, t: d.t }; carteEtat('categorie', braceletEnCours); }
+      else carteEtat('saisie');
+    } catch (e) {
+      if (n === carteNumero) carteEtat('erreur', { message: 'Pas de réponse de la base (' + e.message + '). Vérifie le réseau, puis réessaie.' });
+    }
+  }
+  $('#bande-form').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const age = parseInt($('#bande-age-saisie').value, 10);
+    const err = $('#bande-erreur');
+    if (!(age >= 3 && age <= 60)) { err.textContent = 'Tape un âge entre 3 et 60.'; return; }
+    const id = braceletEnCours && braceletEnCours.id;
+    if (!id) return;
+    const bouton = $('#bande-enregistrer');
+    bouton.disabled = true;
+    err.textContent = '';
+    try {
+      const c = categorieDepuisAge(age);
+      const d = await appelBracelet(id, 'PUT', { c, t: { '.sv': 'timestamp' } });
+      braceletEnCours = { id, c, t: d && d.t ? d.t : Date.now(), neuf: true };
+      carteEtat('categorie', braceletEnCours);
+    } catch (e) {
+      err.textContent = e.statut === 401 || e.statut === 403
+        ? 'Enregistrement refusé (déjà enregistré il y a plus de 10 minutes ? demande à Nathan).'
+        : 'Échec de l\u2019enregistrement (' + e.message + '). Réessaie.';
+    }
+    bouton.disabled = false;
+  });
+  $('#bande-corriger').addEventListener('click', () => carteEtat('saisie', { correction: true }));
+  $('#bande-reessayer').addEventListener('click', () => { if (braceletEnCours && braceletEnCours.id) ouvrirBracelet(braceletEnCours.id); });
+
+  function majCarteBande() {
+    const carte = $('#carte-bande');
+    const lettre = location.hash.match(/^#([vjor])$/);
+    const num = location.hash.match(ID_BRACELET);
+    if (!equipeActive() || (!lettre && !num)) { carteNumero++; carte.hidden = true; document.body.style.overflow = ''; return; }
+    if (lettre) { // anciennes puces par catégorie
+      carteNumero++;
+      braceletEnCours = null;
+      carteEtat('categorie', { c: lettre[1] });
+      carte.hidden = false;
+      document.body.style.overflow = 'hidden';
+      return;
+    }
+    if (!carte.hidden && braceletEnCours && braceletEnCours.id === num[1]) return;
+    ouvrirBracelet(num[1]);
   }
   $('#bande-fermer').addEventListener('click', () => {
+    carteNumero++;
     history.replaceState(null, '', location.pathname + location.search);
     router();
   });
