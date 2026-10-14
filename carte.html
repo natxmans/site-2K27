@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gaming Toussaint 2K27 · Ta carte</title>
+<meta name="description" content="Ta carte récompense Gaming Toussaint : ton diplôme, ton numéro VIP et le prochain festival.">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0a0a14">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://festival2k27-default-rtdb.europe-west1.firebasedatabase.app; object-src 'none'; base-uri 'self'; form-action 'none';">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230a0a14'/><rect x='2' y='2' width='60' height='60' rx='12' fill='none' stroke='%2322e8ff' stroke-width='3'/><text x='32' y='43' font-family='Arial,Helvetica,sans-serif' font-weight='900' font-size='24' fill='%2322e8ff' text-anchor='middle'>2K</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fond: #0a0a14;
+    --carte: #14142a;
+    --bord: #2a2a52;
+    --texte: #eef0ff;
+    --doux: #a3a6c8;
+    --cyan: #22e8ff;
+    --violet: #b026ff;
+    --rose: #ff2e88;
+    --orange: #ff8a1c;
+    --accent: #b026ff;
+    --degrade: linear-gradient(90deg, #22e8ff, #7b2cff 55%, #ff2bd6);
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; min-height: 100vh; background: var(--fond); color: var(--texte);
+    font-family: 'Rajdhani', system-ui, sans-serif; font-size: 18px; line-height: 1.4;
+    background-image:
+      radial-gradient(60% 40% at 10% 0%, rgba(34, 232, 255, .16), transparent 70%),
+      radial-gradient(50% 35% at 100% 5%, rgba(255, 46, 136, .14), transparent 70%),
+      radial-gradient(70% 40% at 50% 100%, rgba(176, 38, 255, .14), transparent 70%);
+    background-attachment: fixed;
+  }
+  h1, h2, h3, .orbitron { font-family: 'Orbitron', sans-serif; letter-spacing: .02em; }
+  a { color: var(--cyan); }
+  button, input { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--cyan); outline-offset: 2px; }
+  .page { max-width: 560px; margin: 0 auto; padding: max(16px, env(safe-area-inset-top)) 16px 40px; }
+
+  .haut { display: flex; align-items: center; gap: 12px; margin: 6px 0 18px; }
+  .haut svg { width: 54px; height: 54px; flex: none; filter: drop-shadow(0 0 10px rgba(123, 44, 255, .55)); }
+  .haut b { display: block; font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 19px; letter-spacing: .04em; }
+  .haut span { color: var(--doux); font-weight: 600; font-size: 15px; }
+
+  /* Le diplôme */
+  .succes { text-align: center; margin: 4px 0 10px; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 13px; letter-spacing: .28em; color: var(--accent); text-shadow: 0 0 14px color-mix(in srgb, var(--accent) 60%, transparent); animation: brille 2.4s ease-in-out infinite; }
+  @keyframes brille { 50% { opacity: .55; } }
+  .diplome {
+    position: relative; text-align: center; padding: 26px 18px 22px; border-radius: 24px; background: var(--carte);
+    border: 2px solid transparent; background-clip: padding-box; box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 70%, transparent), 0 18px 50px -18px var(--accent);
+  }
+  .diplome::before { content: ""; position: absolute; inset: 0; border-radius: 22px; pointer-events: none; background: radial-gradient(80% 60% at 50% 0%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%); }
+  .diplome > * { position: relative; }
+  .medaille { font-size: 46px; line-height: 1; margin-bottom: 6px; }
+  .diplome .statut { display: inline-block; padding: 3px 14px; border-radius: 999px; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 13px; letter-spacing: .14em; background: color-mix(in srgb, var(--accent) 22%, transparent); border: 1px solid var(--accent); color: var(--texte); }
+  .diplome h1 { margin: 12px 0 4px; font-size: 24px; line-height: 1.2; }
+  .decerne { color: var(--doux); font-weight: 600; margin: 0; }
+  .decerne b { color: var(--texte); font-family: 'Orbitron', sans-serif; font-size: 20px; display: block; margin-top: 2px; word-break: break-word; }
+  .message { margin: 14px 0 4px; font-weight: 600; }
+  .vip { margin: 16px auto 0; padding: 12px 14px; max-width: 360px; border-radius: 16px; background: rgba(0, 0, 0, .28); border: 1px dashed var(--accent); }
+  .vip small { display: block; color: var(--doux); font-weight: 700; letter-spacing: .14em; font-size: 12.5px; }
+  .vip .numero { display: block; margin: 2px 0; font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 30px; letter-spacing: .04em; background: var(--degrade); -webkit-background-clip: text; background-clip: text; color: transparent; word-break: break-all; }
+  .vip p { margin: 4px 0 0; color: var(--doux); font-weight: 600; font-size: 15.5px; }
+  .bouton { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 8px 16px; border-radius: 14px; border: 1px solid var(--bord); background: var(--carte); color: var(--texte); font-weight: 700; text-decoration: none; cursor: pointer; }
+  .bouton:active { transform: scale(.98); }
+  .bouton.plein { background: var(--degrade); border-color: transparent; color: #fff; box-shadow: 0 8px 22px -10px var(--violet); }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 14px; }
+
+  .bloc { background: var(--carte); border: 1px solid var(--bord); border-radius: 18px; padding: 14px 16px; margin-top: 14px; }
+  .bloc h2 { margin: 0 0 6px; font-size: 16px; color: var(--cyan); letter-spacing: .06em; }
+  .bloc p { margin: 0 0 8px; }
+  .bloc dl { margin: 6px 0 10px; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; }
+  .bloc dt { color: var(--doux); font-weight: 700; }
+  .bloc dd { margin: 0; font-weight: 600; }
+  .doux { color: var(--doux); font-weight: 600; font-size: 15.5px; }
+  label.champ { display: block; font-weight: 700; margin-bottom: 6px; }
+  .ligne-champ { display: flex; gap: 8px; }
+  input[type="text"] { flex: 1; min-width: 0; min-height: 44px; padding: 8px 12px; border-radius: 12px; border: 1px solid var(--bord); background: #0d0d1f; }
+  input[type="text"]::placeholder { color: #6b6e93; }
+  .erreur { margin: 8px 0 0; color: var(--rose); font-weight: 700; min-height: 1.2em; }
+  .vide { text-align: center; padding: 22px 16px; }
+  .vide .grosse { font-size: 48px; }
+  .pied { margin: 22px 4px 0; text-align: center; color: var(--doux); font-size: 14.5px; font-weight: 600; }
+
+  @media (prefers-reduced-motion: reduce) { .succes { animation: none; } }
+  @media print {
+    body { background: #fff; color: #000; }
+    .haut, .bloc, .actions, .pied, .succes { display: none !important; }
+    .diplome { box-shadow: none; border: 3px solid #000; background: #fff; color: #000; }
+    .diplome::before { display: none; }
+    .diplome .statut { border-color: #000; background: none; color: #000; }
+    .decerne, .vip small, .vip p { color: #333; }
+    .vip { background: none; border-color: #000; }
+    .vip .numero { background: none; color: #000; -webkit-text-fill-color: #000; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="haut">
+    <svg viewBox="0 0 100 100" role="img" aria-label="Logo 2K27">
+      <polygon points="50,6 88.11,28 88.11,72 50,94 11.89,72 11.89,28" fill="none" stroke="#22e8ff" stroke-width="6.5" stroke-linejoin="round"/>
+      <text x="50" y="55.5" text-anchor="middle" font-family="Orbitron, sans-serif" font-weight="800" font-size="21" fill="#eef0ff" letter-spacing="-0.5">2K27</text>
+      <rect x="31" y="62" width="38" height="3.4" rx="1.7" fill="#ff2e88"/>
+    </svg>
+    <div><b>GAMING TOUSSAINT</b><span>Ta carte récompense</span></div>
+  </header>
+
+  <main>
+    <!-- Carte reconnue -->
+    <section id="vue-carte" hidden>
+      <div class="succes">★ SUCCÈS DÉBLOQUÉ ★</div>
+      <article class="diplome" aria-label="Ton diplôme">
+        <div class="medaille" id="medaille" aria-hidden="true">🏆</div>
+        <span class="statut" id="statut">JOUEUR</span>
+        <h1 id="titre">Gaming Toussaint 2026</h1>
+        <p class="decerne">Décerné à<b id="decerne">toi</b></p>
+        <p class="message" id="message"></p>
+        <div class="vip">
+          <small>N° VIP</small>
+          <span class="numero" id="numero">GI27-XXXX</span>
+          <p id="vip-texte"></p>
+        </div>
+        <p class="doux" style="margin:12px 0 0">20 et 21 octobre 2026 · Halle du Centre Culturel, Cestas</p>
+      </article>
+      <div class="actions">
+        <button class="bouton plein" id="copier" type="button">Copier mon numéro</button>
+        <button class="bouton" id="imprimer" type="button">Imprimer mon diplôme</button>
+      </div>
+
+      <section class="bloc" aria-labelledby="h-fev">
+        <h2 id="h-fev">PROCHAIN RENDEZ-VOUS · FÉVRIER 2027</h2>
+        <p>Le festival revient en février 2027 : à toi de jouer !</p>
+        <dl>
+          <dt>Date</dt><dd>Février 2027, jour exact à venir</dd>
+          <dt>Lieu</dt><dd>Halle du Centre Culturel, Cestas</dd>
+          <dt>Jeux</dt><dd>Tournoi World of Padman et d'autres jeux à venir</dd>
+        </dl>
+        <a class="bouton" href="./">Voir le site du festival</a>
+      </section>
+
+      <section class="bloc" aria-labelledby="h-pseudo">
+        <h2 id="h-pseudo">TON NOM SUR LE DIPLÔME</h2>
+        <form id="form-pseudo" autocomplete="off">
+          <label class="champ" for="pseudo">Un prénom ou un pseudo (facultatif)</label>
+          <div class="ligne-champ">
+            <input id="pseudo" type="text" maxlength="20" placeholder="Ton pseudo" enterkeyhint="done">
+            <button class="bouton" type="submit">OK</button>
+          </div>
+        </form>
+        <p class="doux" style="margin-top:8px">Il reste sur ton téléphone : il n'est envoyé à personne, et ta carte ne contient aucun nom.</p>
+      </section>
+    </section>
+
+    <!-- Vérification en cours, ou impossible -->
+    <section id="vue-verif" hidden>
+      <div class="bloc vide">
+        <div class="grosse" id="verif-icone" aria-hidden="true">⏳</div>
+        <h2 id="verif-titre" style="font-size:20px;color:var(--texte)">Vérification de ta carte…</h2>
+        <p id="verif-texte" class="doux" role="status"></p>
+        <div class="actions">
+          <button class="bouton plein" id="reessayer" type="button" hidden>Réessayer</button>
+          <a class="bouton" href="./">Voir le site du festival</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pas de carte, ou carte non reconnue -->
+    <section id="vue-vide" hidden>
+      <div class="bloc vide">
+        <div class="grosse" aria-hidden="true">📲</div>
+        <h2 id="vide-titre" style="font-size:20px;color:var(--texte)">Pose ta carte contre ton téléphone</h2>
+        <p id="vide-texte" class="doux">Ta page s'ouvre toute seule. Sinon, tape le numéro écrit sur ta carte (il commence par GI27, AN27 ou OR27).</p>
+        <form id="form-numero" autocomplete="off" style="margin-top:12px">
+          <label class="champ" for="numero-saisi" style="text-align:left">Numéro de ta carte</label>
+          <div class="ligne-champ">
+            <input id="numero-saisi" type="text" maxlength="12" placeholder="GI27-XXXX" autocapitalize="characters" spellcheck="false" enterkeyhint="go">
+            <button class="bouton plein" type="submit">Voir</button>
+          </div>
+          <p class="erreur" id="erreur" role="alert"></p>
+        </form>
+        <a class="bouton" href="./">Voir le site du festival</a>
+      </div>
+    </section>
+  </main>
+
+  <p class="pied">Ton numéro est vérifié auprès du festival. Il n'est lié à aucun nom, et ton pseudo (s'il y en a un) reste sur ton téléphone.</p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (s) { return document.querySelector(s); };
+  var FORMAT = /^(GI27|AN27|OR27)-[A-Z0-9]{4}$/;
+  var TYPES = {
+    GI27: { statut: 'JOUEUR', couleur: '#b026ff', medaille: '🏆', titre: 'Gaming Toussaint 2026',
+            message: 'Tu as joué au premier Gaming Toussaint, les 20 et 21 octobre 2026 à Cestas. Bravo\u00a0!',
+            vip: 'Garde ce numéro : il te servira à t’inscrire en priorité aux prochains tournois.' },
+    AN27: { statut: 'ANIMATEUR', couleur: '#ff8a1c', medaille: '🎖️', titre: 'Équipe d’animation',
+            message: 'Merci d’avoir fait vivre le Gaming Toussaint 2026 : sans toi, pas de festival.',
+            vip: 'Ton numéro d’animateur pour le festival de février 2027.' },
+    OR27: { statut: 'JEUNE ORGANISATEUR', couleur: '#22e8ff', medaille: '⭐', titre: 'Jeune organisateur',
+            message: 'Merci d’avoir aidé à organiser le Gaming Toussaint 2026 : le festival est aussi le tien.',
+            vip: 'Ton numéro d’organisateur pour le festival de février 2027.' }
+  };
+  var code = '';
+
+  function normaliser(t) { return String(t || '').trim().toUpperCase().replace(/[^A-Z0-9-]/g, '').slice(0, 12); }
+  function lireCode() {
+    var p = ''; try { p = new URLSearchParams(location.search).get('c') || ''; } catch (e) { p = ''; }
+    return normaliser(p || location.hash.replace(/^#/, ''));
+  }
+  function cle(c) { return '2k27-carte-pseudo-' + c; }
+  function lirePseudo(c) { try { return localStorage.getItem(cle(c)) || ''; } catch (e) { return ''; } }
+  function ecrirePseudo(c, v) { try { if (v) localStorage.setItem(cle(c), v); else localStorage.removeItem(cle(c)); } catch (e) { /* rien */ } }
+
+  function majPseudo() {
+    var p = lirePseudo(code);
+    $('#decerne').textContent = p || 'toi';
+    $('#pseudo').value = p;
+  }
+  // ---- Vérification : le numéro doit exister dans la base du festival (la liste n'est pas lisible, seulement un numéro à la fois)
+  var DB = 'https://festival2k27-default-rtdb.europe-west1.firebasedatabase.app/festival2k27_cartes/';
+  var TYPE_BASE = { GI27: 'j', AN27: 'a', OR27: 'o' };
+  var courant = '';
+  function verifier(c) {
+    var ctrl = ('AbortController' in window) ? new AbortController() : null;
+    var delai = setTimeout(function () { if (ctrl) ctrl.abort(); }, 9000);
+    return fetch(DB + encodeURIComponent(c) + '.json', { cache: 'no-store', signal: ctrl ? ctrl.signal : undefined })
+      .then(function (r) {
+        clearTimeout(delai);
+        if (r.status === 401 || r.status === 403) return 'ferme';
+        if (!r.ok) return 'reseau';
+        return r.json().then(function (d) { return (d && d.t === TYPE_BASE[c.slice(0, 4)]) ? 'ok' : 'inconnu'; });
+      })
+      .catch(function () { clearTimeout(delai); return 'reseau'; });
+  }
+  function dejaVerifiee(c) { try { return localStorage.getItem('2k27-carte-ok-' + c) === '1'; } catch (e) { return false; } }
+  function noterVerifiee(c) { try { localStorage.setItem('2k27-carte-ok-' + c, '1'); } catch (e) { /* rien */ } }
+
+  function vues(nom) {
+    $('#vue-carte').hidden = nom !== 'carte';
+    $('#vue-verif').hidden = nom !== 'verif';
+    $('#vue-vide').hidden = nom !== 'vide';
+  }
+  function etatVerif(icone, titre, texte, reessayer) {
+    vues('verif');
+    $('#verif-icone').textContent = icone;
+    $('#verif-titre').textContent = titre;
+    $('#verif-texte').textContent = texte;
+    $('#reessayer').hidden = !reessayer;
+  }
+  function montrerCarte(c) {
+    var t = TYPES[c.slice(0, 4)];
+    code = c;
+    vues('carte');
+    document.documentElement.style.setProperty('--accent', t.couleur);
+    $('#medaille').textContent = t.medaille;
+    $('#statut').textContent = t.statut;
+    $('#titre').textContent = t.titre;
+    $('#message').textContent = t.message;
+    $('#numero').textContent = c;
+    $('#vip-texte').textContent = t.vip;
+    majPseudo();
+    document.title = 'Ta carte ' + c + ' · Gaming Toussaint 2K27';
+  }
+  function montrerVide(c, inconnu) {
+    vues('vide');
+    var essaye = c.length > 0;
+    $('#vide-titre').textContent = essaye ? 'Numéro non reconnu' : 'Pose ta carte contre ton téléphone';
+    $('#erreur').textContent = essaye ? (inconnu ? 'Ce numéro n' + String.fromCharCode(8217) + 'est pas dans la liste des cartes du festival. Vérifie les caractères écrits sur ta carte.' : 'Vérifie le numéro écrit sur ta carte : il ressemble à GI27-XXXX.') : '';
+    document.title = 'Gaming Toussaint 2K27 · Ta carte';
+  }
+  function afficher(c) {
+    courant = c;
+    if (!FORMAT.test(c)) { montrerVide(c, false); return; }
+    etatVerif('⏳', 'Vérification de ta carte…', 'Un instant.', false);
+    verifier(c).then(function (res) {
+      if (c !== courant) return; // une autre carte a été demandée entre-temps
+      if (res === 'ok') { noterVerifiee(c); montrerCarte(c); }
+      else if (res === 'inconnu') { montrerVide(c, true); }
+      else if (res === 'reseau' && dejaVerifiee(c)) { montrerCarte(c); }
+      else if (res === 'ferme') { etatVerif('🔒', 'Vérification fermée', 'Les cartes ne peuvent pas être vérifiées pour l' + String.fromCharCode(8217) + 'instant. Réessaie plus tard ou demande au SAJ.', true); }
+      else { etatVerif('📶', 'Pas de connexion', 'Impossible de vérifier ta carte. Vérifie ton réseau (wifi ou 4G), puis réessaie.', true); }
+    });
+  }
+  $('#reessayer').addEventListener('click', function () { afficher(courant); });
+
+  $('#form-numero').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var c = normaliser($('#numero-saisi').value);
+    if (FORMAT.test(c)) { try { history.replaceState(null, '', '?c=' + c); } catch (e) { /* rien */ } afficher(c); }
+    else { $('#erreur').textContent = 'Numéro non reconnu : il ressemble à GI27-XXXX.'; }
+  });
+  $('#form-pseudo').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    ecrirePseudo(code, $('#pseudo').value.trim().slice(0, 20));
+    majPseudo();
+  });
+  $('#imprimer').addEventListener('click', function () { window.print(); });
+  $('#copier').addEventListener('click', function () {
+    var b = $('#copier'), texte = code;
+    function ok() { b.textContent = 'Copié ✔'; setTimeout(function () { b.textContent = 'Copier mon numéro'; }, 1800); }
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(texte).then(ok, function () { b.textContent = texte; }); }
+    else { b.textContent = texte; }
+  });
+
+  afficher(lireCode());
+})();
+</script>
+</body>
+</html>
