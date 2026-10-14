@@ -831,7 +831,8 @@
     v: { age: '3+', nom: 'VERTE', c: '#2DBE4E', regle: 'Peut jouer aux jeux PEGI 3.' },
     j: { age: '7+', nom: 'JAUNE', c: '#FFD21F', regle: 'Peut jouer aux jeux PEGI 3 et 7.' },
     o: { age: '12+', nom: 'ORANGE', c: '#FF8A1C', regle: 'Peut jouer aux jeux PEGI 3, 7 et 12.' },
-    r: { age: '16+', nom: 'ROUGE', c: '#FF3B3B', regle: 'Peut jouer à tous les jeux, y compris l\u2019espace PEGI 16.' },
+    // Pas de bande rouge (décision du 14 octobre) : un jeune de 16 ans et plus porte la bande ORANGE, mais l'écran garde « 16+ » pour contrôler l'espace PEGI 16.
+    r: { age: '16+', nom: 'ORANGE', c: '#FF8A1C', regle: 'Bande orange (pas de bande rouge). Peut jouer à tous les jeux, y compris l\u2019espace PEGI 16 s\u2019il est ouvert.' },
   };
   function equipeActive() {
     try { return localStorage.getItem(CLE_EQUIPE) === 'oui'; } catch (e) { return false; }
