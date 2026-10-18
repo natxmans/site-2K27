@@ -1252,6 +1252,245 @@
   .question-flottante:focus-visible{ outline: 3px solid #fff; outline-offset: 3px; }
   .question-flottante.masque{ opacity: 0; pointer-events: none; }
   @media (max-width: 560px){ .question-flottante{ right: 12px; bottom: 12px; padding: 10px 16px; } .faq-item summary{ padding: 16px 18px; } .faq-item p{ padding: 0 18px 18px; } }
+
+  /* ===================================================================
+     EFFETS AU DÉFILEMENT (17 oct. 2026) — des éléments restent fixes à l'écran
+     pendant qu'on défile, comme sur les pages de présentation d'un téléphone.
+     Actifs seulement avec <html class="fx"> (ajouté par le script, sauf si le visiteur
+     a demandé « réduire les animations » ou si l'adresse contient ?effets=0).
+     Sans cela : la section « Ta journée » est une simple liste, le reste est inchangé.
+     =================================================================== */
+  :root{ --vh100: 100vh; }
+  @supports (height: 100svh){ :root{ --vh100: 100svh; } }
+
+  /* ---- Ta journée au festival : version simple (sans effets) ---- */
+  .histoire-scene{ display: grid; gap: 14px; }
+  .histoire-etape{
+    position: relative;
+    display: flex; align-items: center; gap: 18px;
+    padding: 18px 20px;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    background: linear-gradient(165deg, rgba(255,255,255,0.05), transparent 60%), var(--bg-alt);
+  }
+  .he-icone{ font-size: 2.2rem; flex: none; width: 64px; height: 64px; display: grid; place-items: center; border-radius: 18px; background: var(--ta); border: 1px solid var(--t); }
+  .he-heure{ display: block; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 1.5rem; color: var(--t); line-height: 1.2; }
+  .he-texte h3{ font-size: 1.15rem; margin: 2px 0 4px; }
+  .he-texte p{ color: var(--text-dim); }
+  .histoire-rail, .histoire-jauge{ display: none; }
+
+  /* ---- Ta journée au festival : scène épinglée ---- */
+  html.fx .histoire{ height: calc(var(--vh100) - var(--hh, 72px) + var(--n, 6) * 44vh); }
+  html.fx .histoire-scene{
+    position: sticky; top: var(--hh, 72px);
+    height: calc(var(--vh100) - var(--hh, 72px) - 14px);
+    display: grid; place-items: center;
+    overflow: hidden;
+    border-radius: 28px;
+    border: 1px solid var(--border);
+    background: linear-gradient(165deg, rgba(255,255,255,0.045), transparent 55%), var(--bg-alt);
+    box-shadow: 0 0 70px rgba(176,38,255,0.12), 0 30px 60px rgba(0,0,0,0.35);
+  }
+  html.fx .histoire-etape{
+    grid-area: 1 / 1;
+    flex-direction: column; justify-content: center; gap: 22px;
+    width: 100%; height: 100%;
+    padding: 56px 8% 40px;
+    border: 0; border-radius: 0; background: none;
+    text-align: center;
+    opacity: 0;
+    translate: 0 56px;
+    scale: 0.94;
+    pointer-events: none;
+    transition: opacity 0.6s ease, translate 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), scale 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  html.fx .histoire-etape::before{
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: radial-gradient(closest-side at 50% 42%, var(--ta), transparent 72%);
+  }
+  html.fx .histoire-etape.actif{ opacity: 1; translate: 0 0; scale: 1; pointer-events: auto; }
+  html.fx .histoire-etape.passe{ opacity: 0; translate: 0 -56px; scale: 1.05; }
+  html.fx .he-icone{
+    width: clamp(96px, 22vw, 150px); height: clamp(96px, 22vw, 150px);
+    font-size: clamp(3.2rem, 11vw, 5.6rem);
+    border-radius: 34px;
+    box-shadow: 0 0 60px var(--ta), inset 0 1px 0 rgba(255,255,255,0.12);
+    animation: flotte 4.5s ease-in-out infinite;
+  }
+  @keyframes flotte{ 0%, 100%{ transform: translateY(0); } 50%{ transform: translateY(-10px); } }
+  html.fx .he-texte{ max-width: 620px; }
+  html.fx .he-heure{
+    font-size: clamp(3rem, 13vw, 6.5rem); font-weight: 900; letter-spacing: 3px; line-height: 1.05;
+    background: linear-gradient(90deg, var(--t), #fff 140%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 0 22px var(--ta));
+  }
+  html.fx .he-texte h3{ font-size: clamp(1.4rem, 5vw, 2.2rem); margin: 6px 0 10px; }
+  html.fx .he-texte p{ font-size: clamp(1.05rem, 3.6vw, 1.3rem); color: #d6d9f2; line-height: 1.5; }
+  .he-compteur{ display: none; }
+  html.fx .he-compteur{
+    display: inline-block; margin-bottom: 10px; padding: 4px 14px; border-radius: 30px;
+    font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 3px;
+    color: var(--t); border: 1px solid var(--t); background: var(--ta);
+  }
+  html.fx .histoire-rail{
+    display: flex; flex-direction: column; gap: 12px;
+    position: absolute; right: 18px; top: 50%; translate: 0 -50%;
+  }
+  html.fx .histoire-rail i{
+    display: block; width: 8px; height: 8px; border-radius: 8px;
+    background: rgba(255,255,255,0.22);
+    transition: height 0.4s ease, background 0.4s, box-shadow 0.4s;
+  }
+  html.fx .histoire-rail i.on{ background: var(--neon-cyan); }
+  html.fx .histoire-rail i.ici{ height: 28px; box-shadow: 0 0 14px rgba(34,232,255,0.7); }
+  html.fx .histoire-jauge{ display: block; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: rgba(255,255,255,0.08); }
+  html.fx .histoire-jauge i{
+    display: block; height: 100%;
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan), var(--neon-pink));
+    transform: scaleX(0); transform-origin: 0 50%;
+  }
+  @media (max-width: 700px){
+    html.fx .histoire-rail{ flex-direction: row; right: auto; left: 50%; top: 18px; bottom: auto; translate: -50% 0; }
+    html.fx .histoire-rail i.ici{ height: 8px; width: 28px; }
+  }
+  @media (max-height: 560px){
+    html.fx .he-icone{ width: 72px; height: 72px; font-size: 2.4rem; }
+    html.fx .histoire-etape{ gap: 10px; padding-top: 40px; padding-bottom: 28px; }
+    html.fx .he-heure{ font-size: 2.6rem; }
+  }
+
+  /* ---- Haut de page : il reste en retrait, rétrécit et s'efface pendant qu'on défile ---- */
+  html.fx .hero .tag{ translate: 0 calc(var(--hs, 0) * 0.45px); opacity: calc(1 - var(--hp, 0) * 1.7); }
+  html.fx .hero h1{
+    transform-origin: 50% 0;
+    translate: 0 calc(var(--hs, 0) * 0.55px);
+    scale: calc(1 - var(--hp, 0) * 0.3);
+    opacity: calc(1 - var(--hp, 0) * 1.25);
+  }
+  html.fx .hero p.subtitle{ translate: 0 calc(var(--hs, 0) * 0.5px); opacity: calc(1 - var(--hp, 0) * 1.6); }
+  html.fx .hero .hero-infos, html.fx .hero .hero-cta, html.fx .hero .countdown-wrap, html.fx .hero .stat-row{
+    translate: 0 calc(var(--hs, 0) * 0.4px);
+    opacity: calc(1 - var(--hp, 0) * 1.8);
+  }
+  html.fx .hero::before{ opacity: calc(1 - var(--hp, 0) * 0.9); }
+
+  /* ---- Plan : il arrive en perspective (comme sur l'image de partage) puis se redresse ---- */
+  html.fx .plan-cadre{
+    transform-origin: 50% 0;
+    transform: perspective(1500px) rotateX(calc((1 - var(--pt, 1)) * 26deg)) scale(calc(0.86 + var(--pt, 1) * 0.14));
+    opacity: calc(0.3 + var(--pt, 1) * 0.7);
+  }
+  html.fx .plan-cadre.fx-plat{ transform: none; opacity: 1; }
+
+  @media (prefers-reduced-motion: reduce){
+    html.fx .histoire-etape{ transition: none; }
+    html.fx .he-icone{ animation: none; }
+  }
+
+  /* ---- La Halle en 3D : scène épinglée, le plan se penche et les espaces s'élèvent ---- */
+  .relief{ position: relative; }
+  html.fx .relief{ height: calc(var(--vh100) - var(--hh, 72px) + 230vh); }
+  .relief-scene{
+    position: sticky; top: var(--hh, 72px);
+    height: calc(var(--vh100) - var(--hh, 72px) - 14px);
+    overflow: hidden;
+    border-radius: 28px;
+    border: 1px solid var(--border);
+    background:
+      radial-gradient(ellipse 60% 45% at 50% 55%, rgba(34,232,255,0.10), transparent 70%),
+      radial-gradient(ellipse 80% 60% at 15% 0%, rgba(176,38,255,0.24), transparent 65%),
+      radial-gradient(ellipse 70% 50% at 95% 100%, rgba(255,46,136,0.15), transparent 65%),
+      #0b0b1c;
+    box-shadow: 0 0 70px rgba(176,38,255,0.14), 0 30px 60px rgba(0,0,0,0.35);
+  }
+  .relief-scene::before{
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 38px 38px;
+    -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 50%, #000 25%, transparent 85%);
+    mask-image: radial-gradient(ellipse 75% 65% at 50% 50%, #000 25%, transparent 85%);
+  }
+  .relief-cadre{
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    perspective: 1700px; perspective-origin: 50% 30%;
+    pointer-events: none;
+  }
+  .relief-plateau{
+    position: relative; flex: none;
+    width: 780px; height: 585px;
+    transform: scale3d(0.5, 0.5, 0.5);
+    will-change: transform;
+  }
+  /* sol : bleu nuit quadrillé, bord lumineux, grande ombre dessous */
+  .relief-sol{
+    position: absolute; inset: -3px; border-radius: 10px;
+    background:
+      linear-gradient(rgba(34,232,255,0.10) 1px, transparent 1px) 0 0 / 30px 30px,
+      linear-gradient(90deg, rgba(34,232,255,0.10) 1px, transparent 1px) 0 0 / 30px 30px,
+      radial-gradient(ellipse at 50% 38%, #1b2058, #0b0d2a 78%);
+    box-shadow: 0 0 0 2px rgba(34,232,255,0.55), 0 0 80px rgba(34,232,255,0.30), 0 90px 120px rgba(0,0,0,0.8);
+  }
+  /* le plan de Jonathan reste visible en filigrane : murs, escaliers, cuisines */
+  .relief-fond{
+    position: absolute; inset: 0; border-radius: 8px;
+    background: url('plan-halle.png') -150px -40px / 1169px 826px no-repeat;
+    filter: invert(1) hue-rotate(190deg) saturate(1.3);
+    opacity: 0.26;
+  }
+  /* les socles lumineux et les petits objets sont dessinés dans ce canevas, avec la même caméra que le sol */
+  .relief-toile{ position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; display: block; }
+  .relief-etiquettes{ position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+  /* noms : pastille avec l'icône de l'espace ; le nom apparaît au survol ou au toucher */
+  .rb-nom{
+    position: absolute; left: 0; top: 0;
+    display: inline-flex; align-items: center;
+    padding: 0.26em 0.5em; border-radius: 999px;
+    font-family: 'Rajdhani', sans-serif; font-weight: 700; letter-spacing: 0.3px; font-size: 15px;
+    line-height: 1.15; white-space: nowrap; color: #fff;
+    background: rgba(8,9,26,0.86); border: 1px solid rgba(255,255,255,0.28);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.55), 0 0 14px rgba(0,0,0,0.4);
+    opacity: 0; will-change: transform;
+  }
+  .rb-nom::before{ content: attr(data-ico); font-size: 1.15em; line-height: 1; }
+  .rb-nom em{ display: none; font-style: normal; margin: 0 0.15em 0 0.4em; }
+  .rb-nom.actif{ background: rgba(8,9,26,0.96); border-color: #fff; }
+  .rb-nom.actif em{ display: inline; }
+  .relief-acces{ position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .relief-jours{
+    position: absolute; z-index: 3; left: 50%; top: 14px; translate: -50% 0; width: max-content;
+    display: flex; gap: 4px; padding: 4px; border-radius: 30px;
+    background: rgba(10,10,20,0.7); border: 1px solid var(--border); backdrop-filter: blur(8px);
+  }
+  .relief-jours button{
+    border: 0; border-radius: 26px; padding: 7px 18px; cursor: pointer; white-space: nowrap;
+    font: inherit; font-weight: 700; letter-spacing: 0.5px; color: var(--text-dim); background: transparent;
+    transition: color 0.2s, background 0.2s;
+  }
+  .relief-jours button.actif{ background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan)); color: #0a0a14; }
+  .relief-fiche{
+    position: absolute; z-index: 3; left: 50%; bottom: 18px; translate: -50% 0;
+    width: max-content; max-width: min(92%, 520px); padding: 10px 20px; border-radius: 16px; text-align: center;
+    display: flex; flex-direction: column; gap: 2px;
+    background: rgba(10,10,20,0.82); border: 1px solid var(--border); border-bottom: 3px solid var(--cs, var(--neon-cyan)); backdrop-filter: blur(8px);
+  }
+  .relief-fiche b{ font-family: 'Orbitron', sans-serif; font-size: 1.05rem; }
+  .relief-fiche span{ color: #c9cce8; font-size: 0.95rem; }
+  .relief-fiche em{ font-style: normal; font-weight: 700; color: var(--neon-cyan); }
+  .relief-jauge{ position: absolute; z-index: 3; left: 0; right: 0; bottom: 0; height: 4px; background: rgba(255,255,255,0.08); }
+  .relief-jauge i{ display: block; height: 100%; background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan), var(--neon-pink)); transform: scaleX(0); transform-origin: 0 50%; }
+  @media (max-height: 560px){
+    .relief-fiche{ bottom: 10px; padding: 6px 12px; }
+  }
+  @media (max-width: 700px){
+    /* petit écran : le plan est petit, donc on n'écrit que le nom de l'espace touché (le reste est dans la fiche) */
+    .rb-nom{ font-size: 10px; padding: 0.2em 0.36em; background: rgba(8,9,26,0.74); }
+    .relief-jours button{ padding: 6px 12px; font-size: 0.92rem; }
+    .relief-fiche{ bottom: 66px; }
+  }
 </style>
 </head>
 <body>
@@ -1372,6 +1611,74 @@
     <div class="card">
       <h3>9 structures partenaires</h3>
       <p>Le SAJ de Cestas est rejoint par les maisons des jeunes de Parempuyre, Lanton, Lège-Cap-Ferret, Léognan, Gradignan, Mios, Saint-Jean-d'Illac, Blanquefort et Marcheprime.</p>
+    </div>
+  </div>
+</section>
+
+<section id="journee">
+  <div class="section-head">
+    <div class="tag">En un coup d'œil</div>
+    <h2>Ta journée au festival</h2>
+    <p>Le programme est le même le mardi et le mercredi (horaires prévisionnels). Fais défiler : la journée se déroule étape par étape.</p>
+  </div>
+  <div class="histoire" id="histoire" role="region" aria-label="Déroulé de la journée, étape par étape">
+    <div class="histoire-scene">
+      <article class="histoire-etape" style="--t: #22e8ff; --ta: rgba(34,232,255,.34)">
+        <div class="he-icone" aria-hidden="true">🎟️</div>
+        <div class="he-texte">
+          <span class="he-compteur">ÉTAPE 1 / 6</span>
+          <time class="he-heure">10h00</time>
+          <h3>Accueil</h3>
+          <p>Tu reçois ton bracelet à la couleur de ton âge, tu déposes tes affaires et on t'explique les règles.</p>
+        </div>
+      </article>
+      <article class="histoire-etape" style="--t: #b026ff; --ta: rgba(176,38,255,.38)">
+        <div class="he-icone" aria-hidden="true">🔫</div>
+        <div class="he-texte">
+          <span class="he-compteur">ÉTAPE 2 / 6</span>
+          <time class="he-heure">10h30</time>
+          <h3>Fortnite</h3>
+          <p>Premier tournoi Fortnite sur PC (PEGI 12). L'espace reste ouvert en continu jusqu'à 15h30.</p>
+        </div>
+      </article>
+      <article class="histoire-etape" style="--t: #ff2e88; --ta: rgba(255,46,136,.34)">
+        <div class="he-icone" aria-hidden="true">🏁</div>
+        <div class="he-texte">
+          <span class="he-compteur">ÉTAPE 3 / 6</span>
+          <time class="he-heure">11h00</time>
+          <h3>Finales Mario Kart</h3>
+          <p>Les 16 finalistes jouent sur grand écran au cinéma, puis regardent le film Super Mario Galaxy. Dans la Halle : tournoi FIFA et Smash Bros.</p>
+        </div>
+      </article>
+      <article class="histoire-etape" style="--t: #ffd23f; --ta: rgba(255,210,63,.28)">
+        <div class="he-icone" aria-hidden="true">🥪</div>
+        <div class="he-texte">
+          <span class="he-compteur">ÉTAPE 4 / 6</span>
+          <time class="he-heure">12h30</time>
+          <h3>Pique-nique</h3>
+          <p>Deux services : 12h30, puis 13h30 (avec les finalistes).</p>
+        </div>
+      </article>
+      <article class="histoire-etape" style="--t: #2ee59d; --ta: rgba(46,229,157,.30)">
+        <div class="he-icone" aria-hidden="true">🎮</div>
+        <div class="he-texte">
+          <span class="he-compteur">ÉTAPE 5 / 6</span>
+          <time class="he-heure">14h00</time>
+          <h3>Tournois découverte</h3>
+          <p>Mario Kart pour tous dans la Halle, 2e tournoi Smash Bros et finale FIFA sur la scène.</p>
+        </div>
+      </article>
+      <article class="histoire-etape" style="--t: #ff8a1c; --ta: rgba(255,138,28,.34)">
+        <div class="he-icone" aria-hidden="true">🏆</div>
+        <div class="he-texte">
+          <span class="he-compteur">ÉTAPE 6 / 6</span>
+          <time class="he-heure">15h40</time>
+          <h3>Goûter et clôture</h3>
+          <p>Goûter, puis le grand Kahoot « Promeneurs du Net » (mardi) ou la remise des prix (mercredi).</p>
+        </div>
+      </article>
+      <div class="histoire-rail" aria-hidden="true"></div>
+      <div class="histoire-jauge" aria-hidden="true"><i></i></div>
     </div>
   </div>
 </section>
@@ -1658,6 +1965,30 @@
     </div>
   </div>
   <p class="plan-caption">Plan issu du document de préparation technique de l'ATEC. Positions approximatives, d'après les cotes du plan.</p>
+</section>
+
+<section id="plan3d" hidden>
+  <div class="section-head">
+    <div class="tag">En relief</div>
+    <h2>La Halle en 3D</h2>
+    <p>Fais défiler : le plan se penche et chaque espace se garnit : postes de PC, écrans, scène, bornes d'arcade… Touche un espace pour voir ce qu'on y fait.</p>
+  </div>
+  <div class="relief" id="relief" role="region" aria-label="Le plan de la Halle en relief">
+    <div class="relief-scene">
+      <div class="relief-jours" role="group" aria-label="Choisir le jour">
+        <button type="button" class="actif" data-jour="mar" aria-pressed="true">Mardi 20</button>
+        <button type="button" data-jour="mer" aria-pressed="false">Mercredi 21</button>
+      </div>
+      <div class="relief-cadre">
+        <div class="relief-plateau" id="relief-plateau" data-jour="mar"><div class="relief-sol"></div><div class="relief-fond"></div></div>
+      </div>
+      <canvas class="relief-toile" id="relief-toile" aria-hidden="true"></canvas>
+      <div class="relief-etiquettes" id="relief-etiquettes" aria-hidden="true"></div>
+      <div class="relief-acces" id="relief-acces" role="group" aria-label="Espaces de la Halle"></div>
+      <div class="relief-fiche" id="relief-fiche" aria-live="polite"><b>Touche un espace</b><span>pour voir son nom, son âge conseillé et le nombre de places.</span></div>
+      <div class="relief-jauge" aria-hidden="true"><i></i></div>
+    </div>
+  </div>
 </section>
 
 <section id="cinema">
@@ -2159,6 +2490,7 @@
     { id: 'cinema', g: 'reperes', nom: 'Cinéma (niveau −1)', sous: 'Finales Mario et film des 16 finalistes', j: 'both', c: '#123a8a', r: [446, 538, 74, 60],
       desc: 'Pour y aller : sortir par le préau, entrer dans la cage d\'escalier et descendre. Finales Mario à 11h, puis film à 11h45 pour les 16 finalistes.' }
   ];
+  window.PLAN_ESPACES = ESP; // partagé avec la scène « La Halle en 3D »
   var GROUPES = { jeux: 'Jeux et stands', services: 'Services', reperes: 'Repères' };
   var JOURS = { both: 'Mardi et mercredi', mar: 'Mardi uniquement', mer: 'Mercredi uniquement' };
 
@@ -2453,6 +2785,851 @@
       }, { threshold: 0.15 });
       cibles.forEach(function(c){ if (c) obs.observe(c); });
     }catch(e){}
+  })();
+</script>
+<script>
+  /* Effets au défilement (17 oct. 2026) : éléments épinglés, haut de page qui recule, plan en perspective.
+     Désactivés avec ?effets=0 dans l'adresse ou si le visiteur demande « réduire les animations ». */
+  (function(){
+    try{
+      if (/[?&]effets=0\b/.test(location.search)) return;
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var racine = document.documentElement;
+      var $ = function(sel, ctx){ return (ctx || document).querySelector(sel); };
+      var hero = $('.hero'), histoire = $('#histoire'), cadre = $('#plan-cadre'), entete = $('header');
+      var etapes = Array.prototype.slice.call(document.querySelectorAll('.histoire-etape'));
+      var n = etapes.length;
+      var rail = $('.histoire-rail'), jauge = histoire && $('.histoire-jauge i', histoire);
+      var pastilles = [];
+      if (rail){
+        etapes.forEach(function(){ var d = document.createElement('i'); rail.appendChild(d); pastilles.push(d); });
+      }
+      // ces éléments sont pilotés par le défilement : on leur retire l'apparition simple, qui ferait concurrence
+      if (hero) ['.hero-infos', '.hero-cta', '.countdown-wrap', '.stat-row'].forEach(function(s){ var e = $(s, hero); if (e) e.classList.remove('reveal'); });
+      if (cadre) cadre.classList.remove('reveal');
+      racine.classList.add('fx');
+
+      var vh = Math.min(window.innerHeight, document.documentElement.clientHeight || window.innerHeight), hh = 72, attente = false, courant = -1;
+      function borne(x){ return x < 0 ? 0 : (x > 1 ? 1 : x); }
+      function mesurer(){
+        vh = Math.min(window.innerHeight, document.documentElement.clientHeight || window.innerHeight);
+        hh = entete ? Math.round(entete.getBoundingClientRect().height) : 72;
+        racine.style.setProperty('--hh', hh + 'px');
+        racine.style.setProperty('--n', n);
+      }
+      function image(){
+        attente = false;
+        var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+        if (hero){
+          var hr = hero.getBoundingClientRect();
+          var hautHero = hero.offsetHeight || hr.height;
+          hero.style.setProperty('--hp', borne(y / (hautHero * 0.8)).toFixed(3));
+          hero.style.setProperty('--hs', Math.min(y, hautHero).toFixed(1));
+        }
+        if (cadre){
+          var cr = cadre.getBoundingClientRect();
+          var t = borne((vh * 0.94 - cr.top) / (vh * 0.5));
+          cadre.style.setProperty('--pt', t.toFixed(3));
+          cadre.classList.toggle('fx-plat', t > 0.985);
+        }
+        if (histoire && n){
+          var br = histoire.getBoundingClientRect();
+          var course = br.height - (vh - hh);
+          var q = course > 0 ? borne(-(br.top - hh) / course) : 0;
+          var i = Math.min(n - 1, Math.floor(q * n));
+          if (jauge) jauge.style.transform = 'scaleX(' + q.toFixed(3) + ')';
+          if (i !== courant){
+            courant = i;
+            etapes.forEach(function(e, k){
+              e.classList.toggle('actif', k === i);
+              e.classList.toggle('passe', k < i);
+            });
+            pastilles.forEach(function(d, k){ d.classList.toggle('on', k <= i); d.classList.toggle('ici', k === i); });
+          }
+        }
+      }
+      function demander(){ if (!attente){ attente = true; window.requestAnimationFrame(image); } }
+      // le menu ne connaît pas la section « Ta journée » : pendant qu'on la traverse, « Le Festival » reste le lien actif
+      [['journee', 'festival'], ['plan3d', 'plan']].forEach(function(paire){
+        var lien = $('#nav-menu a[href="#' + paire[1] + '"]'), section = document.getElementById(paire[0]);
+        if (!lien || !section || !('IntersectionObserver' in window)) return;
+        new IntersectionObserver(function(entrees){
+          entrees.forEach(function(en){
+            if (!en.isIntersecting) return;
+            [].forEach.call(document.querySelectorAll('#nav-menu a'), function(a){ a.classList.toggle('actif', a === lien); });
+          });
+        }, { rootMargin: '-45% 0px -50% 0px' }).observe(section);
+      });
+      window.addEventListener('scroll', demander, { passive: true });
+      window.addEventListener('resize', function(){ mesurer(); demander(); });
+      window.addEventListener('load', function(){ mesurer(); demander(); });
+      mesurer();
+      image();
+    }catch(e){
+      document.documentElement.classList.remove('fx');
+    }
+  })();
+</script>
+<script>
+  /* La Halle en 3D (18 oct. 2026) : le plan se penche et chaque espace se garnit de petits objets (postes de PC, écrans, scène,
+     bornes d'arcade, poufs, tables...) pendant qu'on défile. Le sol et le plan de Jonathan sont de l'HTML en 3D CSS ; les objets
+     sont dessinés dans un seul <canvas> avec la même projection (une centaine d'objets en CSS 3D ralentissait trop le défilement).
+     Optionnel : si le navigateur ne sait pas faire cela, ou si les effets sont coupés, la section reste cachée. */
+  (function(){
+    try{
+      var racine = document.documentElement;
+      if (!racine.classList.contains('fx')) return;
+      var esp = window.PLAN_ESPACES;
+      var sec = document.getElementById('plan3d'), relief = document.getElementById('relief'), plateau = document.getElementById('relief-plateau');
+      var toile = document.getElementById('relief-toile'), etiq = document.getElementById('relief-etiquettes'), acces = document.getElementById('relief-acces');
+      if (!esp || !esp.length || !sec || !relief || !plateau || !toile || !etiq || !toile.getContext) return;
+      var ctx = toile.getContext('2d');
+      if (!ctx || !(window.CSS && CSS.supports && CSS.supports('transform', 'perspective(100px) rotateX(10deg)'))) return;
+      var scene = relief.querySelector('.relief-scene'), fiche = document.getElementById('relief-fiche'), jauge = relief.querySelector('.relief-jauge i');
+      var entete = document.querySelector('header');
+      var X0 = 150, Y0 = 40, PERSP = 1700, RES = 3;
+      var HZ = { fifa: 40, mk1: 38, mk2: 38, brawl: 14, scene: 56, smash: 33, pc: 30, pegi16: 28, leognan: 44, coop: 44, societe: 14, abcs: 44, retro: 40, accueil: 42, depot: 16, repas: 12, entree: 46, cinema: 30 };
+      var ICO = { fifa: '⚽', mk1: '🏁', mk2: '🏁', brawl: '📱', scene: '💃', smash: '🥊', pc: '🖥️', pegi16: '🎯', leognan: '🧩', coop: '🤝', societe: '🎲', abcs: '🧩', retro: '🕹️', accueil: '🎟️', depot: '🎒', repas: '🥪', entree: '🚪', cinema: '🎬' };
+      var JOURS = { both: 'Les deux jours', mar: 'Mardi seulement', mer: 'Mercredi seulement' };
+      var texteParDefaut = fiche.innerHTML;
+      var zones = [], jour = 'mar', selection = null, survol = null, ordre = [];
+      var vh = 700, hh = 78, K = 0.5, haut = false, W = 800, H = 600, dpr = 1, mx = 0, my = 0;
+      var visible = false, sale = true, rafId = 0, dernier = 0, leger = false, ema = 4, dernierTransform = '';
+      // état de la caméra, recalculé à chaque image
+      var cA = 1, sA = 0, cX = 1, sX = 0, ZS = 0.5, TY = 0, CXc = 400, CYc = 300, OXc = 400, OYc = 180;
+      // zone en cours de traitement (origine dans le plan, hauteur de pousse, soulèvement)
+      var OXz = 0, OYz = 0, LEV = 1, UP = 0, pxp = 0, pyp = 0;
+
+      function creer(tag, cls, parent){ var e = document.createElement(tag); if (cls) e.className = cls; if (parent) parent.appendChild(e); return e; }
+      function rgba(hex, a){ var n = parseInt(hex.slice(1), 16); return 'rgba(' + (n >> 16) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')'; }
+      // éclaircit (t > 0) ou assombrit (t < 0) une couleur #rrggbb
+      function teinte(hex, t){
+        var n = parseInt(hex.slice(1), 16), m = t > 0 ? 255 : 0, u = Math.abs(t), r = n >> 16, g = (n >> 8) & 255, b = n & 255;
+        r = Math.round(r + (m - r) * u); g = Math.round(g + (m - g) * u); b = Math.round(b + (m - b) * u);
+        return '#' + (0x1000000 + (r << 16) + (g << 8) + b).toString(16).slice(1);
+      }
+      function borne(x){ return x < 0 ? 0 : (x > 1 ? 1 : x); }
+      function lisse(x, a, b){ var t = borne((x - a) / (b - a)); return t * t * (3 - 2 * t); }
+
+      /* ---------- textures : dessinées une fois dans des petits canevas, puis plaquées sur les faces ---------- */
+      var cacheTex = {};
+      function tex(cle, w, h, dessin, fois){
+        var k = cle + '|' + w + 'x' + h + '|' + (fois || 1);
+        if (cacheTex[k]) return cacheTex[k];
+        var f = fois || 1, c = document.createElement('canvas');
+        c.width = Math.max(1, Math.ceil(w * f * RES)); c.height = Math.max(1, Math.ceil(h * RES));
+        var g = c.getContext('2d');
+        g.scale(c.width / (w * f), c.height / h);
+        dessin(g, w * f, h);
+        cacheTex[k] = c;
+        return c;
+      }
+      function degrade(g, x0, y0, x1, y1, arrets){
+        var d = g.createLinearGradient(x0, y0, x1, y1);
+        arrets.forEach(function(a){ d.addColorStop(a[0], a[1]); });
+        return d;
+      }
+      function rond(g, x, y, r, c){ g.fillStyle = c; g.beginPath(); g.arc(x, y, r, 0, 6.2832); g.fill(); }
+      var ECR = [['#22e8ff', '#1b2a8a'], ['#ffb347', '#c2306b'], ['#7cffb2', '#1a7a6b'], ['#c77dff', '#3a1d7a']];
+      var TX = {
+        plein: function(g, w, h, c){ g.fillStyle = c; g.fillRect(0, 0, w, h); },
+        ecran: function(g, w, h, i){
+          var c = ECR[i % 4];
+          g.fillStyle = degrade(g, 0, 0, w, h, [[0, c[0]], [1, c[1]]]); g.fillRect(0, 0, w, h);
+          g.fillStyle = 'rgba(255,255,255,0.18)'; g.fillRect(0, 0, w, h * 0.14);
+        },
+        paysage: function(g, w, h){
+          g.fillStyle = '#5ac8ff'; g.fillRect(0, 0, w, h * 0.62); g.fillStyle = '#3fa84a'; g.fillRect(0, h * 0.62, w, h * 0.38);
+          rond(g, w * 0.78, h * 0.3, h * 0.1, '#ffe27a');
+        },
+        pelouse: function(g, w, h){
+          for (var i = 0; i < 8; i++){ g.fillStyle = i % 2 ? '#27b05a' : '#1f9d4d'; g.fillRect(i * w / 8, 0, w / 8 + 0.5, h); }
+          g.strokeStyle = 'rgba(255,255,255,0.88)'; g.lineWidth = 1.4;
+          g.beginPath(); g.moveTo(w / 2, 0); g.lineTo(w / 2, h); g.stroke();
+          g.beginPath(); g.arc(w / 2, h / 2, 7, 0, 6.2832); g.stroke();
+          g.strokeRect(0.7, h * 0.28, w * 0.12, h * 0.44); g.strokeRect(w * 0.88 - 0.7, h * 0.28, w * 0.12, h * 0.44);
+        },
+        mario: function(g, w, h){
+          g.fillStyle = '#7fd6ff'; g.fillRect(0, 0, w, h * 0.48); g.fillStyle = '#46b04f'; g.fillRect(0, h * 0.48, w, h * 0.52);
+          g.fillStyle = '#6b6f80'; g.beginPath(); g.ellipse(w / 2, h, w * 0.35, h * 0.62, 0, 0, 6.2832); g.fill();
+          g.fillStyle = '#d9d9e6'; g.fillRect(w / 2 - 0.6, h * 0.5, 1.2, h * 0.5);
+          rond(g, w / 2, h * 0.78, 3, '#e8402a');
+        },
+        smash: function(g, w, h){
+          g.fillStyle = '#3a8dde'; g.fillRect(0, 0, w, h * 0.66); g.fillStyle = '#2b2f55'; g.fillRect(0, h * 0.66, w, h * 0.34);
+          rond(g, w * 0.28, h * 0.62, 4, '#ffd34d'); rond(g, w * 0.72, h * 0.58, 4, '#ff2e88'); rond(g, w * 0.5, h * 0.38, 3, '#fff');
+        },
+        led: function(g, w, h){
+          var P = w / 2;
+          for (var p = 0; p < 2; p++){
+            g.fillStyle = degrade(g, p * P, 0, (p + 1) * P, 0, [[0, '#e0338a'], [0.25, '#b026ff'], [0.5, '#22e8ff'], [0.75, '#ffd34d'], [1, '#e0338a']]);
+            g.fillRect(p * P, 0, P + 0.5, h);
+          }
+          g.fillStyle = 'rgba(255,255,255,0.14)'; g.fillRect(0, 0, w, h * 0.1);
+        },
+        haut: function(g, w, h){
+          g.fillStyle = '#14162c'; g.fillRect(0, 0, w, h);
+          rond(g, w / 2, h * 0.28, 5, '#2b2f55'); rond(g, w / 2, h * 0.28, 2, '#000');
+          rond(g, w / 2, h * 0.72, 6, '#2b2f55'); rond(g, w / 2, h * 0.72, 2.5, '#000');
+        },
+        rgb: function(g, w, h){ g.fillStyle = degrade(g, 0, 0, 0, h, [[0, '#ff2e88'], [0.5, '#b026ff'], [1, '#22e8ff']]); g.fillRect(0, 0, w, h); },
+        clavier: function(g, w, h){
+          g.fillStyle = '#0a0b16'; g.fillRect(0, 0, w, h);
+          g.fillStyle = '#3a3f66'; for (var x = 0.8; x < w; x += 2.2) g.fillRect(x, 0.5, 0.6, h - 1);
+        },
+        arcade: function(g, w, h, col){
+          var B = [[0, 0.14, col], [0.14, 0.18, '#0b0c18'], [0.18, 0.21, '#22e8ff'], [0.21, 0.5, '#3a1d7a'], [0.5, 0.54, '#0b0c18'], [0.54, 0.67, '#3a3f66'], [0.67, 1, '#14152b']];
+          B.forEach(function(b){ g.fillStyle = b[2]; g.fillRect(0, b[0] * h, w, (b[1] - b[0]) * h + 0.4); });
+          rond(g, w * 0.36, h * 0.32, 1.6, '#7cffb2'); rond(g, w * 0.6, h * 0.4, 1.6, '#ffd34d');
+          rond(g, w * 0.3, h * 0.61, 1.5, '#ff2e88'); rond(g, w * 0.62, h * 0.61, 1.3, '#ffd34d'); rond(g, w * 0.8, h * 0.61, 1.3, '#22e8ff'); rond(g, w * 0.15, h * 0.61, 1.3, '#fff');
+          g.fillStyle = 'rgba(0,0,0,0.16)'; for (var y = 0; y < h; y += 3) g.fillRect(0, y, w, 1);
+        },
+        nappe: function(g, w, h){
+          g.fillStyle = '#fff'; g.fillRect(0, 0, w, h);
+          g.fillStyle = 'rgba(255,120,120,0.6)';
+          for (var j = 0; j * 7 < h; j++) for (var i = 0; i * 7 < w; i++) if ((i + j) % 2 === 0) g.fillRect(i * 7, j * 7, 7, 7);
+        },
+        damier: function(g, w, h){
+          g.fillStyle = '#fff'; g.fillRect(0, 0, w, h); g.fillStyle = '#c0392b';
+          for (var j = 0; j * 8 < h; j++) for (var i = 0; i * 8 < w; i++) if ((i + j) % 2 === 0) g.fillRect(i * 8, j * 8, 8, 8);
+        },
+        bac: function(g, w, h){ g.fillStyle = '#a9b0d0'; g.fillRect(0, 0, w, h); g.fillStyle = '#454c6b'; g.fillRect(2, 2, w - 4, h - 4); },
+        fauteuils: function(g, w, h){
+          g.fillStyle = '#c0233e'; g.fillRect(0, 0, w, h); g.fillStyle = '#8a1a2e';
+          for (var x = 8; x < w; x += 9) g.fillRect(x, 0, 1, h);
+        },
+        enseigne: function(g, w, h){
+          g.fillStyle = degrade(g, 0, 0, 0, h, [[0, '#19b27c'], [1, '#0e6e4d']]); g.fillRect(0, 0, w, h);
+          g.fillStyle = '#fff'; g.font = '700 7.5px Orbitron, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('ENTRÉE', w / 2, h / 2 + 0.5);
+        },
+        seize: function(g, w, h){
+          g.fillStyle = degrade(g, 0, 0, 0, h, [[0, '#d22a4d'], [1, '#8f1a33']]); g.fillRect(0, 0, w, h);
+          g.fillStyle = '#fff'; g.font = '700 13px Orbitron, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('16', w / 2, h / 2 + 0.5);
+        },
+        lecture: function(g, w, h){
+          g.fillStyle = degrade(g, 0, 0, w, h, [[0, '#1a3a8a'], [1, '#6a2cc9']]); g.fillRect(0, 0, w, h);
+          g.fillStyle = '#fff'; g.beginPath(); g.moveTo(w / 2 - 4, h / 2 - 6); g.lineTo(w / 2 + 6, h / 2); g.lineTo(w / 2 - 4, h / 2 + 6); g.closePath(); g.fill();
+        },
+        banderole: function(g, w, h, col){
+          g.fillStyle = degrade(g, 0, 0, 0, h, [[0, teinte(col, 0.15)], [1, teinte(col, -0.45)]]); g.fillRect(0, 0, w, h);
+          rond(g, w / 2, h * 0.28, 3, '#fff');
+        },
+        telephone: function(g, w, h){ g.fillStyle = degrade(g, 0, 0, w, h, [[0, '#22e8ff'], [1, '#b026ff']]); g.fillRect(0, 0, w, h); },
+        faisceau: function(g, w, h, col){
+          g.fillStyle = degrade(g, 0, 0, 0, h, [[0, rgba(col, 0.55)], [1, rgba(col, 0)]]);
+          g.beginPath(); g.moveTo(w * 0.4, 0); g.lineTo(w * 0.6, 0); g.lineTo(w, h); g.lineTo(0, h); g.closePath(); g.fill();
+        }
+      };
+      function texDe(spec, w, h, fois){
+        return tex(spec[0] + ':' + (spec[1] !== undefined ? spec[1] : ''), w, h, function(g, ww, hh){ TX[spec[0]](g, ww, hh, spec[1]); }, fois);
+      }
+
+      /* ---------- construction des objets (données seulement : la projection et le dessin sont plus bas) ---------- */
+      var ZB = null;                               // zone en cours de construction
+      function asm(){ var a = { p: [], cx: 0, cy: 0, cz: 0 }; ZB.asm.push(a); return a; }
+      // boîte : position x,y au sol, largeur w, profondeur d, hauteur h, couleur c.
+      // o.z = hauteur de départ ; o.f = faces dessinées (h dessus, s sud, o ouest) ; o.sh = ombre au sol ; o.H / o.S / o.O = texture du dessus / sud / ouest ;
+      // o.k = 'verre' pour une cloison transparente ; o.an = animation ('scr' écran qui scintille, 'led' mur qui défile, 'danse')
+      function boite(a, x, y, w, d, h, c, o){
+        o = o || {};
+        var pr = { t: 'b', x: x, y: y, z: o.z || 0, w: w, d: d, h: h, f: o.f || 'hso', sh: !!o.sh, k: o.k || '', H: o.H || null, S: o.S || null, O: o.O || null, an: o.an || '', ph: o.ph || 0 };
+        if (pr.k === 'verre'){ pr.ch = rgba(c, 0.30); pr.cs = rgba(c, 0.15); pr.co = rgba(c, 0.20); }
+        else { pr.ch = teinte(c, 0.1); pr.cs = teinte(c, -0.36); pr.co = teinte(c, -0.2); }
+        a.p.push(pr);
+        return pr;
+      }
+      // disque épais (pouf, tabouret, table ronde) : quelques rondelles empilées, la plus haute est éclairée
+      function disque(a, cx, cy, r, h, c, o){
+        o = o || {};
+        var n = Math.max(2, Math.round(h / 2.4)), cs = [], k;
+        for (k = 0; k < n - 1; k++) cs.push(teinte(c, -0.5 + 0.38 * k / (n - 1)));
+        var pr = { t: 'd', x: cx, y: cy, z: o.z || 0, r: r, h: h, n: n, cs: cs, c: c, sh: !!o.sh, an: o.an || '', ph: o.ph || 0, w: 0, d: 0, top: null };
+        a.p.push(pr);
+        return pr;
+      }
+      // décor posé au sol et animé : câble réseau (lan), flèches d'entrée (chev)
+      function decor(a, nom, x, y, w, d, ph){ a.p.push({ t: 'f', n: nom, x: x, y: y, z: 0, w: w, d: d, h: 0, ph: ph || 0, sh: false }); }
+
+      var BLANC = '#dfe3f7', GRIS = '#9aa1c4', NOIR = '#0e1020', NUIT = '#1c1e38';
+      var nPoste = 0;
+      // un poste de jeu : bureau, écran qui scintille, tour RGB, clavier, fauteuil (vu de dos, les écrans regardent le public)
+      function poste(x, y, Wd, col){
+        var i = nPoste++, a = asm(), b;
+        boite(a, x, y, Wd, 11, 9, BLANC, { sh: 1 });
+        boite(a, x + Wd / 2 - 11, y + 3.2, 22, 2.4, 13, NOIR, { z: 9, f: 'hs', S: ['ecran', i], an: 'scr', ph: i * 0.83 });
+        boite(a, x + Wd - 10, y + 2.4, 6.5, 7.2, 12, NUIT, { z: 9, f: 'hs', S: ['rgb'] });
+        boite(a, x + Wd / 2 - 10, y + 7, 20, 3.2, 0.7, '#0a0b16', { z: 9, f: 'h', H: ['clavier'] });
+        b = asm();
+        boite(b, x + Wd / 2 - 6, y + 13.5, 12, 9, 6, NUIT);
+        boite(b, x + Wd / 2 - 6, y + 21, 12, 2.4, 10, col, { z: 6, f: 'hs' });
+      }
+      // un téléviseur (ou écran de projection) avec ce qu'il affiche
+      function ecran(a, x, y, w, h, z, spec, sh){ return boite(a, x, y, w, 3, h, NOIR, { z: z, f: 'hso', sh: sh, S: spec }); }
+      // un coin « stand » : table avec téléviseur et console, poufs, banderole
+      function stand(w, h, col, i, cons){
+        var a = asm();
+        boite(a, w / 2 - 24, 8, 48, 17, 9, BLANC, { sh: 1 });
+        ecran(a, w / 2 - 17, 11, 34, 21, 9, ['ecran', i]);
+        boite(a, w / 2 - 6, 17.5, 12, 4.5, 1.3, cons, { z: 9, f: 'h' });
+        [[w * 0.26, 62], [w * 0.74, 62], [w / 2, 82]].forEach(function(q, j){ disque(asm(), q[0], q[1], 6.5, 6.5, j === 2 ? teinte(col, 0.25) : col, { sh: 1 }); });
+        boite(asm(), w - 14, 34, 11, 1.4, 40, col, { sh: 1, S: ['banderole', col] });
+      }
+      // borne d'arcade : bandeau lumineux, écran avec pixels, tableau de commandes
+      function arcade(x, y, col, i){
+        var a = asm();
+        boite(a, x, y, 24, 18, 36, '#1b1d38', { sh: 1, S: ['arcade', col], an: 'scr', ph: i * 1.1 });
+        boite(a, x + 2, y + 18, 20, 5, 3.5, '#3a3f66', { z: 19, f: 'hs' });
+      }
+
+      var CONSTR = {};
+      // PC en réseau : 10 postes en deux rangées, câble réseau lumineux entre les rangées, écran spectateur
+      CONSTR.pc = function(w, h, col){
+        var a = asm();
+        boite(a, w / 2 - 7, 2, 14, 5, 6, GRIS, { f: 'hs' });
+        ecran(a, w / 2 - 34, 3, 68, 23, 6, ['paysage']);
+        decor(asm(), 'lan', 58, 26, w - 116, 125);
+        for (var r = 0; r < 5; r++){ poste(6, 28 + r * 25, 52, col); poste(w - 58, 28 + r * 25, 52, col); }
+      };
+      // espace PEGI 16 : pièce fermée par des cloisons en verre, 4 postes, banc d'attente, portique avec le panneau « 16 »
+      CONSTR.pegi16 = function(w, h, col){
+        boite(asm(), 0, 0, w, 2.5, 22, col, { k: 'verre' });
+        boite(asm(), 0, 0, 2.5, h, 22, col, { k: 'verre' });
+        boite(asm(), w - 2.5, 0, 2.5, h, 22, col, { k: 'verre' });
+        poste(8, 20, 44, col); poste(w - 52, 20, 44, col);
+        poste(8, 62, 44, col); poste(w - 52, 62, 44, col);
+        var a = asm();
+        boite(a, w / 2 - 26, 118, 52, 10, 6, teinte(col, -0.2), { sh: 1 });
+        boite(a, w / 2 - 26, 126.5, 52, 2.5, 13, teinte(col, -0.2), { z: 6, f: 'hs' });
+        boite(asm(), 22, 200, 4, 4, 26, col);
+        boite(asm(), w - 26, 200, 4, 4, 26, col);
+        boite(asm(), 26, 201, w - 52, 2, 2.5, '#ff4d6d', { z: 20, f: 'hs' });
+        boite(asm(), w / 2 - 15, 208, 30, 2, 20, '#8f1a33', { S: ['seize'] });
+      };
+      // FIFA : écran de projection avec un terrain, console sur une table basse, poufs
+      CONSTR.fifa = function(w, h, col){
+        var a = asm();
+        ecran(a, w / 2 - 50, 3, 100, 36, 4, ['pelouse']);
+        a = asm();
+        boite(a, w / 2 - 16, 40, 32, 14, 7, BLANC, { sh: 1 });
+        boite(a, w / 2 - 7, 44, 14, 6, 1.5, NOIR, { z: 7, f: 'h' });
+        [[26, 70], [56, 74], [w - 56, 74], [w - 26, 70]].forEach(function(q, i){ disque(asm(), q[0], q[1], 7, 7, i % 2 ? teinte(col, 0.25) : col, { sh: 1 }); });
+      };
+      // Mario Kart : grand écran de projection, console sur une table basse, deux poufs
+      function mario(w, h, col){
+        ecran(asm(), w / 2 - 40, 3, 80, 34, 4, ['mario']);
+        var a = asm();
+        boite(a, w / 2 - 14, h * 0.36, 28, 12, 7, BLANC, { sh: 1 });
+        boite(a, w / 2 - 6, h * 0.36 + 3.5, 12, 5, 1.2, '#e8402a', { z: 7, f: 'h' });
+        disque(asm(), w / 2 - 24, h - 20, 7, 7, col, { sh: 1 });
+        disque(asm(), w / 2 + 24, h - 20, 7, 7, teinte(col, 0.2), { sh: 1 });
+      }
+      CONSTR.mk1 = mario;
+      CONSTR.mk2 = mario;
+      // jeux sur mobile : coin détente, poufs autour d'une table ronde avec un téléphone
+      CONSTR.brawl = function(w, h){
+        var P = ['#ff6b6b', '#4dd2ff', '#ffd34d', '#8f7bff', '#5be38b', '#ff9bd2'], i, a;
+        for (i = 0; i < 6; i++){
+          a = i / 6 * 6.2832 + 0.5;
+          disque(asm(), w / 2 + 30 * Math.cos(a), h / 2 + 27 * Math.sin(a), 7.5, 7, P[i], { sh: 1 });
+        }
+        var t = asm();
+        disque(t, w / 2, h / 2, 8, 10, '#dfe3f7', { sh: 1 });
+        boite(t, w / 2 - 2, h / 2 - 1, 4.2, 0.9, 7, NOIR, { z: 10, f: 'hs', S: ['telephone'] });
+      };
+      // scène : estrade, mur LED, haut-parleurs, projecteurs avec leurs faisceaux, danseurs
+      CONSTR.scene = function(w, h){
+        var a = asm();
+        boite(a, 20, 16, w - 40, 66, 7, '#2a2358', { sh: 1, H: ['plein', '#4a2f9a'] });
+        boite(a, 28, 17, w - 56, 2.4, 42, NOIR, { z: 7, f: 'hs', S: ['led'], an: 'led' });
+        [['#ffd34d', 62], ['#22e8ff', 95], ['#ff6b9a', 128]].forEach(function(q, i){
+          boite(a, q[1] - 3, 50, 6, 4, 11, q[0], { z: 7, an: 'danse', ph: -i * 0.17 });
+          disque(a, q[1], 52, 3.4, 4, '#ffe0c2', { z: 18, an: 'danse', ph: -i * 0.17 });
+        });
+        boite(a, 24, 76, 3, 3, 54, GRIS, { z: 7 });
+        boite(a, w - 27, 76, 3, 3, 54, GRIS, { z: 7 });
+        boite(a, 24, 76, w - 51, 3, 3, GRIS, { z: 58, f: 'hs' });
+        ['#ff2e88', '#ffd34d', '#22e8ff', '#7cffb2', '#c77dff'].forEach(function(col, i){
+          var x = 36 + i * ((w - 96) / 4);
+          boite(a, x, 77, 6, 3, 4, col, { z: 54, f: 'hs', S: ['plein', col] });
+          boite(a, x - 7, 79, 20, 0.2, 40, col, { z: 7, f: 's', S: ['faisceau', col] });
+        });
+        boite(asm(), 3, 30, 13, 13, 36, '#14162c', { sh: 1, S: ['haut'] });
+        boite(asm(), w - 16, 30, 13, 13, 36, '#14162c', { sh: 1, S: ['haut'] });
+      };
+      // Smash Bros : téléviseur, table basse, trois poufs
+      CONSTR.smash = function(w, h, col){
+        ecran(asm(), w / 2 - 26, 4, 52, 28, 5, ['smash']);
+        var a = asm();
+        boite(a, w / 2 - 14, 38, 28, 11, 7, BLANC, { sh: 1 });
+        boite(a, w / 2 - 6, 41, 12, 5, 1.2, '#e8402a', { z: 7, f: 'h' });
+        [[20, 66], [w / 2, 76], [w - 20, 66]].forEach(function(q, i){ disque(asm(), q[0], q[1], 7, 7, i === 1 ? teinte(col, 0.25) : col, { sh: 1 }); });
+      };
+      CONSTR.leognan = function(w, h, col){ stand(w, h, col, 1, '#e8402a'); };
+      CONSTR.coop = function(w, h, col){ stand(w, h, col, 2, '#2bb3ff'); };
+      CONSTR.abcs = function(w, h, col){ stand(w, h, col, 0, '#e8402a'); };
+      // jeux de société : table avec un plateau en damier, dés, quatre tabourets
+      CONSTR.societe = function(w, h, col){
+        var a = asm();
+        boite(a, 8, 34, 50, 40, 9, BLANC, { sh: 1 });
+        boite(a, 17, 44, 32, 22, 0.8, '#fff', { z: 9, f: 'h', H: ['damier'] });
+        boite(a, 22, 50, 3.4, 3.4, 3.4, '#fff', { z: 9.8 });
+        boite(a, 38, 56, 3.4, 3.4, 3.4, '#ffd34d', { z: 9.8 });
+        [[14, 26], [52, 26], [14, 82], [52, 82]].forEach(function(q, i){ disque(asm(), q[0], q[1], 4.8, 6, i % 2 ? teinte(col, 0.3) : col, { sh: 1 }); });
+      };
+      // rétrogaming : quatre bornes d'arcade
+      CONSTR.retro = function(){
+        arcade(6, 8, '#ff2e88', 0); arcade(36, 8, '#22e8ff', 1);
+        arcade(6, 64, '#ffd34d', 2); arcade(36, 64, '#7cffb2', 3);
+      };
+      // accueil : comptoir avec les bracelets jaune et orange, un ordinateur, une banderole
+      CONSTR.accueil = function(w, h, col){
+        boite(asm(), 5, 14, 10, 1.4, 40, col, { sh: 1, S: ['banderole', col] });
+        var a = asm();
+        boite(a, 20, 8, 15, 94, 11, BLANC, { sh: 1 });
+        boite(a, 22, 20, 5, 12, 1.4, '#ffd34d', { z: 11, f: 'h' });
+        boite(a, 22, 36, 5, 12, 1.4, '#ff8a1f', { z: 11, f: 'h' });
+        boite(a, 24, 61, 9, 0.8, 7, NOIR, { z: 11, f: 'hs', S: ['ecran', 0] });
+        boite(a, 24, 62, 9, 7, 0.9, GRIS, { z: 11, f: 'h' });
+      };
+      // dépôt : quatre bacs, des sacs à dos posés dessus
+      CONSTR.depot = function(){
+        var S = ['#e8402a', null, '#2bb3ff', '#ffd34d'], i, a;
+        for (i = 0; i < 4; i++){
+          a = asm();
+          boite(a, 8, 8 + i * 22, 28, 18, 8, '#7d86a8', { sh: 1, H: ['bac'] });
+          if (S[i]) boite(a, 14, 10 + i * 22, 12, 8, 7, S[i], { z: 8 });
+        }
+      };
+      // espace repas : 9 tables à nappe à carreaux, avec leurs bancs
+      CONSTR.repas = function(){
+        var r, k, x, y, a;
+        for (r = 0; r < 3; r++) for (k = 0; k < 3; k++){
+          x = 6 + k * 49; y = 12 + r * 50;
+          a = asm();
+          boite(a, x, y - 6.5, 36, 4, 4.5, '#5f6b7a', { f: 'hs' });
+          boite(a, x, y, 36, 15, 9, BLANC, { H: ['nappe'] });
+          boite(a, x, y + 17.5, 36, 4, 4.5, '#5f6b7a', { f: 'hs' });
+        }
+      };
+      // entrée : portique vert avec son enseigne, flèches qui clignotent vers l'intérieur
+      CONSTR.entree = function(w, h, col){
+        var a = asm();
+        boite(a, w / 2 - 44, 6, 6, 6, 34, col);
+        boite(a, w / 2 + 38, 6, 6, 6, 34, col);
+        boite(a, w / 2 - 44, 6, 88, 6, 12, '#0e1020', { z: 34, S: ['enseigne'] });
+        [0, 1, 2].forEach(function(i){ decor(asm(), 'chev', w / 2 - 11, 46 - i * 11, 22, 11, i * 0.2); });
+      };
+      // cinéma : grand écran avec le bouton lecture, trois rangées de fauteuils rouges
+      CONSTR.cinema = function(){
+        boite(asm(), 10, 3, 54, 2.5, 26, NOIR, { z: 3, S: ['lecture'] });
+        for (var r = 0; r < 3; r++) boite(asm(), 8, 22 + r * 13, 58, 7, 5, '#c0233e', { S: ['fauteuils'] });
+      };
+      CONSTR.defaut = function(w, h, col){ boite(asm(), 4, 4, w - 8, h - 8, 14, col, { sh: 1 }); };
+
+      /* ---------- projection : la même que celle du navigateur (perspective du cadre, puis translation, échelle, rotations du plateau) ---------- */
+      function P(x, y, z){
+        var X = x + OXz - 390, Y = y + OYz - 292.5, Zc = z * LEV + UP;
+        var x1 = X * cA - Y * sA, y1 = X * sA + Y * cA;
+        var y2 = y1 * cX - Zc * sX, z2 = y1 * sX + Zc * cX;
+        x1 *= ZS; y2 = y2 * ZS + TY; z2 *= ZS;
+        var s = PERSP / (PERSP - z2);
+        pxp = OXc + (CXc + x1 - OXc) * s; pyp = OYc + (CYc + y2 - OYc) * s;
+      }
+      // carré de la distance à la caméra d'un point (pour décider quoi dessiner d'abord)
+      function dist2(x, y, z){
+        var X = x - 390, Y = y - 292.5, x1 = X * cA - Y * sA, y1 = X * sA + Y * cA;
+        var y2 = y1 * cX - z * sX, z2 = y1 * sX + z * cX;
+        var dx = CXc + x1 * ZS - OXc, dy = CYc + y2 * ZS + TY - OYc, dz = PERSP - z2 * ZS;
+        return dx * dx + dy * dy + dz * dz;
+      }
+
+      var C = new Float64Array(16);
+      function proj8(pr, dz){
+        var x = pr.x, y = pr.y, x2 = x + pr.w, y2 = y + pr.d, z0 = pr.z + dz, z1 = z0 + pr.h;
+        P(x, y, z0); C[0] = pxp; C[1] = pyp;
+        P(x2, y, z0); C[2] = pxp; C[3] = pyp;
+        P(x2, y2, z0); C[4] = pxp; C[5] = pyp;
+        P(x, y2, z0); C[6] = pxp; C[7] = pyp;
+        P(x, y, z1); C[8] = pxp; C[9] = pyp;
+        P(x2, y, z1); C[10] = pxp; C[11] = pyp;
+        P(x2, y2, z1); C[12] = pxp; C[13] = pyp;
+        P(x, y2, z1); C[14] = pxp; C[15] = pyp;
+      }
+      // une face est tournée vers l'écran si ses trois premiers points tournent dans le sens des aiguilles d'une montre
+      function face(a, b, c){ return (C[2 * b] - C[2 * a]) * (C[2 * c + 1] - C[2 * a + 1]) - (C[2 * b + 1] - C[2 * a + 1]) * (C[2 * c] - C[2 * a]) > 0; }
+      function poly(a, b, c, d, rempli, trait){
+        ctx.beginPath();
+        ctx.moveTo(C[2 * a], C[2 * a + 1]); ctx.lineTo(C[2 * b], C[2 * b + 1]); ctx.lineTo(C[2 * c], C[2 * c + 1]); ctx.lineTo(C[2 * d], C[2 * d + 1]);
+        ctx.closePath();
+        ctx.fillStyle = rempli; ctx.fill();
+        if (trait && !leger){ ctx.strokeStyle = trait; ctx.lineWidth = 0.8; ctx.stroke(); }
+      }
+      // plaque une texture sur un parallélogramme : o = origine, u = fin de l'axe horizontal, v = fin de l'axe vertical
+      function plaquer(img, o, u, v, w, h, alpha, sx, sw){
+        ctx.setTransform(dpr * (C[2 * u] - C[2 * o]) / w, dpr * (C[2 * u + 1] - C[2 * o + 1]) / w, dpr * (C[2 * v] - C[2 * o]) / h, dpr * (C[2 * v + 1] - C[2 * o + 1]) / h, dpr * C[2 * o], dpr * C[2 * o + 1]);
+        if (alpha < 1) ctx.globalAlpha = alpha;
+        if (sw) ctx.drawImage(img, sx, 0, sw, img.height, 0, 0, w, h); else ctx.drawImage(img, 0, 0, w, h);
+        ctx.globalAlpha = 1;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      function dessinerBoite(pr, ts){
+        var dz = pr.an === 'danse' ? 2.5 * (1 - Math.cos(6.2832 * (ts / 1.24 + pr.ph))) : 0;
+        proj8(pr, dz);
+        var verre = pr.k === 'verre', f = pr.f, trait = verre ? 'rgba(255,140,165,0.75)' : null;
+        if (f.indexOf('o') >= 0 && face(4, 7, 3)){
+          if (pr.O && !verre) plaquer(pr._o || (pr._o = texDe(pr.O, pr.d, pr.h)), 4, 7, 0, pr.d, pr.h, 1); else poly(4, 7, 3, 0, pr.co, trait || 'rgba(0,0,0,0.25)');
+        }
+        if (f.indexOf('s') >= 0 && face(7, 6, 2)){
+          if (pr.S && !verre){
+            if (pr.an === 'scr'){
+              var u = ((ts + pr.ph) % 3.6) / 3.6, al = leger ? 1 : 1 - 0.22 * Math.exp(-Math.pow((u - 0.48) / 0.035, 2));
+              poly(7, 6, 2, 3, NOIR, null);
+              plaquer(pr._s || (pr._s = texDe(pr.S, pr.w, pr.h)), 7, 6, 3, pr.w, pr.h, al);
+            } else if (pr.an === 'led'){
+              var im = pr._s || (pr._s = texDe(pr.S, pr.w, pr.h, 4));
+              plaquer(im, 7, 6, 3, pr.w, pr.h, 1, leger ? 0 : ((ts / 8) % 1) * 2 * pr.w * RES, pr.w * RES);
+            } else plaquer(pr._s || (pr._s = texDe(pr.S, pr.w, pr.h)), 7, 6, 3, pr.w, pr.h, 1);
+          } else poly(7, 6, 2, 3, pr.cs, trait || 'rgba(0,0,0,0.25)');
+        }
+        if (f.indexOf('h') >= 0 && face(4, 5, 6)){
+          if (pr.H && !verre) plaquer(pr._h || (pr._h = texDe(pr.H, pr.w, pr.d)), 4, 5, 7, pr.w, pr.d, 1);
+          else poly(4, 5, 6, 7, pr.ch, trait || 'rgba(255,255,255,0.30)');
+        }
+      }
+      function dessinerDisque(pr, ts){
+        var dz = pr.an === 'danse' ? 2.5 * (1 - Math.cos(6.2832 * (ts / 1.24 + pr.ph))) : 0, k, ox, oy, zk;
+        for (k = 0; k < pr.n; k++){
+          zk = pr.z + dz + 1 + (pr.h - 1) * k / (pr.n - 1);
+          P(pr.x, pr.y, zk); ox = pxp; oy = pyp;
+          P(pr.x + pr.r, pr.y, zk); var ux = pxp - ox, uy = pyp - oy;
+          P(pr.x, pr.y + pr.r, zk);
+          ctx.setTransform(dpr * ux, dpr * uy, dpr * (pxp - ox), dpr * (pyp - oy), dpr * ox, dpr * oy);
+          ctx.beginPath(); ctx.arc(0, 0, 1, 0, 6.2832);
+          if (k < pr.n - 1) ctx.fillStyle = pr.cs[k];
+          else {
+            if (!pr.top){
+              pr.top = ctx.createRadialGradient(-0.3, -0.35, 0, 0, 0, 1);
+              pr.top.addColorStop(0, teinte(pr.c, 0.5)); pr.top.addColorStop(0.6, pr.c); pr.top.addColorStop(1, teinte(pr.c, -0.22));
+            }
+            ctx.fillStyle = pr.top;
+          }
+          ctx.fill();
+        }
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      // ombre douce posée au sol, décalée vers la droite et vers l'avant
+      function dessinerOmbre(pr){
+        if (pr.t === 'b'){
+          var m = pr.h * 0.26, n = pr.h * 0.34, x = pr.x - 1 + m, y = pr.y - 1 + n, x2 = pr.x + pr.w + 1 + m, y2 = pr.y + pr.d + 1 + n;
+          P(x, y, 0); C[0] = pxp; C[1] = pyp; P(x2, y, 0); C[2] = pxp; C[3] = pyp; P(x2, y2, 0); C[4] = pxp; C[5] = pyp; P(x, y2, 0); C[6] = pxp; C[7] = pyp;
+          ctx.beginPath(); ctx.moveTo(C[0], C[1]); ctx.lineTo(C[2], C[3]); ctx.lineTo(C[4], C[5]); ctx.lineTo(C[6], C[7]); ctx.closePath();
+          ctx.fillStyle = 'rgba(0,0,0,0.30)'; ctx.fill();
+        } else {
+          var ox, oy, d = pr.h * 0.3, e = pr.h * 0.38;
+          P(pr.x + d, pr.y + e, 0); ox = pxp; oy = pyp;
+          P(pr.x + d + pr.r + 1, pr.y + e, 0); var ux = pxp - ox, uy = pyp - oy;
+          P(pr.x + d, pr.y + e + pr.r + 1, 0);
+          ctx.setTransform(dpr * ux, dpr * uy, dpr * (pxp - ox), dpr * (pyp - oy), dpr * ox, dpr * oy);
+          ctx.beginPath(); ctx.arc(0, 0, 1, 0, 6.2832); ctx.fillStyle = 'rgba(0,0,0,0.30)'; ctx.fill();
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+      }
+      // décor au sol : le câble réseau transporte des paquets, les flèches de l'entrée clignotent
+      function dessinerDecor(pr, ts){
+        var ox, oy;
+        P(pr.x, pr.y, 0.3); ox = pxp; oy = pyp;
+        P(pr.x + 1, pr.y, 0.3); var ux = pxp - ox, uy = pyp - oy;
+        P(pr.x, pr.y + 1, 0.3);
+        ctx.setTransform(dpr * ux, dpr * uy, dpr * (pxp - ox), dpr * (pyp - oy), dpr * ox, dpr * oy);
+        var w = pr.w, d = pr.d, i;
+        if (pr.n === 'lan'){
+          ctx.lineCap = 'butt';
+          ctx.strokeStyle = 'rgba(34,232,255,0.28)'; ctx.lineWidth = 4;
+          ctx.beginPath(); ctx.moveTo(w / 2, 0); ctx.lineTo(w / 2, d); for (i = 0; i < 5; i++){ ctx.moveTo(0, 7.5 + 25 * i); ctx.lineTo(w, 7.5 + 25 * i); } ctx.stroke();
+          ctx.strokeStyle = '#22e8ff'; ctx.lineWidth = 1.6; ctx.stroke();
+          if (!leger){
+            ctx.fillStyle = '#fff';
+            for (i = 0; i < 5; i++){ ctx.beginPath(); ctx.arc(w / 2, ((ts * 35 + i * 25) % d), 1.5, 0, 6.2832); ctx.fill(); }
+          }
+        } else {
+          ctx.globalAlpha = leger ? 0.7 : 0.18 + 0.82 * (0.5 - 0.5 * Math.cos(6.2832 * (ts / 1.5 + pr.ph)));
+          ctx.fillStyle = '#3be0a0';
+          ctx.beginPath(); ctx.moveTo(w * 0.5, 0); ctx.lineTo(w, d * 0.62); ctx.lineTo(w * 0.8, d * 0.62); ctx.lineTo(w * 0.5, d * 0.24); ctx.lineTo(w * 0.2, d * 0.62); ctx.lineTo(0, d * 0.62); ctx.closePath(); ctx.fill();
+          ctx.globalAlpha = 1;
+        }
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      // le socle lumineux de chaque espace (et la lueur qu'il projette sur le sol)
+      function dessinerSocle(zn, etat){
+        var w = zn.w, h = zn.h;
+        P(0, 0, 0); C[0] = pxp; C[1] = pyp; P(w, 0, 0); C[2] = pxp; C[3] = pyp; P(w, h, 0); C[4] = pxp; C[5] = pyp; P(0, h, 0); C[6] = pxp; C[7] = pyp;
+        if (zn.lv > 0.01){
+          var cx = w / 2, cy = h / 2, R = Math.max(w, h) * 0.8, ox, oy;
+          P(cx, cy, 0); ox = pxp; oy = pyp; P(cx + 1, cy, 0); var ux = pxp - ox, uy = pyp - oy; P(cx, cy + 1, 0);
+          ctx.setTransform(dpr * ux, dpr * uy, dpr * (pxp - ox), dpr * (pyp - oy), dpr * ox, dpr * oy);
+          var gl = ctx.createRadialGradient(0, 0, 0, 0, 0, R);
+          gl.addColorStop(0, rgba(zn.c, 0.42 * zn.lv)); gl.addColorStop(1, rgba(zn.c, 0));
+          ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(0, 0, R, 0, 6.2832); ctx.fill();
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        var fort = etat > 0;
+        ctx.beginPath(); ctx.moveTo(C[0], C[1]); ctx.lineTo(C[2], C[3]); ctx.lineTo(C[4], C[5]); ctx.lineTo(C[6], C[7]); ctx.closePath();
+        var g = ctx.createLinearGradient(C[0], C[1], C[4], C[5]);
+        g.addColorStop(0, rgba(zn.c, fort ? 0.9 : 0.34)); g.addColorStop(1, rgba(zn.c, fort ? 0.34 : 0.12));
+        ctx.fillStyle = g; ctx.fill();
+        if (!leger){ ctx.strokeStyle = rgba(zn.c, fort ? 0.5 : 0.22); ctx.lineWidth = 6; ctx.stroke(); }
+        ctx.strokeStyle = etat === 2 ? '#fff' : rgba(zn.c, 0.9); ctx.lineWidth = 1.5; ctx.stroke();
+      }
+
+      function construire(){
+        var rang = 0;
+        esp.forEach(function(e){
+          if (!e.r) return;
+          var zn = { e: e, i: rang, x0: e.r[0] - X0, y0: e.r[1] - Y0, w: e.r[2], h: e.r[3], c: e.c, hz: HZ[e.id] || 20, j: e.j === 'mar' || e.j === 'mer' ? e.j : 'tous', vis: true,
+                     lv: 0, up: 0, pop0: -1, asm: [], bouton: null, nom: null };
+          ZB = zn;
+          try{ (CONSTR[e.id] || CONSTR.defaut)(zn.w, zn.h, e.c); }catch(err){ zn.asm = []; CONSTR.defaut(zn.w, zn.h, e.c); }
+          zn.asm.forEach(function(a){
+            var sx = 0, sy = 0, sz = 0;
+            a.p.forEach(function(p){ sx += p.x + (p.w || 0) / 2; sy += p.y + (p.d || 0) / 2; sz += p.z + (p.h || 0) / 2; });
+            a.cx = sx / a.p.length; a.cy = sy / a.p.length; a.cz = sz / a.p.length;
+          });
+          // pastille avec l'icône (le nom apparaît au survol ou au toucher)
+          var nom = creer('span', 'rb-nom', etiq); creer('em', '', nom).textContent = String(e.nom).split(' · ')[0]; nom.setAttribute('data-ico', ICO[e.id] || '');
+          zn.nom = nom;
+          // accès au clavier : un bouton caché par espace
+          var bt = creer('button', '', acces); bt.type = 'button'; bt.textContent = e.nom;
+          bt.addEventListener('focus', function(){ choisir(zn); });
+          zn.bouton = bt;
+          zones.push(zn);
+          rang += 1;
+        });
+      }
+
+      function choisir(zn){
+        var e = zn.e;
+        selection = zn;
+        fiche.style.setProperty('--cs', e.c);
+        fiche.textContent = '';
+        var t = creer('b'); t.textContent = (ICO[e.id] ? ICO[e.id] + ' ' : '') + e.nom; fiche.appendChild(t);
+        var s = creer('span'); s.textContent = [e.sous, JOURS[e.j] || ''].filter(Boolean).join(' · '); fiche.appendChild(s);
+        var infos = [];
+        if (e.pegi) infos.push('PEGI ' + e.pegi);
+        if (e.places) infos.push(e.places + ' places');
+        if (infos.length){ var c = creer('em'); c.textContent = infos.join(' · '); fiche.appendChild(c); }
+        sale = true; demarrer();
+      }
+
+      var boutons = [].slice.call(relief.querySelectorAll('.relief-jours button'));
+      boutons.forEach(function(bt){
+        bt.addEventListener('click', function(){
+          jour = bt.getAttribute('data-jour');
+          plateau.setAttribute('data-jour', jour);
+          boutons.forEach(function(o){ var on = o === bt; o.classList.toggle('actif', on); o.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+          selection = null; survol = null;
+          fiche.style.removeProperty('--cs');
+          fiche.innerHTML = texteParDefaut;
+          zones.forEach(function(zn){
+            var v = zn.j === 'tous' || zn.j === jour;
+            if (v && !zn.vis) zn.pop0 = performance.now();
+            zn.vis = v;
+            zn.bouton.hidden = !v; zn.nom.style.display = v ? '' : 'none';
+          });
+          sale = true; demarrer();
+        });
+      });
+
+      function mesurer(){
+        vh = Math.min(window.innerHeight, racine.clientHeight || window.innerHeight);
+        hh = entete ? Math.round(entete.getBoundingClientRect().height) : 72;
+        W = scene.clientWidth; H = scene.clientHeight;
+        // écran en hauteur (téléphone) : le plan tourne presque de 90° pour que sa grande longueur suive la hauteur de l'écran
+        haut = W < H * 0.8;
+        K = haut
+          ? Math.max(0.2, Math.min(1, W * 0.9 / 665, H * 0.9 / 600))
+          : Math.max(0.2, Math.min(1, Math.min(W * 0.94 / 980, H * 0.9 / 840)));
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        toile.width = Math.round(W * dpr); toile.height = Math.round(H * dpr);
+        CXc = W / 2; CYc = H / 2; OXc = W / 2; OYc = H * 0.3;
+        sale = true;
+      }
+
+      /* ---------- une image ---------- */
+      function dessiner(t){
+        var debut = performance.now(), ts = t / 1000;
+        var br = relief.getBoundingClientRect();
+        var course = br.height - (vh - hh);
+        var q = course > 0 ? borne(-(br.top - hh) / course) : 0;
+        var vivant = q > 0.35 ? 1 : 0;
+        var ax = 54 * lisse(q, 0.04, 0.36) - my * 4 * vivant;
+        var az = (haut ? -60 : -30) * lisse(q, 0.08, 0.5) - (haut ? 24 : 12) * lisse(q, 0.62, 1) + mx * 6 * vivant;
+        var pl = haut ? 0 : lisse(q, 0.3, 0.7);
+        ZS = K * (1 + 0.18 * pl); TY = -28 * pl;
+        var rA = az * Math.PI / 180, rX = ax * Math.PI / 180;
+        cA = Math.cos(rA); sA = Math.sin(rA); cX = Math.cos(rX); sX = Math.sin(rX);
+        // le sol et le plan (HTML) suivent la même caméra
+        var tr = 'translate3d(0,' + TY.toFixed(1) + 'px,0) scale3d(' + ZS.toFixed(3) + ',' + ZS.toFixed(3) + ',' + ZS.toFixed(3) + ') rotateX(' + ax.toFixed(2) + 'deg) rotateZ(' + az.toFixed(2) + 'deg)';
+        if (tr !== dernierTransform){ plateau.style.transform = tr; dernierTransform = tr; }
+        if (jauge) jauge.style.transform = 'scaleX(' + q.toFixed(3) + ')';
+
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.clearRect(0, 0, W, H);
+        var i, j, k, zn, a, pr, items = [], fond = borne((q - 0.7) / 0.14);
+        // hauteur de pousse, soulèvement au survol / à la sélection
+        for (i = 0; i < zones.length; i++){
+          zn = zones[i];
+          if (!zn.vis) continue;
+          var lev = lisse(q, 0.26 + zn.i * 0.016, 0.43 + zn.i * 0.016);
+          if (zn.pop0 >= 0){
+            var pp = borne((performance.now() - zn.pop0) / 550);
+            lev *= pp >= 1 ? 1 : (1 + 2.7 * Math.pow(pp - 1, 3) + 1.7 * Math.pow(pp - 1, 2));
+            if (pp >= 1) zn.pop0 = -1;
+          }
+          zn.lv = lev;
+          var cible = zn === selection ? 9 : (zn === survol ? 4 : 0);
+          zn.up += (cible - zn.up) * 0.25;
+        }
+        // 1. socles lumineux
+        for (i = 0; i < zones.length; i++){
+          zn = zones[i]; if (!zn.vis) continue;
+          OXz = zn.x0; OYz = zn.y0; LEV = zn.lv; UP = zn.up;
+          dessinerSocle(zn, zn === selection ? 2 : (zn === survol ? 1 : 0));
+        }
+        // 2. ombres et décor au sol
+        for (i = 0; i < zones.length; i++){
+          zn = zones[i]; if (!zn.vis || zn.lv < 0.02) continue;
+          OXz = zn.x0; OYz = zn.y0; LEV = zn.lv; UP = zn.up;
+          for (j = 0; j < zn.asm.length; j++){
+            a = zn.asm[j];
+            for (k = 0; k < a.p.length; k++){
+              pr = a.p[k];
+              if (pr.t === 'f') dessinerDecor(pr, ts);
+              else if (pr.sh && !leger){ ctx.globalAlpha = zn.lv; dessinerOmbre(pr); ctx.globalAlpha = 1; }
+            }
+          }
+        }
+        // 3. objets, les plus éloignés d'abord
+        for (i = 0; i < zones.length; i++){
+          zn = zones[i]; if (!zn.vis || zn.lv < 0.02) continue;
+          for (j = 0; j < zn.asm.length; j++){
+            a = zn.asm[j];
+            items.push({ a: a, zn: zn, d: dist2(zn.x0 + a.cx, zn.y0 + a.cy, a.cz * zn.lv + zn.up) });
+          }
+        }
+        items.sort(function(p, r){ return r.d - p.d; });
+        for (i = 0; i < items.length; i++){
+          zn = items[i].zn; a = items[i].a;
+          OXz = zn.x0; OYz = zn.y0; LEV = zn.lv; UP = zn.up;
+          for (k = 0; k < a.p.length; k++){
+            pr = a.p[k];
+            if (pr.t === 'b') dessinerBoite(pr, ts); else if (pr.t === 'd') dessinerDisque(pr, ts);
+          }
+        }
+        ordre = items;
+        // 4. pastilles des noms, toujours de face
+        for (i = 0; i < zones.length; i++){
+          zn = zones[i]; if (!zn.vis) continue;
+          OXz = zn.x0; OYz = zn.y0; LEV = 1; UP = zn.up;
+          P(zn.w / 2, zn.h / 2, zn.hz + 8 + (zn === selection || zn === survol ? 12 : 0));
+          zn.nom.style.transform = 'translate3d(' + pxp.toFixed(1) + 'px,' + pyp.toFixed(1) + 'px,0) translate(-50%,-140%)';
+          zn.nom.style.opacity = (zn === selection || zn === survol ? 1 : fond).toFixed(2);
+          zn.nom.classList.toggle('actif', zn === selection || zn === survol);
+        }
+        // si l'ordinateur peine, on enlève traits, ombres et animations fines
+        var duree = performance.now() - debut;
+        ema = ema * 0.9 + duree * 0.1;
+        if (!leger && ema > 15) leger = true; else if (leger && ema < 6) leger = false;
+        dessiner.derniere = duree;
+      }
+
+      /* ---------- toucher / souris : on retrouve l'espace sous le doigt avec les mêmes projections ---------- */
+      var T = new Float64Array(16);
+      function dedans(x, y, n){
+        var c = false, i, j;
+        for (i = 0, j = n - 1; i < n; j = i++){
+          var xi = T[2 * i], yi = T[2 * i + 1], xj = T[2 * j], yj = T[2 * j + 1];
+          if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) c = !c;
+        }
+        return c;
+      }
+      // teste si le point est dans la face formée par les points a, b, c, d de proj8 (C)
+      function dansFace(x, y, a, b, c, d){
+        T[0] = C[2 * a]; T[1] = C[2 * a + 1]; T[2] = C[2 * b]; T[3] = C[2 * b + 1]; T[4] = C[2 * c]; T[5] = C[2 * c + 1]; T[6] = C[2 * d]; T[7] = C[2 * d + 1];
+        return dedans(x, y, 4);
+      }
+      function trouver(x, y){
+        var i, k, a, pr, zn, ang, m;
+        for (i = ordre.length - 1; i >= 0; i--){
+          zn = ordre[i].zn; a = ordre[i].a;
+          OXz = zn.x0; OYz = zn.y0; LEV = zn.lv; UP = zn.up;
+          for (k = a.p.length - 1; k >= 0; k--){
+            pr = a.p[k];
+            if (pr.k === 'verre' || pr.t === 'f') continue;
+            if (pr.t === 'b'){
+              proj8(pr, 0);
+              if (face(4, 5, 6) && dansFace(x, y, 4, 5, 6, 7)) return zn;
+              if (face(7, 6, 2) && dansFace(x, y, 7, 6, 2, 3)) return zn;
+              if (face(4, 7, 3) && dansFace(x, y, 4, 7, 3, 0)) return zn;
+            } else {
+              for (m = 0; m < 8; m++){ ang = m * 0.7854; P(pr.x + pr.r * Math.cos(ang), pr.y + pr.r * Math.sin(ang), pr.z + pr.h); T[2 * m] = pxp; T[2 * m + 1] = pyp; }
+              if (dedans(x, y, 8)) return zn;
+            }
+          }
+        }
+        for (i = zones.length - 1; i >= 0; i--){
+          zn = zones[i]; if (!zn.vis) continue;
+          OXz = zn.x0; OYz = zn.y0; LEV = zn.lv; UP = zn.up;
+          P(0, 0, 0); T[0] = pxp; T[1] = pyp; P(zn.w, 0, 0); T[2] = pxp; T[3] = pyp; P(zn.w, zn.h, 0); T[4] = pxp; T[5] = pyp; P(0, zn.h, 0); T[6] = pxp; T[7] = pyp;
+          if (dedans(x, y, 4)) return zn;
+        }
+        return null;
+      }
+
+      /* ---------- boucle d'animation : seulement quand la scène est à l'écran ---------- */
+      function boucle(t){
+        rafId = 0;
+        if (!visible) return;
+        if (sale || t - dernier > 33){ dernier = t; sale = false; dessiner(t); }
+        rafId = window.requestAnimationFrame(boucle);
+      }
+      function demarrer(){ if (!rafId && visible) rafId = window.requestAnimationFrame(boucle); }
+
+      window.addEventListener('scroll', function(){ sale = true; demarrer(); }, { passive: true });
+      window.addEventListener('resize', function(){ mesurer(); demarrer(); });
+      window.addEventListener('load', function(){ mesurer(); demarrer(); });
+      toile.addEventListener('pointermove', function(ev){
+        if (ev.pointerType !== 'mouse') return;
+        var r = toile.getBoundingClientRect(), x = ev.clientX - r.left, y = ev.clientY - r.top;
+        mx = (x / r.width) * 2 - 1; my = (y / r.height) * 2 - 1; // sur ordinateur, le plan suit un peu la souris
+        var zn = trouver(x, y);
+        if (zn !== survol){ survol = zn; toile.style.cursor = zn ? 'pointer' : 'default'; }
+        sale = true; demarrer();
+      });
+      toile.addEventListener('pointerleave', function(){ survol = null; toile.style.cursor = 'default'; sale = true; demarrer(); });
+      toile.addEventListener('click', function(ev){
+        var r = toile.getBoundingClientRect(), zn = trouver(ev.clientX - r.left, ev.clientY - r.top);
+        if (zn) choisir(zn);
+      });
+      if ('IntersectionObserver' in window){
+        new IntersectionObserver(function(liste){
+          liste.forEach(function(x){ visible = x.isIntersecting; if (visible){ sale = true; demarrer(); } });
+        }, { rootMargin: '100px 0px' }).observe(relief);
+      } else visible = true;
+
+      construire();
+      zones.forEach(function(zn){
+        var v = zn.j === 'tous' || zn.j === jour;
+        zn.vis = v; zn.bouton.hidden = !v; zn.nom.style.display = v ? '' : 'none';
+      });
+      window.__reliefImage = function(){ dessiner(performance.now()); }; // pour les essais
+      window.__reliefInfo = function(){ return { duree: dessiner.derniere, ema: ema, leger: leger, objets: ordre.length }; };
+      sec.hidden = false;
+      mesurer();
+      demarrer();
+    }catch(e){
+      var s3 = document.getElementById('plan3d'); if (s3) s3.hidden = true;
+      if (window.console && console.error) console.error('La Halle en 3D :', e);
+    }
   })();
 </script>
 </body>
