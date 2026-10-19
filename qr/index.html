@@ -245,8 +245,8 @@
       <div class="ensuite" id="ensuite" hidden></div>
     </div>
     <div class="plan">
-      <svg id="plan-svg" viewBox="120 30 890 785" role="img" aria-label="Plan de la Halle : les espaces allumés sont ceux où il se passe quelque chose en ce moment">
-        <image href="../plan-halle.png" x="0" y="0" width="1169" height="826"/>
+      <svg id="plan-svg" viewBox="0 0 1130 1043" role="img" aria-label="Plan de la Halle : les espaces allumés sont ceux où il se passe quelque chose en ce moment">
+        <image href="../plan-officiel.png" x="0" y="0" width="1130" height="1043"/>
         <g id="zones"></g>
         <g id="etiquettes"></g>
       </svg>
@@ -452,43 +452,55 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Le programme (d'après le déroulé provisoire du SAJ) et les espaces du plan
+  // Le programme (d'après le plan officiel du SAJ, 19 oct. 2026) et les espaces du plan
   // ---------------------------------------------------------------------------
   const PROGRAMME = {
     mardi: [
-      { h: '10:00', fin: '10:15', titre: 'Accueil', detail: 'Pointage, bracelets PEGI, dépôt des affaires, règles.', lieux: ['accueil', 'depot'] },
-      { h: '10:15', fin: '10:30', titre: 'Mot du Maire', detail: 'Sur la scène.', lieux: ['scene'] },
-      { h: '10:30', fin: '15:30', titre: 'Espace Fortnite', detail: 'Tournois à 10h30 et à 15h. L’espace reste ouvert en continu.', lieux: ['pegi16'] },
-      { h: '11:00', fin: '11:45', titre: 'Finales Mario Kart', detail: 'Les 16 finalistes, sur grand écran au cinéma (niveau −1).', lieux: ['cinema'] },
-      { h: '11:00', fin: '12:30', titre: 'Tournoi FIFA', detail: 'Sur grand écran, en haut de la Halle.', lieux: ['fifa'] },
-      { h: '11:00', fin: '12:30', titre: 'Tournoi Smash Bros', detail: 'Premier tournoi, sur TV.', lieux: ['smash'] },
-      { h: '11:45', fin: '13:25', titre: 'Film : Super Mario Galaxy', detail: 'Pour les 16 finalistes, au cinéma.', lieux: ['cinema'] },
-      { h: '12:30', fin: '13:30', titre: 'Pique-nique, 1er service', detail: '', lieux: ['repas'] },
-      { h: '13:30', fin: '14:00', titre: 'Pique-nique, 2e service', detail: 'Avec les finalistes, après le film.', lieux: ['repas'] },
-      { h: '14:00', fin: '15:00', titre: 'Tournoi découverte Mario Kart', detail: 'Pour tous, dans la Halle.', lieux: ['mario1', 'mario2'] },
-      { h: '14:00', fin: '15:00', titre: 'Finale FIFA', detail: 'Sur la scène.', lieux: ['scene'] },
-      { h: '14:00', fin: '15:40', titre: 'Tournoi Smash Bros', detail: 'Deuxième tournoi, sur TV.', lieux: ['smash'] },
-      { h: '15:40', fin: '16:00', titre: 'Goûter et Kahoot géant', detail: 'En bord de scène.', lieux: ['scene'] },
-      { h: '16:00', fin: '17:00', titre: 'Départs', detail: 'Jeunes du SAJ : jeu libre jusqu’à 17h.', lieux: ['accueil'] },
+      { h: '10:00', fin: '10:15', titre: 'Accueil', detail: 'Pointage, bracelets PEGI, dépôt des affaires, règles.', lieux: ["accueil"] },
+      { h: '10:00', fin: '10:45', titre: 'Mario Kart : enregistrement', detail: 'Enregistrement des joueurs, échauffement et pré-sélections.', lieux: ["mario1", "mario2"] },
+      { h: '10:15', fin: '10:30', titre: 'Mot du Maire', detail: 'À la sono.', lieux: ["sono"] },
+      { h: '10:45', fin: '15:00', titre: 'Stands en accès libre', detail: 'Espace Fortnite, PC, stands invités, bornes rétro…', lieux: ["pegi12", "pc", "stand1", "stand2", "stand3", "retro"] },
+      { h: '10:45', fin: '11:00', titre: 'Enregistrement des équipes FIFA', detail: '', lieux: ["fifa"] },
+      { h: '10:45', fin: '11:00', titre: 'Départ pour le cinéma', detail: 'Les finalistes Mario partent au cinéma (niveau −1).', lieux: ["cinema"] },
+      { h: '11:00', fin: '11:45', titre: 'Tournoi Mario Kart', detail: 'Quarts et demi-finales : les 16 finalistes, sur grand écran au cinéma (niveau −1).', lieux: ["cinema"] },
+      { h: '11:00', fin: '12:30', titre: 'Tournoi FIFA', detail: 'Début des matchs.', lieux: ["fifa"] },
+      { h: '11:00', fin: '12:30', titre: 'Tournoi Smash Bros', detail: 'Début des matchs, sur TV.', lieux: [] },
+      { h: '11:45', fin: '13:25', titre: 'Film : Super Mario Galaxy', detail: 'Pour les 16 finalistes, au cinéma.', lieux: ["cinema"] },
+      { h: '12:30', fin: '13:15', titre: 'Pique-nique, 1er service', detail: 'Pause des matchs et des stands.', lieux: ["repas"] },
+      { h: '13:00', fin: '15:00', titre: 'Smash Bros : phases finales', detail: 'Quarts, demi-finales et finales.', lieux: [] },
+      { h: '13:15', fin: '14:00', titre: 'Pique-nique, 2e service', detail: 'Reprise de FIFA et des stands.', lieux: ["repas"] },
+      { h: '13:15', fin: '14:00', titre: 'Just Dance', detail: 'Sur l’écran valise.', lieux: ["scene"] },
+      { h: '13:30', fin: '14:00', titre: 'Pique-nique des finalistes Mario', detail: 'Après le film.', lieux: ["repas"] },
+      { h: '14:00', fin: '14:40', titre: 'Demi-finales et finale FIFA', detail: 'Sur l’écran valise.', lieux: ["scene"] },
+      { h: '14:45', fin: '15:15', titre: 'Just Dance : Défi XXL', detail: 'Sur l’écran valise.', lieux: ["scene"] },
+      { h: '15:15', fin: '15:30', titre: 'Goûter', detail: '', lieux: ["repas"] },
+      { h: '15:30', fin: '16:00', titre: 'Kahoot géant et récompenses', detail: 'Grand Kahoot « Promeneurs du Net », puis récompenses, sur l’écran valise.', lieux: ["scene"] },
+      { h: '16:00', fin: '17:00', titre: 'Départs', detail: 'Jeunes du SAJ : jeu libre jusqu’à 17h.', lieux: ["accueil"] },
       { h: '17:00', fin: '17:15', titre: 'Fin de la journée', detail: 'À demain !', lieux: [] },
     ],
     mercredi: [
-      { h: '10:00', fin: '10:30', titre: 'Accueil', detail: 'Bracelets PEGI, dépôt, règles, résultats de la finale de mardi.', lieux: ['accueil', 'depot'] },
-      { h: '10:30', fin: '15:30', titre: 'Espace Fortnite', detail: 'Tournois à 10h30 et à 15h. L’espace reste ouvert en continu.', lieux: ['pegi16'] },
-      { h: '11:00', fin: '11:45', titre: 'Finales Mario Kart', detail: 'Les 16 finalistes, sur grand écran au cinéma (niveau −1).', lieux: ['cinema'] },
-      { h: '11:00', fin: '12:30', titre: 'Tournoi FIFA', detail: 'Sur grand écran, en haut de la Halle.', lieux: ['fifa'] },
-      { h: '11:00', fin: '12:30', titre: 'Tournoi Smash Bros', detail: 'Premier tournoi, sur TV.', lieux: ['smash'] },
-      { h: '11:45', fin: '13:25', titre: 'Film : Super Mario Galaxy', detail: 'Pour les 16 finalistes, au cinéma.', lieux: ['cinema'] },
-      { h: '12:30', fin: '13:30', titre: 'Pique-nique, 1er service', detail: '', lieux: ['repas'] },
-      { h: '13:30', fin: '14:00', titre: 'Pique-nique, 2e service', detail: 'Avec les finalistes, après le film.', lieux: ['repas'] },
-      { h: '14:00', fin: '15:00', titre: 'Tournoi découverte Mario Kart', detail: 'Pour tous, dans la Halle.', lieux: ['mario1', 'mario2'] },
-      { h: '14:00', fin: '15:00', titre: 'Finale FIFA', detail: 'Sur la scène.', lieux: ['scene'] },
-      { h: '14:00', fin: '15:40', titre: 'Tournoi Smash Bros', detail: 'Deuxième tournoi, sur TV.', lieux: ['smash'] },
-      { h: '15:05', fin: '15:40', titre: 'Finales des tournois découverte', detail: 'Sur la scène, tout le monde en tribune.', lieux: ['scene'] },
-      { h: '15:40', fin: '16:00', titre: 'Goûter, remise des prix et clôture', detail: 'En bord de scène.', lieux: ['scene'] },
-      { h: '16:00', fin: '17:00', titre: 'Départs', detail: 'Jeunes du SAJ : rangement et jeu libre jusqu’à 17h.', lieux: ['accueil'] },
+      { h: '10:00', fin: '10:30', titre: 'Accueil', detail: 'Bracelets PEGI, dépôt, règles, résultats de la finale de mardi.', lieux: ["accueil"] },
+      { h: '10:00', fin: '10:45', titre: 'Mario Kart : enregistrement', detail: 'Enregistrement des joueurs, échauffement et pré-sélections.', lieux: ["mario1", "mario2"] },
+      { h: '10:15', fin: '10:30', titre: 'Mot du Maire', detail: 'À la sono.', lieux: ["sono"] },
+      { h: '10:45', fin: '15:00', titre: 'Stands en accès libre', detail: 'Espace Fortnite, PC, stands invités, bornes rétro…', lieux: ["pegi12", "pc", "stand1", "stand2", "stand3", "retro"] },
+      { h: '10:45', fin: '11:00', titre: 'Enregistrement des équipes FIFA', detail: '', lieux: ["fifa"] },
+      { h: '10:45', fin: '11:00', titre: 'Départ pour le cinéma', detail: 'Les finalistes Mario partent au cinéma (niveau −1).', lieux: ["cinema"] },
+      { h: '11:00', fin: '11:45', titre: 'Tournoi Mario Kart', detail: 'Quarts et demi-finales : les 16 finalistes, sur grand écran au cinéma (niveau −1).', lieux: ["cinema"] },
+      { h: '11:00', fin: '12:30', titre: 'Tournoi FIFA', detail: 'Début des matchs.', lieux: ["fifa"] },
+      { h: '11:00', fin: '12:30', titre: 'Tournoi Smash Bros', detail: 'Début des matchs, sur TV.', lieux: [] },
+      { h: '11:45', fin: '13:25', titre: 'Film : Super Mario Galaxy', detail: 'Pour les 16 finalistes, au cinéma.', lieux: ["cinema"] },
+      { h: '12:30', fin: '13:15', titre: 'Pique-nique, 1er service', detail: 'Pause des matchs et des stands.', lieux: ["repas"] },
+      { h: '13:00', fin: '15:00', titre: 'Smash Bros : phases finales', detail: 'Quarts, demi-finales et finales.', lieux: [] },
+      { h: '13:15', fin: '14:00', titre: 'Pique-nique, 2e service', detail: 'Reprise de FIFA et des stands.', lieux: ["repas"] },
+      { h: '13:15', fin: '14:00', titre: 'Just Dance', detail: 'Sur l’écran valise.', lieux: ["scene"] },
+      { h: '13:30', fin: '14:00', titre: 'Pique-nique des finalistes Mario', detail: 'Après le film.', lieux: ["repas"] },
+      { h: '14:00', fin: '14:40', titre: 'Demi-finales et finale FIFA', detail: 'Sur l’écran valise.', lieux: ["scene"] },
+      { h: '14:45', fin: '15:15', titre: 'Just Dance : Défi XXL', detail: 'Sur l’écran valise.', lieux: ["scene"] },
+      { h: '15:15', fin: '15:30', titre: 'Goûter', detail: '', lieux: ["repas"] },
+      { h: '15:30', fin: '16:00', titre: 'Remise des récompenses', detail: 'Sur l’écran valise.', lieux: ["scene"] },
+      { h: '16:00', fin: '17:00', titre: 'Départs', detail: 'Jeunes du SAJ : rangement et jeu libre jusqu’à 17h.', lieux: ["accueil"] },
       { h: '17:00', fin: '17:15', titre: 'Fin des activités de la journée', detail: 'Ce soir 20h30 : Ready Player One en 3D (sur inscription).', lieux: [] },
-      { h: '20:30', fin: '22:50', titre: 'Soirée cinéma : Ready Player One', detail: 'En 3D, sur inscription, avec autorisation parentale.', lieux: ['cinema'] },
+      { h: '20:30', fin: '22:50', titre: 'Soirée cinéma : Ready Player One', detail: 'En 3D, sur inscription, avec autorisation parentale.', lieux: ["cinema"] },
     ],
   };
   // Fin de chaque activité : sa fin indiquée, sinon le début de la suivante.
@@ -496,23 +508,22 @@
     PROGRAMME[jour].forEach((a, i, liste) => { a.f = a.fin || (liste[i + 1] ? liste[i + 1].h : '17:00'); });
   }
 
-  // Les espaces, aux mêmes coordonnées que le plan du site (repère 1169 × 826).
+  // Les espaces du plan officiel (19 oct. 2026), sur l'image plan-officiel.png (repère 1130 × 1043).
   const ZONES = {
-    fifa: { r: [190, 58, 155, 90], c: '#0f8a8a', nom: 'FIFA' },
-    mario1: { r: [350, 58, 118, 90], c: '#d2452b', nom: 'Mario Kart 1' },
-    brawl: { r: [470, 58, 88, 90], c: '#c98a12', nom: 'Jeux sur mobile' },
-    scene: { r: [612, 58, 190, 90], c: '#e0338a', nom: 'Scène' },
-    smash: { r: [808, 58, 85, 90], c: '#2b7fd2', nom: 'Smash' },
-    pegi16: { r: [190, 168, 112, 236], c: '#9b1c3a', nom: 'Fortnite' },
-    mario2: { r: [318, 186, 102, 108], c: '#d2452b', nom: 'Mario Kart 2' },
-    leognan: { r: [495, 186, 66, 108], c: '#c98a12', nom: 'Léognan' },
-    stand2: { r: [566, 186, 66, 108], c: '#2b7fd2', nom: { mardi: 'Jeux coop', mercredi: 'ABCS' } },
-    stand3: { r: [637, 186, 66, 108], c: '#c2407f', nom: { mardi: 'Société', mercredi: 'Rétro' } },
-    pc: { r: [750, 186, 143, 152], c: '#7a45c9', nom: 'PC · LAN' },
-    repas: { r: [750, 380, 143, 158], c: '#5f6b7a', nom: 'Repas' },
-    depot: { r: [662, 318, 44, 100], c: '#5f6b7a', nom: 'Dépôt' },
-    accueil: { r: [662, 428, 44, 110], c: '#1f9a6b', nom: 'Accueil' },
-    cinema: { cercle: [480, 560, 26], c: '#7b2cff', nom: 'Cinéma −1' },
+    mario1: { r: [34, 25, 210, 160], c: '#d2452b', nom: 'Mario Kart 1' },
+    mario2: { r: [267, 25, 206, 160], c: '#d2452b', nom: 'Mario Kart 2' },
+    stand1: { r: [491, 25, 134, 88], c: '#2b7fd2', nom: 'Stand invité' },
+    pegi12: { r: [34, 206, 172, 197], c: '#d98f1a', nom: 'Fortnite' },
+    fifa: { r: [206, 202, 176, 202], c: '#0f8a8a', nom: 'FIFA' },
+    stand2: { r: [496, 307, 134, 88], c: '#2b7fd2', nom: 'Stand invité' },
+    retro: { r: [657, 311, 92, 84], c: '#c2407f', nom: 'Bornes rétro' },
+    sono: { r: [764, 71, 80, 80], c: '#5f6b7a', nom: 'Sono' },
+    scene: { r: [930, 19, 172, 172], c: '#e0338a', nom: 'Écran valise' },
+    pc: { r: [895, 206, 206, 260], c: '#7a45c9', nom: 'PC' },
+    stand3: { r: [739, 416, 84, 168], c: '#2b7fd2', nom: 'Stand invité' },
+    repas: { r: [874, 508, 227, 223], c: '#5f6b7a', nom: 'Repas' },
+    accueil: { r: [739, 613, 88, 147], c: '#1f9a6b', nom: 'Accueil' },
+    cinema: { cercle: [294, 701, 30], c: '#7b2cff', nom: 'Cinéma −1' },
   };
 
   // ---------------------------------------------------------------------------
@@ -643,9 +654,9 @@
     mercredi: [new Date('2026-10-21T15:30:00+02:00'), new Date('2026-10-21T23:59:59+02:00')],
   };
   const ACTIVITES = [
-    ['mario-kart', '🏎️ Mario Kart'], ['fortnite', '🔫 Fortnite (PC)'], ['valorant', '🎯 Valorant (16+)'], ['smash', '🥊 Smash Bros'],
-    ['fifa', '⚽ FIFA'], ['just-dance', '💃 Just Dance'], ['brawl-stars', '📱 Jeux sur mobile'], ['stands', '🎮 Stands des structures'],
-    ['retro', '👾 Rétrogaming', 'mercredi'], ['kahoot', '❓ Kahoot géant', 'mardi'], ['cinema', '🎬 Cinéma'], ['autre', '✨ Autre'],
+    ['mario-kart', '🏎️ Mario Kart'], ['fortnite', '🔫 Fortnite (PC)'], ['pc-reseau', '🖥️ PC en réseau'], ['smash', '🥊 Smash Bros'],
+    ['fifa', '⚽ FIFA'], ['just-dance', '💃 Just Dance'], ['stands', '🎮 Stands des structures'],
+    ['retro', '👾 Rétrogaming'], ['kahoot', '❓ Kahoot géant', 'mardi'], ['cinema', '🎬 Cinéma'], ['autre', '✨ Autre'],
   ];
   const FIREBASE = {
     cle: 'AIzaSyCFd2YAtKt8efLtsQIeyvCr0B8rVBs7VZ0',
@@ -831,8 +842,8 @@
     v: { age: '3+', nom: 'VERTE', c: '#2DBE4E', regle: 'Peut jouer aux jeux PEGI 3.' },
     j: { age: '7+', nom: 'JAUNE', c: '#FFD21F', regle: 'Peut jouer aux jeux PEGI 3 et 7.' },
     o: { age: '12+', nom: 'ORANGE', c: '#FF8A1C', regle: 'Peut jouer aux jeux PEGI 3, 7 et 12.' },
-    // Pas de bande rouge (décision du 14 octobre) : un jeune de 16 ans et plus porte la bande ORANGE, mais l'écran garde « 16+ » pour contrôler l'espace PEGI 16.
-    r: { age: '16+', nom: 'ORANGE', c: '#FF8A1C', regle: 'Bande orange (pas de bande rouge). Peut jouer à tous les jeux, y compris l\u2019espace PEGI 16 s\u2019il est ouvert.' },
+    // Pas de bande rouge (décision du 14 octobre) : un jeune de 16 ans et plus porte la bande ORANGE, mais l'écran garde « 16+ » pour le contrôle.
+    r: { age: '16+', nom: 'ORANGE', c: '#FF8A1C', regle: 'Bande orange (pas de bande rouge). Peut jouer à tous les jeux, y compris l\u2019espace PEGI 12.' },
   };
   function equipeActive() {
     try { return localStorage.getItem(CLE_EQUIPE) === 'oui'; } catch (e) { return false; }
