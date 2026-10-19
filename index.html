@@ -927,263 +927,17 @@
   footer .petit{ font-size: 0.78rem; opacity: 0.7; }
 
   /* ===================================================================
-     PLAN DE LA HALLE
+     PLAN DE LA HALLE : la scène 3D (plus bas) et le bloc « Bon à savoir »
      =================================================================== */
-  .plan-barre{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px 18px;
-    margin-bottom: 18px;
-  }
-  .plan-jour-toggle{
-    position: relative;
-    display: inline-grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 4px;
-    border-radius: 40px;
-    background: var(--bg-alt);
-    border: 1px solid var(--border);
-  }
-  .plan-jour-toggle::before{
-    content: "";
-    position: absolute;
-    top: 4px; bottom: 4px; left: 4px;
-    width: calc(50% - 4px);
-    border-radius: 36px;
-    background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan));
-    box-shadow: 0 0 22px rgba(34,232,255,0.35);
-    transition: transform 0.32s cubic-bezier(0.3, 0.8, 0.3, 1);
-  }
-  .plan-jour-toggle.mer::before{ transform: translateX(100%); }
-  .plan-jour-toggle button{
-    position: relative;
-    z-index: 1;
-    padding: 10px 26px;
-    border: 0;
-    border-radius: 36px;
-    background: transparent;
-    color: var(--text-dim);
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 700;
-    font-size: 0.88rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: color 0.25s;
-  }
-  .plan-jour-toggle button.actif{ color: #06060c; }
-  .plan-outils{ display: flex; flex-wrap: wrap; gap: 8px; }
-  .plan-outil{
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    min-width: 42px;
-    padding: 9px 16px;
-    border-radius: 30px;
-    border: 1px solid var(--border);
-    background: var(--bg-alt);
-    color: var(--text-dim);
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 700;
-    font-size: 0.82rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: color 0.2s, border-color 0.2s, background 0.2s, opacity 0.2s;
-  }
-  .plan-outil:hover:not(:disabled){ color: var(--text); border-color: rgba(34,232,255,0.55); }
-  .plan-outil:disabled{ opacity: 0.35; cursor: default; }
-  .plan-outil[aria-pressed="true"]{ color: #06060c; background: var(--neon-cyan); border-color: transparent; }
-
-  .plan-cadre{
-    scroll-margin-top: 84px;
-    padding: 10px;
-    border: 1px solid transparent;
-    border-radius: 22px;
-    background: linear-gradient(var(--bg-alt), var(--bg-alt)) padding-box,
-                linear-gradient(135deg, var(--neon-purple), var(--neon-cyan) 55%, var(--neon-pink)) border-box;
-    box-shadow: 0 0 70px rgba(176,38,255,0.16), 0 30px 60px rgba(0,0,0,0.35);
-  }
-  .plan-svg-wrap{
-    --z: 1;
-    position: relative;
-    overflow-x: auto;
-    overflow-y: hidden;
-    border-radius: 14px;
-    background: #fbfbf8;
-    transition: background 0.4s;
-    -webkit-overflow-scrolling: touch;
-  }
-  .plan-svg-wrap svg{
-    display: block;
-    width: calc(100% * var(--z));
-    max-width: none;
-    height: auto;
-    transition: width 0.35s ease;
-  }
-  .plan-svg-wrap .lbl{
-    font-size: 11px;
-    font-weight: 600;
-    fill: #1b2230;
-    paint-order: stroke;
-    stroke: #fbfbf8;
-    stroke-width: 3px;
-    transition: fill 0.4s, stroke 0.4s;
-  }
-  .plan-svg-wrap .sm{
-    font-size: 9.5px;
-    font-weight: 500;
-    fill: #3b4456;
-    paint-order: stroke;
-    stroke: #fbfbf8;
-    stroke-width: 3px;
-    transition: fill 0.4s, stroke 0.4s;
-  }
-  .plan-svg-wrap.day-mer .only-mar,
-  .plan-svg-wrap.day-mar .only-mer{ display: none; }
-
-  .plan-svg-wrap .hit{ fill: transparent; stroke: none; cursor: pointer; }
-  #plan-voile{ fill: rgba(251,251,248,0.68); fill-rule: evenodd; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
-  #plan-voile.on{ opacity: 1; }
-  #plan-sel{ fill: none; stroke-width: 4; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
-  #plan-sel.on{ opacity: 1; }
-  .plan-svg-wrap .fourmis{ animation: fourmis 1s linear infinite; }
-  @keyframes fourmis{ to{ stroke-dashoffset: -13; } }
-  .plan-svg-wrap .pulse{ animation: pulse 1.8s ease-in-out infinite; }
-  @keyframes pulse{ 0%, 100%{ opacity: 1; } 50%{ opacity: 0.35; } }
-
-  /* mode néon : le plan prend les couleurs du site */
-  .plan-cadre.neon .plan-svg-wrap{ background: #0a0a16; }
-  .plan-cadre.neon .plan-svg-wrap image{ filter: invert(1) hue-rotate(190deg) saturate(1.5) brightness(0.9) contrast(1.08); }
-  .plan-cadre.neon .lbl{ fill: #ffffff; stroke: #0a0a16; }
-  .plan-cadre.neon .sm{ fill: #b9c2e6; stroke: #0a0a16; }
-  .plan-cadre.neon rect[fill="#e9e3d6"]{ fill: #26263d; stroke: #8590c0; }
-  .plan-cadre.neon [fill="#fbfbf8"]{ fill: #14142a; }
-  .plan-cadre.neon [fill="#fff"]{ fill: #1a1a30; }
-  .plan-cadre.neon [fill="#2b2f36"]{ fill: #aab3da; }
-  .plan-cadre.neon [stroke="#2b2f36"]{ stroke: #8e98c8; }
-  .plan-cadre.neon [stroke="#123a8a"]{ stroke: #5fa8ff; }
-  .plan-cadre.neon marker#arr path{ fill: #5fa8ff; }
-  .plan-cadre.neon [fill-opacity=".13"]{ fill-opacity: 0.3; }
-  .plan-cadre.neon #plan-voile{ fill: rgba(8,8,22,0.62); }
-
-  .plan-glisser{ display: none; color: var(--text-dim); font-size: 0.82rem; text-align: center; margin-top: 12px; }
-  .plan-grille.zoomee .plan-glisser{ display: block; }
-
-  .plan-info{
-    position: relative;
-    overflow: hidden;
-    margin-top: 22px;
-    min-height: 132px;
-    padding: 22px 26px 22px 30px;
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    background: linear-gradient(165deg, rgba(255,255,255,0.05), transparent 60%), var(--bg-alt);
-  }
-  .plan-info::before{
-    content: "";
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 6px;
-    background: var(--ic, linear-gradient(var(--neon-purple), var(--neon-cyan)));
-    box-shadow: 0 0 22px var(--ic, rgba(34,232,255,0.5));
-  }
-  .plan-info .pi-titre{ font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.35rem; line-height: 1.25; }
-  .plan-info .pi-sous{ color: var(--neon-cyan); font-weight: 600; margin-top: 4px; }
-  .plan-info .pi-desc{ margin-top: 10px; color: var(--text); opacity: 0.9; }
-  .plan-info .pi-vide{ display: flex; align-items: center; gap: 14px; color: var(--text-dim); min-height: 88px; }
-  .plan-info .pi-vide b{ color: var(--text); }
-  .plan-info .pi-doigt{ font-size: 1.9rem; animation: pointer 1.8s ease-in-out infinite; }
-  @keyframes pointer{ 0%, 100%{ transform: translate(0, 0); } 50%{ transform: translate(6px, -6px); } }
-
-  .plan-puces{ display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 24px; }
-  .plan-groupe{
-    flex-basis: 100%;
-    text-align: center;
-    font-size: 0.72rem;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    margin-top: 8px;
-  }
-  .plan-groupe:first-child{ margin-top: 0; }
-  .plan-puce{
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    padding: 9px 16px;
-    border-radius: 30px;
-    border: 1px solid var(--border);
-    background: var(--bg-alt);
-    color: var(--text);
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 600;
-    font-size: 0.92rem;
-    cursor: pointer;
-    transition: transform 0.15s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
-  }
-  .plan-puce i{ width: 11px; height: 11px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px var(--c); flex-shrink: 0; }
-  .plan-puce:hover{ border-color: var(--c); background: color-mix(in srgb, var(--c) 12%, var(--bg-alt)); }
-  .plan-puce[aria-pressed="true"]{
-    border-color: var(--c);
-    background: color-mix(in srgb, var(--c) 20%, var(--bg-alt));
-    box-shadow: 0 0 22px color-mix(in srgb, var(--c) 40%, transparent);
-  }
-  .plan-puce[hidden]{ display: none; }
-
-  /* Légende du plan */
   .plan-legende{
-    margin-top: 40px;
-    display: grid;
-    gap: 30px;
-    grid-template-columns: 1fr;
+    margin: 40px auto 0;
+    max-width: 820px;
     padding: 28px;
     border: 1px solid var(--border);
     border-radius: 20px;
     background: linear-gradient(165deg, rgba(255,255,255,0.05), transparent 60%), var(--bg-alt);
   }
-  .plan-legende h3{ font-size: 1.15rem; color: var(--neon-cyan); margin-bottom: 4px; }
-  .legende-aide{ color: var(--text-dim); font-size: 0.88rem; margin-bottom: 16px; }
-  .legende-symboles{ display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
-  .legende-sym{
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-align: left;
-    padding: 9px 12px;
-    border-radius: 14px;
-    border: 1px solid var(--border);
-    background: rgba(255,255,255,0.03);
-    color: var(--text);
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 600;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s, transform 0.15s, box-shadow 0.2s;
-  }
-  .legende-sym svg{ width: 44px; height: 30px; flex-shrink: 0; }
-  .legende-sym:hover{ border-color: rgba(34,232,255,0.55); background: rgba(34,232,255,0.06); }
-  .legende-sym[aria-pressed="true"]{
-    border-color: var(--neon-cyan);
-    background: rgba(34,232,255,0.1);
-    box-shadow: 0 0 22px rgba(34,232,255,0.25);
-  }
-  .legende-detail{
-    margin-top: 14px;
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 1px solid var(--ic, var(--neon-cyan));
-    border-left-width: 5px;
-    background: rgba(255,255,255,0.04);
-    font-size: 0.95rem;
-    color: var(--text-dim);
-  }
-  .legende-detail[hidden]{ display: none; }
-  .legende-detail b{ color: var(--text); }
-  .legende-detail .legende-detail-fin{ display: block; margin-top: 6px; font-size: 0.82rem; opacity: 0.8; }
+  .plan-legende h3{ font-size: 1.15rem; color: var(--neon-cyan); margin-bottom: 14px; }
   .legende-conseils{ list-style: none; display: grid; gap: 14px; }
   .legende-conseils li{ display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: start; font-size: 0.95rem; color: var(--text-dim); }
   .legende-conseils .e{
@@ -1196,42 +950,21 @@
     border: 1px solid var(--border);
   }
   .legende-conseils b{ color: var(--text); }
-  @media (min-width: 900px){
-    .plan-legende{ grid-template-columns: 1.05fr 1fr; gap: 44px; padding: 32px 34px; }
-  }
-  #plan-focus > *, #plan-focus g > *{ filter: drop-shadow(0 0 6px var(--neon-purple)) drop-shadow(0 0 3px #fff); }
-  #plan-focus{ animation: souffle 1.5s ease-in-out infinite; }
-  @keyframes souffle{ 0%, 100%{ opacity: 1; } 50%{ opacity: 0.6; } }
-
   .plan-caption{ color: var(--text-dim); font-size: 0.8rem; text-align: center; max-width: 560px; margin: 18px auto 0; }
+  .plan-secours{ margin: 0; }
+  .plan-secours img{ display: block; width: 100%; height: auto; border-radius: 16px; background: #fbfbf8; }
 
   @media (min-width: 1000px){
     section#plan{ max-width: 1360px; }
-    .plan-grille{
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 350px;
-      gap: 30px;
-      align-items: start;
-    }
-    .plan-col-info{ position: sticky; top: 92px; }
-    .plan-col-info .plan-info{ margin-top: 0; min-height: 420px; }
-    .plan-col-info .plan-info .pi-vide{ min-height: 360px; }
-    .plan-col-info .plan-puces{ justify-content: flex-start; gap: 8px; margin-top: 18px; }
-    .plan-col-info .plan-groupe{ text-align: left; }
-    .plan-col-info .plan-puce{ padding: 7px 13px; font-size: 0.86rem; }
   }
 
   @media (max-width: 720px){
-    .plan-barre{ justify-content: center; }
-    .plan-cadre{ padding: 6px; border-radius: 18px; }
-    .plan-info{ padding: 18px 18px 18px 22px; }
     .hero-infos span{ padding: 8px 14px; font-size: 0.92rem; }
   }
 
   @media (prefers-reduced-motion: reduce){
-    .hero::before, .plan-svg-wrap .fourmis, .plan-svg-wrap .pulse, .plan-info .pi-doigt, #plan-focus{ animation: none; }
+    .hero::before{ animation: none; }
     html.js .reveal{ opacity: 1; transform: none; transition: none; }
-    .plan-svg-wrap svg, #plan-voile, #plan-sel, .plan-jour-toggle::before{ transition: none; }
     .btn, .btn:hover{ transition: none; transform: none; }
   }
 
@@ -1369,19 +1102,7 @@
     opacity: calc(1 - var(--hp, 0) * 1.25);
   }
   html.fx .hero p.subtitle{ translate: 0 calc(var(--hs, 0) * 0.5px); opacity: calc(1 - var(--hp, 0) * 1.6); }
-  html.fx .hero .hero-infos, html.fx .hero .hero-cta, html.fx .hero .countdown-wrap, html.fx .hero .stat-row{
-    translate: 0 calc(var(--hs, 0) * 0.4px);
-    opacity: calc(1 - var(--hp, 0) * 1.8);
-  }
   html.fx .hero::before{ opacity: calc(1 - var(--hp, 0) * 0.9); }
-
-  /* ---- Plan : il arrive en perspective (comme sur l'image de partage) puis se redresse ---- */
-  html.fx .plan-cadre{
-    transform-origin: 50% 0;
-    transform: perspective(1500px) rotateX(calc((1 - var(--pt, 1)) * 26deg)) scale(calc(0.86 + var(--pt, 1) * 0.14));
-    opacity: calc(0.3 + var(--pt, 1) * 0.7);
-  }
-  html.fx .plan-cadre.fx-plat{ transform: none; opacity: 1; }
 
   @media (prefers-reduced-motion: reduce){
     html.fx .histoire-etape{ transition: none; }
@@ -1473,13 +1194,21 @@
   .relief-jours button.actif{ background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan)); color: #0a0a14; }
   .relief-fiche{
     position: absolute; z-index: 3; left: 50%; bottom: 18px; translate: -50% 0;
-    width: max-content; max-width: min(92%, 520px); padding: 10px 20px; border-radius: 16px; text-align: center;
+    width: max-content; max-width: min(94%, 580px); max-height: 46%; overflow: auto; padding: 10px 20px; border-radius: 16px; text-align: center;
     display: flex; flex-direction: column; gap: 2px;
     background: rgba(10,10,20,0.82); border: 1px solid var(--border); border-bottom: 3px solid var(--cs, var(--neon-cyan)); backdrop-filter: blur(8px);
   }
-  .relief-fiche b{ font-family: 'Orbitron', sans-serif; font-size: 1.05rem; }
-  .relief-fiche span{ color: #c9cce8; font-size: 0.95rem; }
-  .relief-fiche em{ font-style: normal; font-weight: 700; color: var(--neon-cyan); }
+  .relief-fiche .rf-titre{ font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.05rem; }
+  .relief-fiche .rf-sous{ color: var(--neon-cyan); font-weight: 600; font-size: 0.92rem; }
+  .relief-fiche .rf-desc{ color: #c9cce8; font-size: 0.9rem; line-height: 1.35; }
+  .relief-fiche .puces{ justify-content: center; margin-top: 6px; gap: 6px; }
+  .relief-fiche .puce-info{ padding: 3px 10px; font-size: 0.78rem; }
+  .relief-fiche .pegi{ padding: 3px 9px; }
+  .fx-seul{ display: none; }
+  html.fx .fx-seul{ display: inline; }
+  /* effets coupés (?effets=0, « réduire les animations ») : la carte s'affiche finie, sans mouvement ni défilement épinglé */
+  html:not(.fx) .relief-scene{ position: relative; top: 0; height: min(82vh, 780px); }
+  html:not(.fx) .relief-jauge{ display: none; }
   .relief-jauge{ position: absolute; z-index: 3; left: 0; right: 0; bottom: 0; height: 4px; background: rgba(255,255,255,0.08); }
   .relief-jauge i{ display: block; height: 100%; background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan), var(--neon-pink)); transform: scaleX(0); transform-origin: 0 50%; }
   @media (max-height: 560px){
@@ -1489,7 +1218,13 @@
     /* petit écran : le plan est petit, donc on n'écrit que le nom de l'espace touché (le reste est dans la fiche) */
     .rb-nom{ font-size: 10px; padding: 0.2em 0.36em; background: rgba(8,9,26,0.74); }
     .relief-jours button{ padding: 6px 12px; font-size: 0.92rem; }
-    .relief-fiche{ bottom: 66px; }
+    .relief-fiche{ bottom: 66px; padding: 8px 12px; gap: 1px; }
+    .relief-fiche .rf-titre{ font-size: 0.95rem; }
+    .relief-fiche .rf-sous{ font-size: 0.8rem; }
+    .relief-fiche .rf-desc{ font-size: 0.78rem; line-height: 1.3; }
+    .relief-fiche .puces{ margin-top: 4px; gap: 5px; }
+    .relief-fiche .puce-info{ font-size: 0.7rem; padding: 2px 8px; }
+    .relief-fiche .pegi{ padding: 2px 7px; }
   }
 </style>
 </head>
@@ -1774,204 +1509,7 @@
   <div class="section-head">
     <div class="tag">Se repérer</div>
     <h2>Le plan de la Halle</h2>
-    <p>On entre par le préau. À gauche : accueil et dépôt. À droite : le repas, puis les PC. Après le virage à gauche : les stands invités le long du mur. En haut : FIFA, Mario Kart, Jeux sur mobile, la scène Just Dance et Smash. PEGI 16 (à confirmer) au fond de la réserve.</p>
-  </div>
-  <div class="plan-grille">
-  <div class="plan-col-plan">
-  <div class="plan-barre">
-    <div class="plan-jour-toggle" role="group" aria-label="Choisir le jour">
-      <button type="button" id="plan-btn-mardi" class="actif" aria-pressed="true">Mardi 20</button>
-      <button type="button" id="plan-btn-mercredi" aria-pressed="false">Mercredi 21</button>
-    </div>
-    <div class="plan-outils">
-      <button type="button" class="plan-outil" id="plan-zoom-moins" aria-label="Dézoomer le plan">−</button>
-      <button type="button" class="plan-outil" id="plan-zoom-plus" aria-label="Zoomer sur le plan">+</button>
-      <button type="button" class="plan-outil" id="plan-neon" aria-pressed="false">🌙 Mode néon</button>
-    </div>
-  </div>
-  <div class="plan-cadre" id="plan-cadre">
-  <div class="plan-svg-wrap day-mar" id="plan-wrap">
-    <svg viewBox="120 30 890 785" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Plan de la Halle avec l'emplacement des espaces de jeu">
-      <image href="plan-halle.png" x="0" y="0" width="1169" height="826"/>
-      <defs>
-        <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#8a93a3" stroke-width="1.2"></line></pattern>
-        <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#123a8a"></path></marker>
-        <marker id="arrG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1f8a5b"></path></marker>
-      </defs>
-      <path d="M560,548 H895 V768 H305 V664 H560 Z" fill="url(#hatch)" fill-opacity=".5" stroke="#8a93a3" stroke-dasharray="5 4"></path>
-      <text class="lbl" x="770" y="640">PRÉAU · extérieur</text>
-      <path d="M718,560 V700 H500 V650" fill="none" stroke="#123a8a" stroke-width="3" stroke-dasharray="8 5" marker-end="url(#arr)"></path>
-      <text class="lbl" x="506" y="720">Accès cinéma : préau → cage d'escalier → niveau −1</text>
-      <circle cx="480" cy="560" r="16" fill="#39465c" fill-opacity=".15" stroke="#39465c"></circle>
-      <text class="sm" x="455" y="590">cinéma N−1</text>
-      <g transform="translate(140,792)"><rect x="0" y="0" width="24" height="6" fill="#2b2f36" stroke="#2b2f36"></rect><rect x="24" y="0" width="24" height="6" fill="#fbfbf8" stroke="#2b2f36"></rect><rect x="48" y="0" width="24" height="6" fill="#2b2f36" stroke="#2b2f36"></rect><rect x="72" y="0" width="24" height="6" fill="#fbfbf8" stroke="#2b2f36"></rect><rect x="96" y="0" width="24" height="6" fill="#2b2f36" stroke="#2b2f36"></rect><text class="sm" x="0" y="-4">0</text><text class="sm" x="116" y="-4">5 m</text></g>
-      <line x1="728" y1="540" x2="728" y2="168" stroke="#1f8a5b" stroke-width="1.4" stroke-dasharray="14 4 2 4" opacity=".9"></line>
-      <line x1="305" y1="166" x2="745" y2="166" stroke="#1f8a5b" stroke-width="1.4" stroke-dasharray="14 4 2 4" opacity=".9"></line>
-      <line x1="745" y1="358" x2="893" y2="358" stroke="#1f8a5b" stroke-width="1.4" stroke-dasharray="14 4 2 4" opacity=".9"></line>
-      <line x1="590" y1="58" x2="590" y2="166" stroke="#1f8a5b" stroke-width="1.4" stroke-dasharray="14 4 2 4" opacity=".9"></line>
-      <text class="sm" x="722" y="560" text-anchor="end" fill="#1f8a5b">axe d'entrée</text>
-      <line x1="728" y1="600" x2="728" y2="548" stroke="#1f8a5b" stroke-width="4" marker-end="url(#arrG)"></line>
-      <text class="lbl" x="736" y="582">ENTRÉE</text>
-      <text class="sm" x="736" y="594">depuis le préau</text>
-      <g><rect x="190" y="58" width="155" height="90" rx="3" fill="#0f8a8a" fill-opacity=".13" stroke="#0f8a8a" stroke-width="1.6"></rect><text class="lbl" x="200" y="74">FIFA · PS4</text><text class="sm" x="200" y="86">avant de la réserve</text></g>
-      <line x1="200" y1="56" x2="300" y2="56" stroke="#123a8a" stroke-width="4" stroke-linecap="round"></line>
-      <g><polygon points="250,108 205,58 295,58" fill="#2b7fd2" fill-opacity=".22" stroke="#2b7fd2" stroke-width="1" stroke-dasharray="4 3"></polygon><rect x="244" y="104" width="12" height="8" fill="#2b7fd2"></rect></g>
-      <rect x="228" y="112" width="43" height="19" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect>
-      <circle cx="228" cy="138" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="244" cy="138" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="260" cy="138" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="276" cy="138" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle>
-      <g><rect x="350" y="58" width="118" height="90" rx="3" fill="#d2452b" fill-opacity=".13" stroke="#d2452b" stroke-width="1.6"></rect><text class="lbl" x="355" y="72">MARIO KART 1</text><text class="sm" x="355" y="84">Switch SAJ 1</text></g>
-      <g><polygon points="409,100 378,60 440,60" fill="#2b7fd2" fill-opacity=".22" stroke="#2b7fd2" stroke-width="1" stroke-dasharray="4 3"></polygon><rect x="403" y="96" width="12" height="8" fill="#2b7fd2"></rect></g>
-      <rect x="366" y="106" width="43" height="19" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect><rect x="409" y="106" width="43" height="19" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect>
-      <circle cx="378" cy="138" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="395" cy="138" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="413" cy="138" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="430" cy="138" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle>
-      <g><rect x="470" y="58" width="88" height="90" rx="3" fill="#c98a12" fill-opacity=".13" stroke="#c98a12" stroke-width="1.6"></rect><text class="lbl" x="475" y="72">JEUX SUR</text><text class="lbl" x="475" y="84">MOBILE</text><text class="sm" x="475" y="96">espace chill</text></g>
-      <circle cx="492" cy="100" r="7" fill="#f3e3c3" stroke="#2b2f36"></circle><circle cx="514" cy="100" r="7" fill="#f3e3c3" stroke="#2b2f36"></circle><circle cx="536" cy="100" r="7" fill="#f3e3c3" stroke="#2b2f36"></circle><circle cx="492" cy="124" r="7" fill="#f3e3c3" stroke="#2b2f36"></circle><circle cx="514" cy="124" r="7" fill="#f3e3c3" stroke="#2b2f36"></circle><circle cx="536" cy="124" r="7" fill="#f3e3c3" stroke="#2b2f36"></circle>
-      <text class="sm" x="478" y="143">poufs · smartphones</text>
-      <g><rect x="612" y="58" width="190" height="90" rx="3" fill="#e0338a" fill-opacity=".13" stroke="#e0338a" stroke-width="1.6"></rect><text class="lbl" x="617" y="72">SCÈNE · JUST DANCE</text><text class="sm" x="617" y="84">+ Kahoot, Maire, finales</text></g>
-      <line x1="660" y1="56" x2="744" y2="56" stroke="#123a8a" stroke-width="4" stroke-linecap="round"></line>
-      <g><polygon points="702,112 662,60 742,60" fill="#2b7fd2" fill-opacity=".22" stroke="#2b7fd2" stroke-width="1" stroke-dasharray="4 3"></polygon><rect x="696" y="108" width="12" height="8" fill="#2b7fd2"></rect></g>
-      <rect x="626" y="84" width="118" height="58" fill="none" stroke="#e0338a" stroke-width="1.5" stroke-dasharray="6 3"></rect>
-      <text class="sm" x="648" y="138">piste ≈ 5 × 2,4 m</text>
-      <g transform="translate(760,74)"><rect x="-5" y="-4" width="5" height="8" fill="#2b2f36"></rect><polygon points="0,-4 7,-9 7,9 0,4" fill="#2b2f36"></polygon></g>
-      <text class="sm" x="752" y="96">sono Halle</text>
-      <rect x="752" y="120" width="43" height="19" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect><text class="sm" x="754" y="116">goûter</text>
-      <g><rect x="808" y="58" width="85" height="90" rx="3" fill="#2b7fd2" fill-opacity=".13" stroke="#2b7fd2" stroke-width="1.6"></rect><text class="lbl" x="813" y="72">SMASH BROS</text><text class="sm" x="813" y="84">TV 1 · Switch 2</text></g>
-      <line x1="893" y1="74" x2="893" y2="130" stroke="#123a8a" stroke-width="4" stroke-linecap="round"></line>
-      <rect x="820" y="92" width="19" height="43" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect>
-      <circle cx="850" cy="90" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="850" cy="106" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="850" cy="122" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="850" cy="138" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle>
-      <g><rect x="190" y="168" width="112" height="236" rx="3" fill="#9b1c3a" fill-opacity=".13" stroke="#9b1c3a" stroke-width="1.6" stroke-dasharray="6 4"></rect><text class="lbl" x="200" y="184">PEGI 16</text><text class="sm" x="200" y="196">Valorant · 4 PC</text><text class="sm" x="200" y="208">à confirmer</text></g>
-      <line x1="305" y1="164" x2="305" y2="405" stroke="#4a4f5a" stroke-width="5"></line>
-      <line x1="190" y1="164" x2="268" y2="164" stroke="#9b1c3a" stroke-width="4" stroke-dasharray="3 3"></line>
-      <text class="sm" x="268" y="176">entrée</text>
-      <rect x="196" y="215" width="19" height="43" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect><rect x="196" y="258" width="19" height="43" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect>
-      <rect x="198" y="222" width="7" height="7" fill="#2b2f36"></rect><rect x="198" y="238" width="7" height="7" fill="#2b2f36"></rect><rect x="198" y="258" width="7" height="7" fill="#2b2f36"></rect><rect x="198" y="274" width="7" height="7" fill="#2b2f36"></rect>
-      <circle cx="226" cy="226" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="226" cy="242" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="226" cy="262" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="226" cy="278" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle>
-      <g transform="translate(262,300)"><circle r="8" fill="#fff" stroke="#c0392b" stroke-width="1.5"></circle><path d="M1,-6 L-3,1 L0,1 L-1,6 L3,-1 L0,-1 Z" fill="#c0392b"></path></g>
-      <g><rect x="318" y="186" width="102" height="108" rx="3" fill="#d2452b" fill-opacity=".13" stroke="#d2452b" stroke-width="1.6"></rect><text class="lbl" x="323" y="200">MARIO KART 2</text><text class="sm" x="323" y="212">Switch à trouver</text></g>
-      <g><polygon points="368,240 312,200 312,282" fill="#2b7fd2" fill-opacity=".22" stroke="#2b7fd2" stroke-width="1" stroke-dasharray="4 3"></polygon><rect x="362" y="236" width="12" height="8" fill="#2b7fd2"></rect></g>
-      <rect x="398" y="210" width="19" height="43" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect><rect x="398" y="253" width="19" height="43" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect>
-      <circle cx="385" cy="220" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="385" cy="236" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="385" cy="254" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="385" cy="270" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle>
-      <g><rect x="495" y="186" width="66" height="108" rx="3" fill="#c98a12" fill-opacity=".13" stroke="#c98a12" stroke-width="1.6"></rect><text class="lbl" x="500" y="200">LÉOGNAN</text><text class="sm" x="500" y="212">Gang Beasts</text></g>
-      <rect x="506" y="258" width="43" height="19" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect>
-      <line x1="503" y1="292" x2="553" y2="292" stroke="#123a8a" stroke-width="4" stroke-linecap="round"></line>
-      <circle cx="512" cy="246" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="528" cy="246" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="544" cy="246" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle>
-      <g class="only-mar">
-        <g><rect x="566" y="186" width="66" height="108" rx="3" fill="#2b7fd2" fill-opacity=".13" stroke="#2b7fd2" stroke-width="1.6"></rect><text class="lbl" x="571" y="200">JEUX COOP</text><text class="sm" x="571" y="212">TV 2</text></g>
-        <rect x="577" y="258" width="43" height="19" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect>
-        <line x1="574" y1="292" x2="624" y2="292" stroke="#123a8a" stroke-width="4" stroke-linecap="round"></line>
-        <circle cx="583" cy="246" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="599" cy="246" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="615" cy="246" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle>
-      </g>
-      <g class="only-mer">
-        <g><rect x="566" y="186" width="66" height="108" rx="3" fill="#2b7fd2" fill-opacity=".13" stroke="#2b7fd2" stroke-width="1.6"></rect><text class="lbl" x="571" y="200">ABCS</text><text class="sm" x="571" y="212">PS5 · Switch</text></g>
-        <rect x="577" y="258" width="43" height="19" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect>
-        <line x1="574" y1="292" x2="624" y2="292" stroke="#123a8a" stroke-width="4" stroke-linecap="round"></line>
-        <circle cx="583" cy="246" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="599" cy="246" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="615" cy="246" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle>
-        <g transform="translate(620,232)"><circle r="8" fill="#fff" stroke="#c0392b" stroke-width="1.5"></circle><path d="M1,-6 L-3,1 L0,1 L-1,6 L3,-1 L0,-1 Z" fill="#c0392b"></path></g>
-      </g>
-      <g class="only-mar">
-        <g><rect x="637" y="186" width="66" height="108" rx="3" fill="#5f6b7a" fill-opacity=".13" stroke="#5f6b7a" stroke-width="1.6"></rect><text class="lbl" x="642" y="200">SOCIÉTÉ</text><text class="sm" x="642" y="212">jeux calmes</text></g>
-        <rect x="648" y="258" width="43" height="19" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect>
-        <line x1="645" y1="292" x2="695" y2="292" stroke="#123a8a" stroke-width="4" stroke-linecap="round"></line>
-        <circle cx="654" cy="246" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="670" cy="246" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="686" cy="246" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle>
-      </g>
-      <g class="only-mer">
-        <g><rect x="637" y="186" width="66" height="108" rx="3" fill="#c2407f" fill-opacity=".13" stroke="#c2407f" stroke-width="1.6"></rect><text class="lbl" x="642" y="200">RÉTRO MIOS</text><text class="sm" x="642" y="212">bornes</text></g>
-        <rect x="648" y="258" width="43" height="19" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect>
-        <line x1="645" y1="292" x2="695" y2="292" stroke="#123a8a" stroke-width="4" stroke-linecap="round"></line>
-        <circle cx="654" cy="246" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="670" cy="246" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="686" cy="246" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle>
-        <g transform="translate(691,232)"><circle r="8" fill="#fff" stroke="#c0392b" stroke-width="1.5"></circle><path d="M1,-6 L-3,1 L0,1 L-1,6 L3,-1 L0,-1 Z" fill="#c0392b"></path></g>
-      </g>
-      <g><rect x="750" y="186" width="143" height="152" rx="3" fill="#7a45c9" fill-opacity=".13" stroke="#7a45c9" stroke-width="1.6"></rect><text class="lbl" x="755" y="200">PC · LAN</text><text class="sm" x="755" y="212">5 SAJ + 5 Fortnite</text></g>
-      <rect x="868" y="190" width="19" height="43" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect><rect x="872" y="198" width="7" height="7" fill="#2b2f36"></rect><rect x="872" y="217" width="7" height="7" fill="#2b2f36"></rect>
-      <circle cx="856" cy="201" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="856" cy="221" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle>
-      <rect x="868" y="233" width="19" height="43" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect><rect x="872" y="241" width="7" height="7" fill="#2b2f36"></rect><rect x="872" y="260" width="7" height="7" fill="#2b2f36"></rect>
-      <circle cx="856" cy="244" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="856" cy="264" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle>
-      <rect x="868" y="276" width="19" height="43" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect><rect x="872" y="284" width="7" height="7" fill="#2b2f36"></rect><rect x="872" y="303" width="7" height="7" fill="#2b2f36"></rect>
-      <circle cx="856" cy="287" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="856" cy="307" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle>
-      <rect x="776" y="316" width="43" height="19" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect><rect x="819" y="316" width="43" height="19" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect>
-      <rect x="782" y="322" width="7" height="7" fill="#2b2f36"></rect><rect x="800" y="322" width="7" height="7" fill="#2b2f36"></rect><rect x="825" y="322" width="7" height="7" fill="#2b2f36"></rect><rect x="843" y="322" width="7" height="7" fill="#2b2f36"></rect>
-      <circle cx="785" cy="306" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="803" cy="306" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="828" cy="306" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="846" cy="306" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle>
-      <line x1="770" y1="226" x2="836" y2="226" stroke="#123a8a" stroke-width="4" stroke-linecap="round"></line>
-      <g><polygon points="803,280 772,228 834,228" fill="#2b7fd2" fill-opacity=".22" stroke="#2b7fd2" stroke-width="1" stroke-dasharray="4 3"></polygon><rect x="797" y="276" width="12" height="8" fill="#2b7fd2"></rect></g>
-      <text class="sm" x="770" y="292">spectateur</text>
-      <g transform="translate(760,330)"><circle r="8" fill="#fff" stroke="#c0392b" stroke-width="1.5"></circle><path d="M1,-6 L-3,1 L0,1 L-1,6 L3,-1 L0,-1 Z" fill="#c0392b"></path></g>
-      <rect x="752" y="258" width="12" height="10" fill="#2b2f36"></rect><text class="sm" x="752" y="254">switch</text>
-      <g><rect x="750" y="380" width="143" height="158" rx="3" fill="#5f6b7a" fill-opacity=".13" stroke="#5f6b7a" stroke-width="1.6"></rect><text class="lbl" x="755" y="394">ESPACE REPAS</text><text class="sm" x="755" y="406">9 tables · 54 places</text></g>
-      <rect x="757" y="418" width="43" height="19" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect><rect x="800" y="418" width="43" height="19" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect><rect x="843" y="418" width="43" height="19" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect>
-      <rect x="757" y="458" width="43" height="19" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect><rect x="800" y="458" width="43" height="19" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect><rect x="843" y="458" width="43" height="19" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect>
-      <rect x="757" y="498" width="43" height="19" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect><rect x="800" y="498" width="43" height="19" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect><rect x="843" y="498" width="43" height="19" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect>
-      <g><rect x="662" y="318" width="44" height="100" rx="3" fill="#5f6b7a" fill-opacity=".13" stroke="#5f6b7a" stroke-width="1.6"></rect></g>
-      <text class="lbl" x="665" y="332">DÉPÔT</text><text class="sm" x="665" y="344">bacs</text>
-      <rect x="672" y="352" width="26" height="56" fill="none" stroke="#5f6b7a" stroke-dasharray="4 3"></rect>
-      <g><rect x="662" y="428" width="44" height="110" rx="3" fill="#1f9a6b" fill-opacity=".13" stroke="#1f9a6b" stroke-width="1.6"></rect></g>
-      <text class="lbl" x="664" y="442">ACCUEIL</text><text class="sm" x="664" y="454">badges</text>
-      <rect x="684" y="462" width="19" height="43" fill="#e9e3d6" stroke="#2b2f36" stroke-width="1.2"></rect>
-      <circle cx="674" cy="472" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle><circle cx="674" cy="494" r="3.2" fill="#fbfbf8" stroke="#2b2f36" stroke-width="1"></circle>
-    </svg>
-  </div>
-  </div>
-  <p class="plan-glisser">↔ Fais glisser le plan pour le parcourir · touche un espace pour en savoir plus</p>
-  </div>
-  <div class="plan-col-info">
-  <div class="plan-info" id="plan-info" aria-live="polite"></div>
-  <div class="plan-puces" id="plan-puces"></div>
-  </div>
-  </div>
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><pattern id="lg-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#8a93a3" stroke-width="1.2"/></pattern></defs></svg>
-  <div class="plan-legende" id="plan-legende">
-    <div class="legende-col">
-      <h3>Légende du plan</h3>
-      <p class="legende-aide">Touche un symbole pour le repérer sur le plan.</p>
-      <div class="legende-symboles">
-        <button type="button" class="legende-sym" data-sym="elec" aria-pressed="false">
-          <svg viewBox="0 0 44 30" aria-hidden="true"><g transform="translate(22,15)"><circle r="10" fill="#1a1a30" stroke="#ff5a5a" stroke-width="1.8"/><path d="M1.2,-7 L-3.6,1.2 L0,1.2 L-1.2,7 L3.6,-1.2 L0,-1.2 Z" fill="#ff5a5a"/></g></svg>
-          <span>Prise électrique</span>
-        </button>
-        <button type="button" class="legende-sym" data-sym="allee" aria-pressed="false">
-          <svg viewBox="0 0 44 30" aria-hidden="true"><line x1="3" y1="15" x2="41" y2="15" stroke="#3ddc97" stroke-width="2.4" stroke-dasharray="14 4 2 4"/></svg>
-          <span>Allée à laisser libre</span>
-        </button>
-        <button type="button" class="legende-sym" data-sym="vp" aria-pressed="false">
-          <svg viewBox="0 0 44 30" aria-hidden="true"><polygon points="22,22 7,3 37,3" fill="#4aa8ff" fill-opacity=".28" stroke="#4aa8ff" stroke-dasharray="3 2"/><rect x="17.5" y="20" width="9" height="6" fill="#4aa8ff"/></svg>
-          <span>Vidéoprojecteur</span>
-        </button>
-        <button type="button" class="legende-sym" data-sym="tables" aria-pressed="false">
-          <svg viewBox="0 0 44 30" aria-hidden="true"><rect x="5" y="6" width="34" height="9" rx="1" fill="#26263d" stroke="#8590c0"/><circle cx="12" cy="23" r="2.8" fill="#14142a" stroke="#8e98c8"/><circle cx="22" cy="23" r="2.8" fill="#14142a" stroke="#8e98c8"/><circle cx="32" cy="23" r="2.8" fill="#14142a" stroke="#8e98c8"/></svg>
-          <span>Tables et chaises</span>
-        </button>
-        <button type="button" class="legende-sym" data-sym="entree" aria-pressed="false">
-          <svg viewBox="0 0 44 30" aria-hidden="true"><line x1="22" y1="28" x2="22" y2="9" stroke="#3ddc97" stroke-width="4"/><path d="M14,11 L22,1 L30,11 Z" fill="#3ddc97"/></svg>
-          <span>Entrée de la Halle</span>
-        </button>
-        <button type="button" class="legende-sym" data-sym="cine" aria-pressed="false">
-          <svg viewBox="0 0 44 30" aria-hidden="true"><path d="M5,26 H33 V11" fill="none" stroke="#5fa8ff" stroke-width="2.6" stroke-dasharray="6 4"/><path d="M27.5,13 L33,3 L38.5,13 Z" fill="#5fa8ff"/></svg>
-          <span>Accès au cinéma</span>
-        </button>
-        <button type="button" class="legende-sym" data-sym="preau" aria-pressed="false">
-          <svg viewBox="0 0 44 30" aria-hidden="true"><rect x="4" y="4" width="36" height="22" rx="2" fill="url(#lg-hatch)" stroke="#8a93a3" stroke-dasharray="4 3"/></svg>
-          <span>Préau (à l'extérieur)</span>
-        </button>
-      </div>
-      <div class="legende-detail" id="legende-detail" aria-live="polite" hidden></div>
-    </div>
-    <div class="legende-col">
-      <h3>Bon à savoir</h3>
-      <ul class="legende-conseils">
-        <li><span class="e" aria-hidden="true">🎟️</span><div><b>Badge PEGI</b> — remis à l'accueil, selon l'âge. Les animateurs le vérifient à chaque espace ; l'espace PEGI 16 (à confirmer) est réservé aux 16 ans et plus.</div></li>
-        <li><span class="e" aria-hidden="true">🚪</span><div><b>Entrée</b> — par le préau, à l'extérieur. Il n'est pas utilisé pour les activités.</div></li>
-        <li><span class="e" aria-hidden="true">🎒</span><div><b>Dépôt des affaires</b> — dans les bacs, à gauche en entrant.</div></li>
-        <li><span class="e" aria-hidden="true">🥪</span><div><b>Repas</b> — pique-nique apporté par chaque jeune, en deux services (12h30 et 13h30). Le goûter est offert.</div></li>
-        <li><span class="e" aria-hidden="true">🎬</span><div><b>Cinéma</b> — au niveau −1 : sortir par le préau, entrer dans la cage d'escalier et descendre.</div></li>
-        <li><span class="e" aria-hidden="true">🔁</span><div><b>Mardi ou mercredi ?</b> — deux stands changent : Jeux coop et Société le mardi, ABCS et Rétro Mios le mercredi.</div></li>
-      </ul>
-    </div>
-  </div>
-  <p class="plan-caption">Plan issu du document de préparation technique de l'ATEC. Positions approximatives, d'après les cotes du plan.</p>
-</section>
-
-<section id="plan3d" hidden>
-  <div class="section-head">
-    <div class="tag">En relief</div>
-    <h2>La Halle en 3D</h2>
-    <p>Fais défiler : le plan se penche et chaque espace se garnit : postes de PC, écrans, scène, bornes d'arcade… Touche un espace pour voir ce qu'on y fait.</p>
+    <p>On entre par le préau. À gauche : accueil et dépôt. À droite : le repas, puis les PC. Après le virage à gauche : les stands invités le long du mur. En haut : FIFA, Mario Kart, Jeux sur mobile, la scène Just Dance et Smash. PEGI 16 (à confirmer) au fond de la réserve. <span class="fx-seul">Fais défiler : le plan se penche et chaque espace se garnit (postes de PC, écrans, scène, bornes d'arcade…).</span> Touche un espace pour voir ce qu'on y fait.</p>
   </div>
   <div class="relief" id="relief" role="region" aria-label="Le plan de la Halle en relief">
     <div class="relief-scene">
@@ -1985,10 +1523,31 @@
       <canvas class="relief-toile" id="relief-toile" aria-hidden="true"></canvas>
       <div class="relief-etiquettes" id="relief-etiquettes" aria-hidden="true"></div>
       <div class="relief-acces" id="relief-acces" role="group" aria-label="Espaces de la Halle"></div>
-      <div class="relief-fiche" id="relief-fiche" aria-live="polite"><b>Touche un espace</b><span>pour voir son nom, son âge conseillé et le nombre de places.</span></div>
+      <div class="relief-fiche" id="relief-fiche" aria-live="polite"><div class="rf-titre">Touche un espace</div><div class="rf-desc">pour voir ce qu'on y fait, l'âge conseillé et le nombre de places.</div></div>
       <div class="relief-jauge" aria-hidden="true"><i></i></div>
     </div>
   </div>
+  <figure class="plan-secours" id="plan-secours" hidden>
+    <img src="plan-halle.png" alt="Plan de la Halle avec l'emplacement des espaces de jeu" loading="lazy">
+  </figure>
+  <noscript>
+    <style>.relief{ display: none; }</style>
+    <figure class="plan-secours"><img src="plan-halle.png" alt="Plan de la Halle avec l'emplacement des espaces de jeu"></figure>
+  </noscript>
+  <div class="plan-legende">
+    <div class="legende-col">
+      <h3>Bon à savoir</h3>
+      <ul class="legende-conseils">
+        <li><span class="e" aria-hidden="true">🎟️</span><div><b>Badge PEGI</b> — remis à l'accueil, selon l'âge. Les animateurs le vérifient à chaque espace ; l'espace PEGI 16 (à confirmer) est réservé aux 16 ans et plus.</div></li>
+        <li><span class="e" aria-hidden="true">🚪</span><div><b>Entrée</b> — par le préau, à l'extérieur. Il n'est pas utilisé pour les activités.</div></li>
+        <li><span class="e" aria-hidden="true">🎒</span><div><b>Dépôt des affaires</b> — dans les bacs, à gauche en entrant.</div></li>
+        <li><span class="e" aria-hidden="true">🥪</span><div><b>Repas</b> — pique-nique apporté par chaque jeune, en deux services (12h30 et 13h30). Le goûter est offert.</div></li>
+        <li><span class="e" aria-hidden="true">🎬</span><div><b>Cinéma</b> — au niveau −1 : sortir par le préau, entrer dans la cage d'escalier et descendre.</div></li>
+        <li><span class="e" aria-hidden="true">🔁</span><div><b>Mardi ou mercredi ?</b> — deux stands changent : Jeux coop et Société le mardi, ABCS et Rétro Mios le mercredi.</div></li>
+      </ul>
+    </div>
+  </div>
+  <p class="plan-caption">Plan issu du document de préparation technique de l'ATEC. Positions approximatives, d'après les cotes du plan.</p>
 </section>
 
 <section id="cinema">
@@ -2385,7 +1944,7 @@
 
   /* ---------- Apparition au défilement ---------- */
   (function(){
-    var cibles = $$('.section-head, .card, .day-card, .phase-card, .contact-box, .plan-barre, .plan-cadre, .plan-info, .plan-puces, .hero-infos, .hero-cta, .countdown-wrap, .stat-row, .plan-legende');
+    var cibles = $$('.section-head, .card, .day-card, .phase-card, .contact-box, .hero-infos, .hero-cta, .countdown-wrap, .stat-row, .plan-legende');
     if (!('IntersectionObserver' in window) || reduit){
       return;
     }
@@ -2441,18 +2000,12 @@
     }
   })();
 
-  /* ---------- Plan interactif ---------- */
-  var wrap = $('#plan-wrap');
-  var svg = wrap && $('svg', wrap);
-  if (!wrap || !svg) return;
-
-  var cadre = $('#plan-cadre');
-  var info = $('#plan-info');
-  var zonePuces = $('#plan-puces');
-  var NS = 'http://www.w3.org/2000/svg';
-
-  // r = [x, y, largeur, hauteur] dans le repère du plan (1169 x 826) ; j = jour(s) concerné(s)
-  var ESP = [
+})();
+</script>
+<script>
+  /* Les espaces du Plan (position r = [x, y, largeur, hauteur] dans le repère du plan de Jonathan, 1169 x 826 ; j = jour(s) concerné(s)).
+     Ces données alimentent la scène « La Halle en 3D » plus bas. */
+  window.PLAN_ESPACES = [
     { id: 'fifa', g: 'jeux', nom: 'FIFA · PS4', sous: 'EA Sports FC / FIFA sur PS4', pegi: 3, places: 8, j: 'both', c: '#0f8a8a', r: [190, 58, 155, 90],
       desc: 'À l\'avant de la réserve : le match est projeté sur le mur. Tournoi à 11h, finale sur la scène à 14h.' },
     { id: 'mk1', g: 'jeux', nom: 'Mario Kart 1', sous: 'Mario Kart 8 Deluxe sur Switch', pegi: 3, places: 24, plus: 'avec Mario Kart 2', j: 'both', c: '#d2452b', r: [350, 58, 118, 90],
@@ -2490,285 +2043,6 @@
     { id: 'cinema', g: 'reperes', nom: 'Cinéma (niveau −1)', sous: 'Finales Mario et film des 16 finalistes', j: 'both', c: '#123a8a', r: [446, 538, 74, 60],
       desc: 'Pour y aller : sortir par le préau, entrer dans la cage d\'escalier et descendre. Finales Mario à 11h, puis film à 11h45 pour les 16 finalistes.' }
   ];
-  window.PLAN_ESPACES = ESP; // partagé avec la scène « La Halle en 3D »
-  var GROUPES = { jeux: 'Jeux et stands', services: 'Services', reperes: 'Repères' };
-  var JOURS = { both: 'Mardi et mercredi', mar: 'Mardi uniquement', mer: 'Mercredi uniquement' };
-
-  function svgEl(nom, attrs, parent){
-    var e = document.createElementNS(NS, nom);
-    Object.keys(attrs).forEach(function(k){ e.setAttribute(k, attrs[k]); });
-    if (parent) parent.appendChild(e);
-    return e;
-  }
-
-  // animations d'orientation : l'entrée clignote, le chemin vers le cinéma défile
-  var flecheEntree = $('line[marker-end="url(#arrG)"]', svg);
-  if (flecheEntree) flecheEntree.setAttribute('class', 'pulse');
-  var cheminCine = $('path[marker-end="url(#arr)"]', svg);
-  if (cheminCine) cheminCine.setAttribute('class', 'fourmis');
-
-  var voile = svgEl('path', { id: 'plan-voile', d: '' }, svg);
-  var focus = svgEl('g', { id: 'plan-focus' }, svg);
-  var cadreSel = svgEl('rect', { id: 'plan-sel', rx: 5 }, svg);
-  var couche = svgEl('g', { id: 'plan-hits' }, svg);
-
-  var etat = { jour: 'mar', epingle: null, survol: null, survolPuce: null, symbole: null, zoom: 0 };
-  var mobile = window.matchMedia && window.matchMedia('(max-width: 720px)').matches;
-  var PAS = [1, 1.5, 2.2, 3];
-  var PAS_MAX = mobile ? 3 : 2;
-  etat.zoom = 0;
-
-  function parId(id){ for (var i = 0; i < ESP.length; i++){ if (ESP[i].id === id) return ESP[i]; } return null; }
-  function dispo(e){ return e.j === 'both' || e.j === etat.jour; }
-
-  var boutons = {};
-  ESP.forEach(function(e){
-    var hote = couche;
-    if (e.j !== 'both') hote = svgEl('g', { 'class': e.j === 'mar' ? 'only-mar' : 'only-mer' }, couche);
-    var r = svgEl('rect', { 'class': 'hit', x: e.r[0], y: e.r[1], width: e.r[2], height: e.r[3], 'data-id': e.id }, hote);
-    r.addEventListener('pointerenter', function(ev){
-      if (ev.pointerType === 'mouse'){ etat.survol = e.id; rendre(); }
-    });
-    r.addEventListener('pointerleave', function(ev){
-      if (ev.pointerType === 'mouse'){ etat.survol = null; rendre(); }
-    });
-    r.addEventListener('click', function(){ choisir(e.id, false); });
-  });
-
-
-  // symboles de la légende : on les repère sur le plan en copiant les éléments concernés au-dessus du voile
-  var SYMBOLES = {
-    elec: { nom: 'Prise électrique', sous: 'Alimentation du matériel', c: '#ff5a5a',
-      desc: 'Les éclairs rouges marquent les arrivées de courant prévues sur le plan technique, pour brancher les PC, les consoles et les bornes d\'arcade.',
-      els: function(){ return $$('g[transform] > circle[stroke="#c0392b"]', svg).map(function(c){ return c.parentNode; }); } },
-    allee: { nom: 'Allée à laisser libre', sous: 'Les axes verts du plan', c: '#3ddc97',
-      desc: 'Les lignes vertes en pointillés sont les allées à laisser libres, pour circuler dans la Halle.',
-      els: function(){ return $$('line[stroke="#1f8a5b"][stroke-dasharray]', svg); } },
-    vp: { nom: 'Vidéoprojecteur', sous: 'Le faisceau de l\'image projetée', c: '#4aa8ff',
-      desc: 'Un vidéoprojecteur et son faisceau : c\'est ainsi que le jeu est projeté sur un mur ou un écran (Mario Kart, FIFA, la scène...).',
-      els: function(){ return $$('polygon[fill="#2b7fd2"][fill-opacity=".22"]', svg).map(function(p){ return p.parentNode; }); } },
-    tables: { nom: 'Tables et chaises', sous: 'Pour jouer, manger ou regarder', c: '#8590c0',
-      desc: 'Les tables (rectangles) et les places assises (ronds) installées dans chaque espace et dans l\'espace repas.',
-      els: function(){ return $$('rect[fill="#e9e3d6"], circle[r="3.2"]', svg); } },
-    entree: { nom: 'Entrée de la Halle', sous: 'Depuis le préau', c: '#3ddc97',
-      desc: 'On entre par le préau, à l\'extérieur. L\'accueil est juste à gauche en entrant, l\'espace repas à droite.',
-      els: function(){ return $$('line[marker-end="url(#arrG)"]', svg); } },
-    cine: { nom: 'Accès au cinéma', sous: 'Niveau −1', c: '#5fa8ff',
-      desc: 'Pour aller au cinéma : sortir par le préau, entrer dans la cage d\'escalier et descendre au niveau −1.',
-      els: function(){ return $$('path[marker-end="url(#arr)"]', svg).concat($$('circle[fill="#39465c"]', svg)); } },
-    preau: { nom: 'Préau', sous: 'À l\'extérieur', c: '#8a93a3',
-      desc: 'Le préau est à l\'extérieur : on le traverse pour entrer dans la Halle, mais il n\'est pas utilisé pour les activités.',
-      els: function(){ return $$('path[fill="url(#hatch)"]', svg); } }
-  };
-  var focusCle = null;
-  function majFocus(cle){
-    if (cle === focusCle) return;
-    focusCle = cle;
-    focus.textContent = '';
-    if (!cle) return;
-    SYMBOLES[cle].els().forEach(function(src){
-      var copie = src.cloneNode(true);
-      var hote = focus;
-      var jour = src.closest('.only-mar, .only-mer');
-      if (jour) hote = svgEl('g', { 'class': jour.getAttribute('class') }, focus);
-      hote.appendChild(copie);
-      if (cle === 'elec') svgEl('circle', { r: 17, fill: 'none', stroke: '#ff5a5a', 'stroke-width': 3 }, copie);
-      if (cle === 'allee') copie.setAttribute('stroke-width', '4.5');
-    });
-  }
-  var boutonsSym = $$('.legende-sym');
-  boutonsSym.forEach(function(b){
-    b.addEventListener('click', function(){
-      var cle = b.getAttribute('data-sym');
-      etat.symbole = etat.symbole === cle ? null : cle;
-      etat.epingle = null;
-      rendre();
-      if (etat.symbole) montrerPlan();
-    });
-  });
-  // remonte jusqu'au plan sauf s'il est déjà presque entièrement visible (sinon le symbole
-  // s'allume hors de l'écran et on croit que le bouton ne fait rien)
-  var entete = document.querySelector('header');
-  function montrerPlan(){
-    var haut = (entete ? entete.offsetHeight : 70) + 10;
-    var bas = window.innerHeight - 10;
-    var rc = cadre.getBoundingClientRect();
-    var visible = Math.min(rc.bottom, bas) - Math.max(rc.top, haut);
-    if (visible >= Math.min(rc.height, bas - haut) * 0.9) return;
-    window.scrollTo({ top: window.scrollY + rc.top - haut, behavior: reduit ? 'auto' : 'smooth' });
-  }
-  var detailSym = $('#legende-detail');
-
-  var dernierGroupe = null;
-  ESP.forEach(function(e){
-    if (e.g !== dernierGroupe){
-      zonePuces.appendChild(h('div', 'plan-groupe', GROUPES[e.g]));
-      dernierGroupe = e.g;
-    }
-    var b = h('button', 'plan-puce');
-    b.type = 'button';
-    b.style.setProperty('--c', e.c);
-    b.appendChild(h('i'));
-    b.appendChild(document.createTextNode(e.nom));
-    b.setAttribute('aria-pressed', 'false');
-    b.addEventListener('click', function(){ choisir(e.id, true); });
-    b.addEventListener('pointerenter', function(ev){ if (ev.pointerType === 'mouse'){ etat.survolPuce = e.id; rendre(); } });
-    b.addEventListener('pointerleave', function(ev){ if (ev.pointerType === 'mouse'){ etat.survolPuce = null; rendre(); } });
-    zonePuces.appendChild(b);
-    boutons[e.id] = b;
-  });
-
-  function choisir(id, depuisPuce){
-    etat.symbole = null;
-    etat.epingle = (etat.epingle === id && !depuisPuce) ? null : id;
-    rendre();
-    if (etat.epingle){
-      var e = parId(id);
-      if (etat.zoom > 0){
-        var largeur = svg.getBoundingClientRect().width;
-        var cx = (e.r[0] + e.r[2] / 2 - 120) / 890 * largeur;
-        wrap.scrollTo({ left: Math.max(0, cx - wrap.clientWidth / 2), behavior: reduit ? 'auto' : 'smooth' });
-      }
-      if (depuisPuce) montrerPlan();
-    }
-  }
-
-  function rendre(){
-    // « e » : l'espace mis en surbrillance sur le plan (survol du plan, d'une pastille, ou sélection)
-    // « ep » : l'espace décrit dans la fiche — le survol d'une pastille ne change JAMAIS la fiche,
-    // sinon la fiche change de hauteur, pousse les pastilles et la souris se retrouve sur une autre.
-    // tant qu'un symbole de la légende est choisi, le survol ne le remplace pas : en remontant vers
-    // le plan, le curseur se retrouve au-dessus d'une zone et le navigateur envoie un survol tout seul
-    var e = parId(etat.symbole ? null : (etat.survol || etat.survolPuce || etat.epingle));
-    if (e && !dispo(e)) e = null;
-    var ep = parId(etat.symbole ? null : (etat.survol || etat.epingle));
-    if (ep && !dispo(ep)) ep = null;
-    var sym = (!e && etat.symbole) ? SYMBOLES[etat.symbole] : null;
-    var symFiche = (!ep && etat.symbole) ? SYMBOLES[etat.symbole] : null;
-    majFocus(sym ? etat.symbole : null);
-    boutonsSym.forEach(function(b){
-      b.setAttribute('aria-pressed', sym && b.getAttribute('data-sym') === etat.symbole ? 'true' : 'false');
-    });
-    if (detailSym){
-      detailSym.textContent = '';
-      detailSym.hidden = !sym;
-      if (sym){
-        detailSym.style.setProperty('--ic', sym.c);
-        detailSym.appendChild(h('b', null, sym.nom));
-        detailSym.appendChild(document.createTextNode(' — ' + sym.desc));
-        detailSym.appendChild(h('span', 'legende-detail-fin', 'Il est surligné sur le plan. Touche le symbole à nouveau pour l\'enlever.'));
-      }
-    }
-
-    if (sym){
-      voile.setAttribute('d', 'M0 0H1169V826H0Z');
-      voile.setAttribute('class', 'on');
-      cadreSel.removeAttribute('class');
-    } else if (e){
-      voile.setAttribute('d', 'M0 0H1169V826H0Z M' + e.r[0] + ' ' + e.r[1] + 'h' + e.r[2] + 'v' + e.r[3] + 'h-' + e.r[2] + 'Z');
-      voile.setAttribute('class', 'on');
-      cadreSel.setAttribute('x', e.r[0]); cadreSel.setAttribute('y', e.r[1]);
-      cadreSel.setAttribute('width', e.r[2]); cadreSel.setAttribute('height', e.r[3]);
-      cadreSel.setAttribute('stroke', e.c);
-      cadreSel.style.filter = 'drop-shadow(0 0 7px ' + e.c + ')';
-      cadreSel.setAttribute('class', 'on');
-    } else {
-      voile.removeAttribute('class');
-      cadreSel.removeAttribute('class');
-    }
-
-    ESP.forEach(function(x){
-      var b = boutons[x.id];
-      b.hidden = !dispo(x);
-      b.setAttribute('aria-pressed', ep && ep.id === x.id ? 'true' : 'false');
-    });
-
-    info.textContent = '';
-    if (symFiche){
-      info.style.setProperty('--ic', symFiche.c);
-      info.appendChild(h('div', 'pi-titre', symFiche.nom));
-      info.appendChild(h('div', 'pi-sous', symFiche.sous));
-      info.appendChild(h('div', 'pi-desc', symFiche.desc));
-      return;
-    }
-    if (!ep){
-      info.style.removeProperty('--ic');
-      var vide = h('div', 'pi-vide');
-      vide.appendChild(h('span', 'pi-doigt', '👆'));
-      var t = h('div');
-      var b1 = h('b', null, 'Touche un espace du plan');
-      t.appendChild(b1);
-      t.appendChild(document.createElement('br'));
-      t.appendChild(document.createTextNode('pour voir ce qu\'on y fait, les jeux et l\'âge conseillé. Sur ordinateur, il suffit de le survoler.'));
-      vide.appendChild(t);
-      info.appendChild(vide);
-      return;
-    }
-    info.style.setProperty('--ic', ep.c);
-    info.appendChild(h('div', 'pi-titre', ep.nom));
-    info.appendChild(h('div', 'pi-sous', ep.sous));
-    info.appendChild(h('div', 'pi-desc', ep.desc));
-    var puces = h('div', 'puces');
-    if (ep.aConf) puces.appendChild(h('span', 'puce-info prix', 'À confirmer'));
-    if (ep.pegi) puces.appendChild(badgePegi(ep.pegi));
-    else if (ep.g === 'jeux') puces.appendChild(h('span', 'puce-info jour', 'PEGI à évaluer'));
-    if (ep.places) puces.appendChild(h('span', 'puce-info', ep.places + ' places' + (ep.plus ? ' (' + ep.plus + ')' : '')));
-    if (ep.g !== 'reperes') puces.appendChild(h('span', 'puce-info jour', JOURS[ep.j]));
-    if (puces.children.length) info.appendChild(puces);
-  }
-
-  /* jour */
-  var btnMar = $('#plan-btn-mardi'), btnMer = $('#plan-btn-mercredi'), bascule = $('.plan-jour-toggle');
-  function setJour(j){
-    etat.jour = j;
-    wrap.classList.toggle('day-mar', j === 'mar');
-    wrap.classList.toggle('day-mer', j === 'mer');
-    btnMar.classList.toggle('actif', j === 'mar');
-    btnMer.classList.toggle('actif', j === 'mer');
-    btnMar.setAttribute('aria-pressed', j === 'mar' ? 'true' : 'false');
-    btnMer.setAttribute('aria-pressed', j === 'mer' ? 'true' : 'false');
-    bascule.classList.toggle('mer', j === 'mer');
-    var sel = etat.epingle ? parId(etat.epingle) : null;
-    if (sel && !dispo(sel)) etat.epingle = null;
-    rendre();
-  }
-  btnMar.addEventListener('click', function(){ setJour('mar'); });
-  btnMer.addEventListener('click', function(){ setJour('mer'); });
-
-  /* zoom */
-  var zPlus = $('#plan-zoom-plus'), zMoins = $('#plan-zoom-moins');
-  function setZoom(i){
-    etat.zoom = Math.max(0, Math.min(PAS_MAX, i));
-    wrap.style.setProperty('--z', PAS[etat.zoom]);
-    zMoins.disabled = etat.zoom === 0;
-    var grille = $('.plan-grille');
-    if (grille) grille.classList.toggle('zoomee', etat.zoom > 0);
-    zPlus.disabled = etat.zoom === PAS_MAX;
-  }
-  zPlus.addEventListener('click', function(){ setZoom(etat.zoom + 1); });
-  zMoins.addEventListener('click', function(){ setZoom(etat.zoom - 1); });
-  setZoom(etat.zoom);
-
-  /* mode néon */
-  var btnNeon = $('#plan-neon');
-  function setNeon(on){
-    cadre.classList.toggle('neon', on);
-    btnNeon.setAttribute('aria-pressed', on ? 'true' : 'false');
-    btnNeon.textContent = on ? '☀️ Mode clair' : '🌙 Mode néon';
-    try { localStorage.setItem('2k27_plan_neon', on ? '1' : '0'); } catch (e) {}
-  }
-  btnNeon.addEventListener('click', function(){ setNeon(!cadre.classList.contains('neon')); });
-  // le mode néon est le look par défaut ; le choix « mode clair » est mémorisé sur l'appareil
-  var neonMemorise = true;
-  try { neonMemorise = localStorage.getItem('2k27_plan_neon') !== '0'; } catch (e) {}
-  setNeon(neonMemorise);
-
-  document.addEventListener('keydown', function(ev){
-    if (ev.key === 'Escape' && (etat.epingle || etat.symbole)){ etat.epingle = null; etat.symbole = null; rendre(); }
-  });
-
-  rendre();
-})();
 </script>
 <a class="question-flottante" href="#questions" id="question-flottante">💬 Une question ?</a>
 <script>
@@ -2788,7 +2062,7 @@
   })();
 </script>
 <script>
-  /* Effets au défilement (17 oct. 2026) : éléments épinglés, haut de page qui recule, plan en perspective.
+  /* Effets au défilement (17 oct. 2026) : « Ta journée » épinglée, haut de page qui recule.
      Désactivés avec ?effets=0 dans l'adresse ou si le visiteur demande « réduire les animations ». */
   (function(){
     try{
@@ -2796,7 +2070,7 @@
       if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       var racine = document.documentElement;
       var $ = function(sel, ctx){ return (ctx || document).querySelector(sel); };
-      var hero = $('.hero'), histoire = $('#histoire'), cadre = $('#plan-cadre'), entete = $('header');
+      var hero = $('.hero'), histoire = $('#histoire'), entete = $('header');
       var etapes = Array.prototype.slice.call(document.querySelectorAll('.histoire-etape'));
       var n = etapes.length;
       var rail = $('.histoire-rail'), jauge = histoire && $('.histoire-jauge i', histoire);
@@ -2805,8 +2079,6 @@
         etapes.forEach(function(){ var d = document.createElement('i'); rail.appendChild(d); pastilles.push(d); });
       }
       // ces éléments sont pilotés par le défilement : on leur retire l'apparition simple, qui ferait concurrence
-      if (hero) ['.hero-infos', '.hero-cta', '.countdown-wrap', '.stat-row'].forEach(function(s){ var e = $(s, hero); if (e) e.classList.remove('reveal'); });
-      if (cadre) cadre.classList.remove('reveal');
       racine.classList.add('fx');
 
       var vh = Math.min(window.innerHeight, document.documentElement.clientHeight || window.innerHeight), hh = 72, attente = false, courant = -1;
@@ -2826,12 +2098,6 @@
           hero.style.setProperty('--hp', borne(y / (hautHero * 0.8)).toFixed(3));
           hero.style.setProperty('--hs', Math.min(y, hautHero).toFixed(1));
         }
-        if (cadre){
-          var cr = cadre.getBoundingClientRect();
-          var t = borne((vh * 0.94 - cr.top) / (vh * 0.5));
-          cadre.style.setProperty('--pt', t.toFixed(3));
-          cadre.classList.toggle('fx-plat', t > 0.985);
-        }
         if (histoire && n){
           var br = histoire.getBoundingClientRect();
           var course = br.height - (vh - hh);
@@ -2850,7 +2116,7 @@
       }
       function demander(){ if (!attente){ attente = true; window.requestAnimationFrame(image); } }
       // le menu ne connaît pas la section « Ta journée » : pendant qu'on la traverse, « Le Festival » reste le lien actif
-      [['journee', 'festival'], ['plan3d', 'plan']].forEach(function(paire){
+      [['journee', 'festival']].forEach(function(paire){
         var lien = $('#nav-menu a[href="#' + paire[1] + '"]'), section = document.getElementById(paire[0]);
         if (!lien || !section || !('IntersectionObserver' in window)) return;
         new IntersectionObserver(function(entrees){
@@ -2876,21 +2142,29 @@
      sont dessinés dans un seul <canvas> avec la même projection (une centaine d'objets en CSS 3D ralentissait trop le défilement).
      Optionnel : si le navigateur ne sait pas faire cela, ou si les effets sont coupés, la section reste cachée. */
   (function(){
+    // si la 3D est impossible, on montre l'image du plan à la place
+    function secours(){
+      var r = document.getElementById('relief'), f = document.getElementById('plan-secours');
+      if (r) r.hidden = true;
+      if (f) f.hidden = false;
+    }
     try{
       var racine = document.documentElement;
-      if (!racine.classList.contains('fx')) return;
+      // effets coupés (?effets=0, « réduire les animations ») : la carte s'affiche finie, sans mouvement ni défilement épinglé
+      var statique = !racine.classList.contains('fx');
       var esp = window.PLAN_ESPACES;
-      var sec = document.getElementById('plan3d'), relief = document.getElementById('relief'), plateau = document.getElementById('relief-plateau');
+      var sec = document.getElementById('plan'), relief = document.getElementById('relief'), plateau = document.getElementById('relief-plateau');
       var toile = document.getElementById('relief-toile'), etiq = document.getElementById('relief-etiquettes'), acces = document.getElementById('relief-acces');
-      if (!esp || !esp.length || !sec || !relief || !plateau || !toile || !etiq || !toile.getContext) return;
+      if (!esp || !esp.length || !sec || !relief || !plateau || !toile || !etiq || !toile.getContext){ secours(); return; }
       var ctx = toile.getContext('2d');
-      if (!ctx || !(window.CSS && CSS.supports && CSS.supports('transform', 'perspective(100px) rotateX(10deg)'))) return;
+      if (!ctx || !(window.CSS && CSS.supports && CSS.supports('transform', 'perspective(100px) rotateX(10deg)'))){ secours(); return; }
       var scene = relief.querySelector('.relief-scene'), fiche = document.getElementById('relief-fiche'), jauge = relief.querySelector('.relief-jauge i');
       var entete = document.querySelector('header');
       var X0 = 150, Y0 = 40, PERSP = 1700, RES = 3;
       var HZ = { fifa: 40, mk1: 38, mk2: 38, brawl: 14, scene: 56, smash: 33, pc: 30, pegi16: 28, leognan: 44, coop: 44, societe: 14, abcs: 44, retro: 40, accueil: 42, depot: 16, repas: 12, entree: 46, cinema: 30 };
       var ICO = { fifa: '⚽', mk1: '🏁', mk2: '🏁', brawl: '📱', scene: '💃', smash: '🥊', pc: '🖥️', pegi16: '🎯', leognan: '🧩', coop: '🤝', societe: '🎲', abcs: '🧩', retro: '🕹️', accueil: '🎟️', depot: '🎒', repas: '🥪', entree: '🚪', cinema: '🎬' };
-      var JOURS = { both: 'Les deux jours', mar: 'Mardi seulement', mer: 'Mercredi seulement' };
+      var JOURS = { both: 'Mardi et mercredi', mar: 'Mardi uniquement', mer: 'Mercredi uniquement' };
+      var COULEUR_PEGI = { 3: '#8ee07f', 7: '#8ee07f', 12: '#f6b24a', 16: '#f6b24a', 18: '#ff6b6b' };
       var texteParDefaut = fiche.innerHTML;
       var zones = [], jour = 'mar', selection = null, survol = null, ordre = [];
       var vh = 700, hh = 78, K = 0.5, haut = false, W = 800, H = 600, dpr = 1, mx = 0, my = 0;
@@ -3407,16 +2681,24 @@
       }
 
       function choisir(zn){
-        var e = zn.e;
+        var e = zn.e, p;
         selection = zn;
         fiche.style.setProperty('--cs', e.c);
         fiche.textContent = '';
-        var t = creer('b'); t.textContent = (ICO[e.id] ? ICO[e.id] + ' ' : '') + e.nom; fiche.appendChild(t);
-        var s = creer('span'); s.textContent = [e.sous, JOURS[e.j] || ''].filter(Boolean).join(' · '); fiche.appendChild(s);
-        var infos = [];
-        if (e.pegi) infos.push('PEGI ' + e.pegi);
-        if (e.places) infos.push(e.places + ' places');
-        if (infos.length){ var c = creer('em'); c.textContent = infos.join(' · '); fiche.appendChild(c); }
+        creer('div', 'rf-titre', fiche).textContent = (ICO[e.id] ? ICO[e.id] + ' ' : '') + e.nom;
+        creer('div', 'rf-sous', fiche).textContent = e.sous;
+        if (e.desc) creer('div', 'rf-desc', fiche).textContent = e.desc;
+        var puces = creer('div', 'puces', fiche);
+        if (e.aConf) creer('span', 'puce-info prix', puces).textContent = 'À confirmer';
+        if (e.pegi){
+          p = creer('span', 'pegi', puces);
+          p.style.setProperty('--pc', COULEUR_PEGI[e.pegi] || '#8ee07f');
+          creer('small', '', p).textContent = 'PEGI';
+          creer('b', '', p).textContent = String(e.pegi);
+          p.setAttribute('aria-label', 'PEGI ' + e.pegi);
+        } else if (e.g === 'jeux') creer('span', 'puce-info jour', puces).textContent = 'PEGI à évaluer';
+        if (e.places) creer('span', 'puce-info', puces).textContent = e.places + ' places' + (e.plus ? ' (' + e.plus + ')' : '');
+        if (e.g !== 'reperes') creer('span', 'puce-info jour', puces).textContent = JOURS[e.j] || '';
         sale = true; demarrer();
       }
 
@@ -3431,7 +2713,7 @@
           fiche.innerHTML = texteParDefaut;
           zones.forEach(function(zn){
             var v = zn.j === 'tous' || zn.j === jour;
-            if (v && !zn.vis) zn.pop0 = performance.now();
+            if (v && !zn.vis && !statique) zn.pop0 = performance.now();
             zn.vis = v;
             zn.bouton.hidden = !v; zn.nom.style.display = v ? '' : 'none';
           });
@@ -3456,10 +2738,10 @@
 
       /* ---------- une image ---------- */
       function dessiner(t){
-        var debut = performance.now(), ts = t / 1000;
+        var debut = performance.now(), ts = statique ? 0 : t / 1000;
         var br = relief.getBoundingClientRect();
         var course = br.height - (vh - hh);
-        var q = course > 0 ? borne(-(br.top - hh) / course) : 0;
+        var q = statique ? 1 : (course > 0 ? borne(-(br.top - hh) / course) : 0);
         var vivant = q > 0.35 ? 1 : 0;
         var ax = 54 * lisse(q, 0.04, 0.36) - my * 4 * vivant;
         var az = (haut ? -60 : -30) * lisse(q, 0.08, 0.5) - (haut ? 24 : 12) * lisse(q, 0.62, 1) + mx * 6 * vivant;
@@ -3589,7 +2871,7 @@
       function boucle(t){
         rafId = 0;
         if (!visible) return;
-        if (sale || t - dernier > 33){ dernier = t; sale = false; dessiner(t); }
+        if (sale || (!statique && t - dernier > 33)){ dernier = t; sale = false; dessiner(t); }
         rafId = window.requestAnimationFrame(boucle);
       }
       function demarrer(){ if (!rafId && visible) rafId = window.requestAnimationFrame(boucle); }
@@ -3600,7 +2882,7 @@
       toile.addEventListener('pointermove', function(ev){
         if (ev.pointerType !== 'mouse') return;
         var r = toile.getBoundingClientRect(), x = ev.clientX - r.left, y = ev.clientY - r.top;
-        mx = (x / r.width) * 2 - 1; my = (y / r.height) * 2 - 1; // sur ordinateur, le plan suit un peu la souris
+        if (!statique){ mx = (x / r.width) * 2 - 1; my = (y / r.height) * 2 - 1; } // sur ordinateur, le plan suit un peu la souris
         var zn = trouver(x, y);
         if (zn !== survol){ survol = zn; toile.style.cursor = zn ? 'pointer' : 'default'; }
         sale = true; demarrer();
@@ -3623,11 +2905,10 @@
       });
       window.__reliefImage = function(){ dessiner(performance.now()); }; // pour les essais
       window.__reliefInfo = function(){ return { duree: dessiner.derniere, ema: ema, leger: leger, objets: ordre.length }; };
-      sec.hidden = false;
       mesurer();
       demarrer();
     }catch(e){
-      var s3 = document.getElementById('plan3d'); if (s3) s3.hidden = true;
+      secours();
       if (window.console && console.error) console.error('La Halle en 3D :', e);
     }
   })();
