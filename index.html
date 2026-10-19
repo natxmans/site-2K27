@@ -1142,7 +1142,7 @@
   }
   .relief-plateau{
     position: relative; flex: none;
-    width: 780px; height: 585px;
+    width: 728px; height: 532px;
     transform: scale3d(0.5, 0.5, 0.5);
     will-change: transform;
   }
@@ -1154,13 +1154,6 @@
       linear-gradient(90deg, rgba(34,232,255,0.10) 1px, transparent 1px) 0 0 / 30px 30px,
       radial-gradient(ellipse at 50% 38%, #1b2058, #0b0d2a 78%);
     box-shadow: 0 0 0 2px rgba(34,232,255,0.55), 0 0 80px rgba(34,232,255,0.30), 0 90px 120px rgba(0,0,0,0.8);
-  }
-  /* le plan de Jonathan reste visible en filigrane : murs, escaliers, cuisines */
-  .relief-fond{
-    position: absolute; inset: 0; border-radius: 8px;
-    background: url('plan-halle.png') -150px -40px / 1169px 826px no-repeat;
-    filter: invert(1) hue-rotate(190deg) saturate(1.3);
-    opacity: 0.26;
   }
   /* les socles lumineux et les petits objets sont dessinés dans ce canevas, avec la même caméra que le sol */
   .relief-toile{ position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; display: block; }
@@ -1509,16 +1502,12 @@
   <div class="section-head">
     <div class="tag">Se repérer</div>
     <h2>Le plan de la Halle</h2>
-    <p>On entre par le préau. À gauche : accueil et dépôt. À droite : le repas, puis les PC. Après le virage à gauche : les stands invités le long du mur. En haut : FIFA, Mario Kart, Jeux sur mobile, la scène Just Dance et Smash. PEGI 16 (à confirmer) au fond de la réserve. <span class="fx-seul">Fais défiler : le plan se penche et chaque espace se garnit (postes de PC, écrans, scène, bornes d'arcade…).</span> Touche un espace pour voir ce qu'on y fait.</p>
+    <p>On entre par le préau. Voici l'implantation officielle de la Halle : en haut à gauche, les deux Mario Kart et l'espace PEGI 12, avec FIFA juste à côté ; au centre, les stands invités et les bornes rétro ; en haut à droite, l'écran valise, puis les 10 PC le long du mur ; en bas à droite, le repas. Les zones vertes sont des passages à laisser libres.</p>
   </div>
   <div class="relief" id="relief" role="region" aria-label="Le plan de la Halle en relief">
     <div class="relief-scene">
-      <div class="relief-jours" role="group" aria-label="Choisir le jour">
-        <button type="button" class="actif" data-jour="mar" aria-pressed="true">Mardi 20</button>
-        <button type="button" data-jour="mer" aria-pressed="false">Mercredi 21</button>
-      </div>
       <div class="relief-cadre">
-        <div class="relief-plateau" id="relief-plateau" data-jour="mar"><div class="relief-sol"></div><div class="relief-fond"></div></div>
+        <div class="relief-plateau" id="relief-plateau" data-jour="mar"><div class="relief-sol"></div></div>
       </div>
       <canvas class="relief-toile" id="relief-toile" aria-hidden="true"></canvas>
       <div class="relief-etiquettes" id="relief-etiquettes" aria-hidden="true"></div>
@@ -1528,26 +1517,27 @@
     </div>
   </div>
   <figure class="plan-secours" id="plan-secours" hidden>
-    <img src="plan-halle.png" alt="Plan de la Halle avec l'emplacement des espaces de jeu" loading="lazy">
+    <img src="plan-officiel.png" alt="Plan officiel de la Halle avec l'emplacement des espaces de jeu" loading="lazy">
   </figure>
   <noscript>
     <style>.relief{ display: none; }</style>
-    <figure class="plan-secours"><img src="plan-halle.png" alt="Plan de la Halle avec l'emplacement des espaces de jeu"></figure>
+    <figure class="plan-secours"><img src="plan-officiel.png" alt="Plan officiel de la Halle avec l'emplacement des espaces de jeu"></figure>
   </noscript>
   <div class="plan-legende">
     <div class="legende-col">
       <h3>Bon à savoir</h3>
       <ul class="legende-conseils">
-        <li><span class="e" aria-hidden="true">🎟️</span><div><b>Badge PEGI</b> — remis à l'accueil, selon l'âge. Les animateurs le vérifient à chaque espace ; l'espace PEGI 16 (à confirmer) est réservé aux 16 ans et plus.</div></li>
+        <li><span class="e" aria-hidden="true">🎟️</span><div><b>Badge PEGI</b> — remis à l'accueil, selon l'âge. Les animateurs le vérifient à chaque espace.</div></li>
         <li><span class="e" aria-hidden="true">🚪</span><div><b>Entrée</b> — par le préau, à l'extérieur. Il n'est pas utilisé pour les activités.</div></li>
         <li><span class="e" aria-hidden="true">🎒</span><div><b>Dépôt des affaires</b> — dans les bacs, à gauche en entrant.</div></li>
         <li><span class="e" aria-hidden="true">🥪</span><div><b>Repas</b> — pique-nique apporté par chaque jeune, en deux services (12h30 et 13h30). Le goûter est offert.</div></li>
         <li><span class="e" aria-hidden="true">🎬</span><div><b>Cinéma</b> — au niveau −1 : sortir par le préau, entrer dans la cage d'escalier et descendre.</div></li>
-        <li><span class="e" aria-hidden="true">🔁</span><div><b>Mardi ou mercredi ?</b> — deux stands changent : Jeux coop et Société le mardi, ABCS et Rétro Mios le mercredi.</div></li>
+        <li><span class="e" aria-hidden="true">🧩</span><div><b>Stands invités</b> — mardi : MDJ Léognan et EJ Mios (bornes rétro) ; mercredi : SPOT Léognan, EJ Mios (bornes rétro), ABCS Blanquefort et EJ Le Teich.</div></li>
+        <li><span class="e" aria-hidden="true">🟩</span><div><b>Passages</b> — les zones vertes du plan sont des allées à laisser libres.</div></li>
       </ul>
     </div>
   </div>
-  <p class="plan-caption">Plan issu du document de préparation technique de l'ATEC. Positions approximatives, d'après les cotes du plan.</p>
+  <p class="plan-caption">Plan officiel « Gaming Interco SAJ Cestas 2026 » (implantation, vidéoprojecteurs, sono, alimentations électriques), redessiné en 3D. Positions approximatives.</p>
 </section>
 
 <section id="cinema">
@@ -2003,46 +1993,25 @@
 })();
 </script>
 <script>
-  /* Les espaces du Plan (position r = [x, y, largeur, hauteur] dans le repère du plan de Jonathan, 1169 x 826 ; j = jour(s) concerné(s)).
-     Ces données alimentent la scène « La Halle en 3D » plus bas. */
+  /* Plan officiel de la Halle (« Gaming Interco SAJ Cestas 2026 », implantation VP, sono et alimentations électriques, PDF reçu le 19 oct. 2026).
+     Positions lues dans les dessins vectoriels du PDF, converties en unités du plateau (728 x 532 ; 1 point du PDF = 1,4 unité ; origine = point 130, 30 du PDF).
+     Ces données alimentent la scène « La Halle en 3D » plus bas : tables (t), mange-debout (m) et chaises (ch) de chaque espace, allées (passages),
+     blocs gris, murs et rideaux, faisceaux des vidéoprojecteurs, prises électriques. */
   window.PLAN_ESPACES = [
-    { id: 'fifa', g: 'jeux', nom: 'FIFA · PS4', sous: 'EA Sports FC / FIFA sur PS4', pegi: 3, places: 8, j: 'both', c: '#0f8a8a', r: [190, 58, 155, 90],
-      desc: 'À l\'avant de la réserve : le match est projeté sur le mur. Tournoi à 11h, finale sur la scène à 14h.' },
-    { id: 'mk1', g: 'jeux', nom: 'Mario Kart 1', sous: 'Mario Kart 8 Deluxe sur Switch', pegi: 3, places: 24, plus: 'avec Mario Kart 2', j: 'both', c: '#d2452b', r: [350, 58, 118, 90],
-      desc: 'Deux postes sur vidéoprojecteur : tournoi découverte Mario pour tous dans la Halle à 14h. Les finales (16 finalistes) ont lieu à 11h sur écran géant au cinéma.' },
-    { id: 'mk2', g: 'jeux', nom: 'Mario Kart 2', sous: 'Mario Kart 8 Deluxe sur Switch', pegi: 3, places: 24, plus: 'avec Mario Kart 1', j: 'both', c: '#d2452b', r: [318, 186, 102, 108],
-      desc: 'Le deuxième poste du tournoi Mario Kart, lui aussi sur vidéoprojecteur.' },
-    { id: 'brawl', g: 'jeux', nom: 'Jeux sur mobile', sous: 'Sur les smartphones des jeunes', pegi: 7, places: 10, j: 'both', c: '#c98a12', r: [470, 58, 88, 90],
-      desc: 'Un coin détente avec des poufs : on joue tranquille, sur son téléphone, à des jeux choisis avec les jeunes (PEGI 7 au maximum).' },
-    { id: 'scene', g: 'jeux', nom: 'Scène · Just Dance', sous: 'Just Dance, Kahoot, mot du maire, finales', pegi: 3, places: 20, j: 'both', c: '#e0338a', r: [612, 58, 190, 90],
-      desc: 'Écran valise et sono de la Halle. C\'est aussi ici que se déroulent le mot du maire, le grand Kahoot « Promeneurs du Net », les finales des tournois découverte, le goûter et la remise des prix.' },
-    { id: 'smash', g: 'jeux', nom: 'Smash Bros', sous: 'Super Smash Bros. Ultimate sur TV', pegi: 12, places: 12, j: 'both', c: '#2b7fd2', r: [808, 58, 85, 90],
-      desc: 'Dans le coin en haut à droite de la Halle, sur une TV. Tournois à 11h et à 14h.' },
-    { id: 'pc', g: 'jeux', nom: 'PC · LAN', sous: 'Fortnite et jeux tout public, en réseau', pegi: 12, places: 26, j: 'both', c: '#7a45c9', r: [750, 186, 143, 152],
-      desc: '10 PC reliés en réseau local (5 PC du SAJ et 5 PC gamer loués). Un écran spectateur permet de suivre les parties en attendant son tour.' },
-    { id: 'pegi16', g: 'jeux', nom: 'Espace PEGI 16', sous: 'Valorant sur 4 PC', pegi: 16, places: 8, j: 'both', c: '#9b1c3a', r: [190, 168, 112, 236], aConf: true,
-      desc: 'Un espace fermé, au fond de la réserve. L\'accès se fait avec un badge PEGI 16 : un adulte vérifie les badges à l\'entrée.' },
-    { id: 'leognan', g: 'jeux', nom: 'Stand Léognan', sous: 'Gang Beasts · Boomerang Fu', pegi: null, places: 10, j: 'both', c: '#c98a12', r: [495, 186, 66, 108],
-      desc: 'Le stand de la Maison des Jeunes de Léognan, avec sa Switch, le long du mur. Présent mardi et mercredi.' },
-    { id: 'coop', g: 'jeux', nom: 'Jeux coop', sous: 'Jeux coopératifs sur TV 2', pegi: null, places: 8, plus: 'avec Société', j: 'mar', c: '#2b7fd2', r: [566, 186, 66, 108],
-      desc: 'Le stand du SAJ le mardi : des jeux où l\'on gagne ensemble.' },
-    { id: 'societe', g: 'jeux', nom: 'Société', sous: 'Jeux de société calmes', pegi: null, places: 8, plus: 'avec Jeux coop', j: 'mar', c: '#5f6b7a', r: [637, 186, 66, 108],
-      desc: 'Le stand du SAJ le mardi : des jeux de société pour souffler entre deux parties.' },
-    { id: 'abcs', g: 'jeux', nom: 'Stand ABCS', sous: 'FIFA · Mario Party · Gang Beasts', pegi: null, places: 10, j: 'mer', c: '#2b7fd2', r: [566, 186, 66, 108],
-      desc: 'Le stand de l\'association ABCS (Blanquefort), avec sa PS5 et sa Switch. Présent le mercredi.' },
-    { id: 'retro', g: 'jeux', nom: 'Rétro Mios', sous: 'Rétrogaming sur bornes d\'arcade', pegi: null, places: 10, j: 'mer', c: '#c2407f', r: [637, 186, 66, 108],
-      desc: 'Des bornes d\'arcade fabriquées par les jeunes de l\'Espace Jeunes de Mios. Présentes le mercredi.' },
-    { id: 'accueil', g: 'services', nom: 'Accueil', sous: 'Pointage, badge PEGI et règles', j: 'both', c: '#1f9a6b', r: [662, 428, 44, 110],
-      desc: 'En entrant, à gauche : on est pointé et chacun reçoit son badge PEGI, selon son âge.' },
-    { id: 'depot', g: 'services', nom: 'Dépôt', sous: 'Sacs et affaires dans des bacs', j: 'both', c: '#5f6b7a', r: [662, 318, 44, 100],
-      desc: 'On dépose ses affaires dans les bacs avant d\'aller jouer.' },
-    { id: 'repas', g: 'services', nom: 'Espace repas', sous: '9 tables · 54 places', j: 'both', c: '#5f6b7a', r: [750, 380, 143, 158],
-      desc: 'Pique-nique apporté par chaque jeune, en deux services (12h30 et 13h30). Le goûter est offert.' },
-    { id: 'entree', g: 'reperes', nom: 'Entrée', sous: 'Depuis le préau', j: 'both', c: '#1f8a5b', r: [698, 546, 140, 58],
-      desc: 'On entre par le préau (à l\'extérieur, il n\'est pas utilisé pour les activités). Les axes verts du plan sont les allées à laisser libres.' },
-    { id: 'cinema', g: 'reperes', nom: 'Cinéma (niveau −1)', sous: 'Finales Mario et film des 16 finalistes', j: 'both', c: '#123a8a', r: [446, 538, 74, 60],
-      desc: 'Pour y aller : sortir par le préau, entrer dans la cage d\'escalier et descendre. Finales Mario à 11h, puis film à 11h45 pour les 16 finalistes.' }
+    { id: "mk1", g: "jeux", nom: "Mario Kart 1", sous: "Mario Kart 8 Deluxe sur Switch, vidéoprojecteur", pegi: 3, places: 24, plus: "avec Mario Kart 2", j: "both", c: "#d2452b", r: [11.2,11.2,140,106.4], t: [[12.7,98.6,41.6,9.9],[54.3,98.6,41.6,9.9],[98.9,98.6,41.5,9.9]], m: [], ch: [[107.5,91],[95.9,91],[65.3,91],[53.7,91]], desc: "Deux postes sur vidéoprojecteur, en haut à gauche de la Halle : tournoi découverte Mario pour tous dans la Halle à 14h. Les finales (16 finalistes) ont lieu à 11h sur écran géant au cinéma." },
+    { id: "mk2", g: "jeux", nom: "Mario Kart 2", sous: "Mario Kart 8 Deluxe sur Switch, vidéoprojecteur", pegi: 3, places: 24, plus: "avec Mario Kart 1", j: "both", c: "#d2452b", r: [166.6,11.2,137.2,106.4], t: [[170.6,97.8,41.6,9.9],[212.2,97.8,41.6,9.9],[256.8,97.8,41.6,9.9],[287.3,13.5,9.9,42.1],[287.3,55.6,9.9,42.1]], m: [], ch: [[253.5,90.2],[241.9,90.2],[211.3,90.2],[199.8,90.2]], desc: "Le deuxième poste du tournoi Mario Kart, lui aussi sur vidéoprojecteur." },
+    { id: "stand1", g: "stands", nom: "Stand invité", sous: "Écran et deux mange-debout", j: "both", c: "#2b7fd2", r: [316.4,11.2,89.6,58.8], t: [], m: [[370.8,47.8,12.7,14.4],[327.2,47.8,12.7,14.4]], ch: [], desc: "Un des stands des structures invitées, en haut de la Halle. Mardi : MDJ Léognan (Switch : Gang Beasts, Boomerang Fu) et EJ Mios (bornes rétro). Mercredi : SPOT Léognan (PS4 : Gang Beasts, FIFA 19), EJ Mios (bornes rétro), ABCS Blanquefort (PS5 : FIFA 27) et EJ Le Teich (Switch, 4 manettes : FIFA 27)." },
+    { id: "pegi12", g: "jeux", nom: "Espace PEGI 12", sous: "Jeux sur PC", pegi: 12, j: "both", c: "#d98f1a", r: [11.2,131.6,114.8,131.6], aConf: true, t: [[109.3,144.7,9.9,41.6],[109.3,186.3,9.9,41.6],[18.5,144.7,9.9,41.6],[18.5,186.3,9.9,41.6],[50,238.3,39.1,10.3]], m: [], ch: [[100.3,163.6],[100.3,177.5],[100.3,214.2],[100.3,228.1],[39.2,164.5],[39.2,178.4],[38.1,213],[38,226.9],[63.2,229.4],[77,229.5]], desc: "Un espace séparé par des cloisons et des rideaux, en haut à gauche de la Halle. Un adulte vérifie les badges à l'entrée." },
+    { id: "fifa", g: "jeux", nom: "FIFA · PS4", sous: "EA Sports FC / FIFA sur PS4, vidéoprojecteur", pegi: 3, places: 8, j: "both", c: "#0f8a8a", r: [126,128.8,117.6,134.4], t: [[228.8,172,9.9,41.6],[228.8,213.6,9.9,41.6],[228.8,136.3,9.9,41.6]], m: [], ch: [[219.8,162.8],[219.8,176.7],[219.8,213.4],[219.8,227.3]], desc: "À côté de l'espace PEGI 12, avec une sono. Enregistrement des équipes à 10h45, tournoi à 11h, finale sur l'écran valise à 14h." },
+    { id: "stand2", g: "stands", nom: "Stand invité", sous: "Vidéoprojecteur, PEGI 7", j: "both", c: "#2b7fd2", r: [319.2,198.8,89.6,58.8], t: [[324.1,213.7,9.9,37.4],[323.9,204.7,37.4,9.9],[361.4,204.7,37.4,9.9]], m: [], ch: [[338.5,222.4],[352.4,222.5],[373.2,222.4],[387.1,222.5]], desc: "Un des stands des structures invitées, au centre de la Halle. Mardi : MDJ Léognan (Switch : Gang Beasts, Boomerang Fu) et EJ Mios (bornes rétro). Mercredi : SPOT Léognan (PS4 : Gang Beasts, FIFA 19), EJ Mios (bornes rétro), ABCS Blanquefort (PS5 : FIFA 27) et EJ Le Teich (Switch, 4 manettes : FIFA 27)." },
+    { id: "retro", g: "stands", nom: "Bornes rétro", sous: "Rétrogaming sur bornes d'arcade · EJ Mios", j: "both", c: "#c2407f", r: [427,201.6,61.6,56], t: [[473.7,215.9,9.9,37.4],[444.3,206.9,39.1,10.3]], m: [], ch: [], desc: "Des bornes d'arcade fabriquées par les jeunes de l'Espace Jeunes de Mios, présentes mardi et mercredi." },
+    { id: "sono", g: "services", nom: "Sono de la Halle", sous: "2 micros HF", j: "both", c: "#5f6b7a", r: [498.4,42,53.2,53.2], t: [], m: [], ch: [], desc: "La sono de la Halle, avec deux micros sans fil, pour les annonces." },
+    { id: "scene", g: "jeux", nom: "Écran valise", sous: "FIFA et Mario sur grand écran, Just Dance, Kahoot, récompenses", pegi: 3, j: "both", c: "#e0338a", r: [609,7,114.8,114.8], t: [], m: [], ch: [[618.2,77.7],[628,87.5],[639.7,100],[649.5,109.8]], desc: "Le grand écran valise de la Halle, en haut à droite, avec la sono : on y suit les finales FIFA et Mario, le Just Dance, le grand Kahoot « Promeneurs du Net » et la remise des récompenses." },
+    { id: "pc", g: "jeux", nom: "PC · Racing / FPS", sous: "Course, tir et MindTest, PEGI 3 et PEGI 7", pegi: 7, places: 10, j: "both", c: "#7a45c9", r: [585.2,131.6,137.2,173.6], t: [[635.8,287.5,43.1,9.9],[596.1,287.3,39.1,10.3],[680.1,287.3,39.1,10.3],[663.3,250.4,9.9,37.4],[663.3,138.5,9.9,37.4],[663.3,212.9,9.9,37.4],[663.3,175.5,9.9,37.4]], m: [], ch: [[681.3,155.7],[681.4,178],[681.3,196.9],[681.3,218.7],[681.3,236.7],[681.4,271.3],[681.3,252.4],[646.6,274.8],[616.3,274.8],[602,274.9],[632.2,274.8]], desc: "10 PC reliés en réseau local, le long du mur de droite, sur deux rangées : l'une PEGI 3, l'autre PEGI 7. Jeux de course (Racing), de tir (FPS) et MindTest." },
+    { id: "stand3", g: "stands", nom: "Stand invité", sous: "Vidéoprojecteur", j: "both", c: "#2b7fd2", r: [481.6,271.6,56,112], t: [[520.1,295.3,9.9,37.4],[520.1,332.7,9.9,37.4]], m: [], ch: [[512.3,301.9],[512.3,315.8],[512.3,352.5],[512.3,366.4]], desc: "Un des stands des structures invitées, à droite de la cuisine. Mardi : MDJ Léognan (Switch : Gang Beasts, Boomerang Fu) et EJ Mios (bornes rétro). Mercredi : SPOT Léognan (PS4 : Gang Beasts, FIFA 19), EJ Mios (bornes rétro), ABCS Blanquefort (PS5 : FIFA 27) et EJ Le Teich (Switch, 4 manettes : FIFA 27)." },
+    { id: "repas", g: "services", nom: "Espace repas", sous: "Repas et regroupement", j: "both", c: "#5f6b7a", r: [571.2,333.2,151.2,148.4], t: [[650.4,376.1,37.4,9.9],[613,376.1,37.4,9.9],[576,376.1,37.4,9.9],[650.5,423.7,37.4,9.9],[613.1,423.7,37.4,9.9],[576,423.7,37.4,9.9],[650.5,463.4,37.4,9.9],[613.1,463.4,37.4,9.9],[576,463.4,37.4,9.9],[650.5,340.4,37.4,9.9],[613.1,340.4,37.4,9.9],[576,340.4,37.4,9.9]], m: [], ch: [], desc: "Pique-nique apporté par chaque jeune, en deux services (12h30 et 13h30). Le goûter est offert. Les panneaux des structures sont au bout des tables." }
   ];
+  window.PLAN_OFFICIEL = {"taille":[728,532],"passages":[[674.6,12.6,46.2,127.4],[691.1,140.0,29.8,160.3],[10.8,64.6,290.2,44.5],[482.7,13.5,191.9,252.0],[50.4,109.1,39.7,111.8],[170.6,138.8,39.7,121.6],[532.3,265.6,39.7,238.1],[239.0,138.9,243.7,67.1],[572.0,300.3,148.8,39.7],[284.3,206.0,39.7,53.0],[254.5,259.0,122.8,39.7],[254.5,298.7,35.3,205.0],[289.9,459.0,153.2,39.7],[90.0,109.1,211.0,29.8],[301.0,64.6,181.7,74.3],[324.0,206.0,158.7,53.0],[403.4,8.2,79.4,56.3]],"gris":[[125.6,260.4,129.0,114.1],[373.6,255.6,110.7,203.4],[11.7,378.6,113.9,153.4]],"wc":[285.6,296.8,89.6,162.4],"murs":[[7.3,9.4,8.4,260.4],[16.4,8.4,109.2,8.4],[16.4,257.0,109.2,8.4]],"rideau":[[16.4,128.8,16.9,5.6],[50.1,128.8,16.9,5.6],[83.9,128.8,16.9,5.6],[117.6,128.8,8.0,5.6]],"triangles":[{"zone":"mk1","pts":[[79.6,101.9],[43.4,24.4],[111.6,24.4]]},{"zone":"fifa","pts":[[227.2,196.8],[128.9,240.2],[128.9,158.3]]},{"zone":"stand3","pts":[[518.4,332.2],[486.1,377.2],[486.1,295.3]]},{"zone":"scene","pts":[[716.7,8.2],[612.1,27.7],[700.9,116.5]]},{"zone":"mk2","pts":[[225.6,101.4],[189.4,12.5],[257.6,12.5]]},{"zone":"stand2","pts":[[360.8,224.2],[405.9,254.1],[324.0,254.1]]}],"prises":[[272.4,86.9],[216.9,246.7],[424.9,248.9],[26.3,86.9],[26.3,245.7],[105.7,245.7],[498.5,379.5],[309.4,25.6],[591.9,28.6],[709.4,119.6],[525.3,380.8]],"bornes":[[477.3,237.7],[456.5,213.2]],"ecrans":{"mk1":[77.0,22.4,69.3,"h"],"stand1":[357.3,21.0,69.4,"h"],"scene":[659.4,71.4,89.6,"d"]},"hp":{"fifa":[168.0,151.2],"sono":[524.4,68.6]},"decor":{"t":[[485.3,451.1,9.9,22.7],[485.3,473.5,9.9,22.7]],"m":[[516.0,473.9,14.4,12.7],[516.0,406.4,14.4,12.7],[516.0,442.2,14.4,12.7]],"ch":[]}};
 </script>
 <a class="question-flottante" href="#questions" id="question-flottante">💬 Une question ?</a>
 <script>
@@ -2137,10 +2106,10 @@
   })();
 </script>
 <script>
-  /* La Halle en 3D (18 oct. 2026) : le plan se penche et chaque espace se garnit de petits objets (postes de PC, écrans, scène,
-     bornes d'arcade, poufs, tables...) pendant qu'on défile. Le sol et le plan de Jonathan sont de l'HTML en 3D CSS ; les objets
-     sont dessinés dans un seul <canvas> avec la même projection (une centaine d'objets en CSS 3D ralentissait trop le défilement).
-     Optionnel : si le navigateur ne sait pas faire cela, ou si les effets sont coupés, la section reste cachée. */
+  /* La Halle en 3D (19 oct. 2026) : le plan officiel (PDF « Gaming Interco SAJ Cestas 2026 ») se penche et chaque espace se garnit pendant qu'on défile :
+     tables, chaises, postes de PC, écrans et faisceaux des vidéoprojecteurs, écran valise, bornes d'arcade, murs, allées à laisser libres (en vert)...
+     Le sol est de l'HTML en 3D CSS ; tout le reste est dessiné dans un seul <canvas> avec la même projection (des centaines d'objets en CSS 3D
+     ralentissaient trop le défilement). Si le navigateur ne sait pas faire cela, l'image du plan est affichée à la place. */
   (function(){
     // si la 3D est impossible, on montre l'image du plan à la place
     function secours(){
@@ -2160,13 +2129,13 @@
       if (!ctx || !(window.CSS && CSS.supports && CSS.supports('transform', 'perspective(100px) rotateX(10deg)'))){ secours(); return; }
       var scene = relief.querySelector('.relief-scene'), fiche = document.getElementById('relief-fiche'), jauge = relief.querySelector('.relief-jauge i');
       var entete = document.querySelector('header');
-      var X0 = 150, Y0 = 40, PERSP = 1700, RES = 3;
-      var HZ = { fifa: 40, mk1: 38, mk2: 38, brawl: 14, scene: 56, smash: 33, pc: 30, pegi16: 28, leognan: 44, coop: 44, societe: 14, abcs: 44, retro: 40, accueil: 42, depot: 16, repas: 12, entree: 46, cinema: 30 };
-      var ICO = { fifa: '⚽', mk1: '🏁', mk2: '🏁', brawl: '📱', scene: '💃', smash: '🥊', pc: '🖥️', pegi16: '🎯', leognan: '🧩', coop: '🤝', societe: '🎲', abcs: '🧩', retro: '🕹️', accueil: '🎟️', depot: '🎒', repas: '🥪', entree: '🚪', cinema: '🎬' };
+      var PW = 728, PH = 532, PERSP = 1700, RES = 3;
+      var HZ = { mk1: 38, mk2: 38, pegi12: 30, fifa: 40, scene: 56, sono: 40, pc: 30, stand1: 44, stand2: 44, stand3: 44, retro: 30, repas: 14 };
+      var ICO = { mk1: '🏁', mk2: '🏁', pegi12: '🖥️', fifa: '⚽', scene: '📺', sono: '🔊', pc: '🖥️', stand1: '🧩', stand2: '🧩', stand3: '🧩', retro: '🕹️', repas: '🥪' };
       var JOURS = { both: 'Mardi et mercredi', mar: 'Mardi uniquement', mer: 'Mercredi uniquement' };
       var COULEUR_PEGI = { 3: '#8ee07f', 7: '#8ee07f', 12: '#f6b24a', 16: '#f6b24a', 18: '#ff6b6b' };
       var texteParDefaut = fiche.innerHTML;
-      var zones = [], jour = 'mar', selection = null, survol = null, ordre = [];
+      var zones = [], tousZ = [], archi = null, jour = 'mar', selection = null, survol = null, ordre = [];
       var vh = 700, hh = 78, K = 0.5, haut = false, W = 800, H = 600, dpr = 1, mx = 0, my = 0;
       var visible = false, sale = true, rafId = 0, dernier = 0, leger = false, ema = 4, dernierTransform = '';
       // état de la caméra, recalculé à chaque image
@@ -2294,6 +2263,15 @@
           g.beginPath(); g.moveTo(w * 0.4, 0); g.lineTo(w * 0.6, 0); g.lineTo(w, h); g.lineTo(0, h); g.closePath(); g.fill();
         }
       };
+      TX.etiq = function(g, w, h, txt){
+        g.fillStyle = degrade(g, 0, 0, w, h, [[0, '#5f6489'], [1, '#4a4f72']]); g.fillRect(0, 0, w, h);
+        var tourne = h > w * 1.3 && txt.length > 3, place = (tourne ? h : w) * 0.84, fs = 15;
+        g.font = '700 ' + fs + 'px Rajdhani, sans-serif';
+        while (fs > 6 && g.measureText(txt).width > place){ fs -= 0.5; g.font = '700 ' + fs + 'px Rajdhani, sans-serif'; }
+        g.fillStyle = '#fff'; g.textAlign = 'center'; g.textBaseline = 'middle';
+        if (tourne){ g.save(); g.translate(w / 2, h / 2); g.rotate(-Math.PI / 2); g.fillText(txt, 0, 0); g.restore(); }
+        else g.fillText(txt, w / 2, h / 2);
+      };
       function texDe(spec, w, h, fois){
         return tex(spec[0] + ':' + (spec[1] !== undefined ? spec[1] : ''), w, h, function(g, ww, hh){ TX[spec[0]](g, ww, hh, spec[1]); }, fois);
       }
@@ -2325,184 +2303,189 @@
       function decor(a, nom, x, y, w, d, ph){ a.p.push({ t: 'f', n: nom, x: x, y: y, z: 0, w: w, d: d, h: 0, ph: ph || 0, sh: false }); }
 
       var BLANC = '#dfe3f7', GRIS = '#9aa1c4', NOIR = '#0e1020', NUIT = '#1c1e38';
-      var nPoste = 0;
-      // un poste de jeu : bureau, écran qui scintille, tour RGB, clavier, fauteuil (vu de dos, les écrans regardent le public)
-      function poste(x, y, Wd, col){
-        var i = nPoste++, a = asm(), b;
-        boite(a, x, y, Wd, 11, 9, BLANC, { sh: 1 });
-        boite(a, x + Wd / 2 - 11, y + 3.2, 22, 2.4, 13, NOIR, { z: 9, f: 'hs', S: ['ecran', i], an: 'scr', ph: i * 0.83 });
-        boite(a, x + Wd - 10, y + 2.4, 6.5, 7.2, 12, NUIT, { z: 9, f: 'hs', S: ['rgb'] });
-        boite(a, x + Wd / 2 - 10, y + 7, 20, 3.2, 0.7, '#0a0b16', { z: 9, f: 'h', H: ['clavier'] });
-        b = asm();
-        boite(b, x + Wd / 2 - 6, y + 13.5, 12, 9, 6, NUIT);
-        boite(b, x + Wd / 2 - 6, y + 21, 12, 2.4, 10, col, { z: 6, f: 'hs' });
-      }
-      // un téléviseur (ou écran de projection) avec ce qu'il affiche
-      function ecran(a, x, y, w, h, z, spec, sh){ return boite(a, x, y, w, 3, h, NOIR, { z: z, f: 'hso', sh: sh, S: spec }); }
-      // un coin « stand » : table avec téléviseur et console, poufs, banderole
-      function stand(w, h, col, i, cons){
+      var PLAN = window.PLAN_OFFICIEL || {};
+      var nPoste = 0, nEcran = 0;
+
+      // les données du plan sont en unités du plateau ; chaque espace travaille en coordonnées locales (origine = son coin haut gauche)
+      function lx(zn, x){ return x - zn.x0; }
+      function ly(zn, y){ return y - zn.y0; }
+      // une table du plan (avec son ombre) ; renvoie son assemblage pour y poser des objets
+      function tableDe(zn, t, col){
         var a = asm();
-        boite(a, w / 2 - 24, 8, 48, 17, 9, BLANC, { sh: 1 });
-        ecran(a, w / 2 - 17, 11, 34, 21, 9, ['ecran', i]);
-        boite(a, w / 2 - 6, 17.5, 12, 4.5, 1.3, cons, { z: 9, f: 'h' });
-        [[w * 0.26, 62], [w * 0.74, 62], [w / 2, 82]].forEach(function(q, j){ disque(asm(), q[0], q[1], 6.5, 6.5, j === 2 ? teinte(col, 0.25) : col, { sh: 1 }); });
-        boite(asm(), w - 14, 34, 11, 1.4, 40, col, { sh: 1, S: ['banderole', col] });
+        boite(a, lx(zn, t[0]), ly(zn, t[1]), t[2], t[3], 9, col || BLANC, { sh: 1 });
+        return a;
       }
-      // borne d'arcade : bandeau lumineux, écran avec pixels, tableau de commandes
-      function arcade(x, y, col, i){
+      function tabouret(zn, c, col){ disque(asm(), lx(zn, c[0]), ly(zn, c[1]), 3.6, 5, col, { sh: 1 }); }
+      function mangeDebout(zn, t){
         var a = asm();
-        boite(a, x, y, 24, 18, 36, '#1b1d38', { sh: 1, S: ['arcade', col], an: 'scr', ph: i * 1.1 });
-        boite(a, x + 2, y + 18, 20, 5, 3.5, '#3a3f66', { z: 19, f: 'hs' });
+        boite(a, lx(zn, t[0]), ly(zn, t[1]), t[2], t[3], 17, '#c9cfe8', { sh: 1 });
+        return a;
+      }
+      function hautParleur(zn, p){ boite(asm(), lx(zn, p[0]) - 6, ly(zn, p[1]) - 6, 12, 12, 32, '#14162c', { sh: 1, S: ['haut'], O: ['haut'] }); }
+      // écran d'un espace : placé sur le grand côté du faisceau du vidéoprojecteur (ou sur la barre « écran » du plan)
+      function ecranGeo(e){
+        var ec = PLAN.ecrans && PLAN.ecrans[e.id], tri = null, i;
+        if (ec && ec[3] === 'h') return { cx: ec[0], cy: ec[1], L: ec[2], hor: true };
+        for (i = 0; i < (PLAN.triangles || []).length; i++) if (PLAN.triangles[i].zone === e.id) tri = PLAN.triangles[i];
+        if (!tri) return null;
+        var b1 = tri.pts[1], b2 = tri.pts[2], hor = Math.abs(b1[1] - b2[1]) < 3;
+        return { cx: (b1[0] + b2[0]) / 2, cy: (b1[1] + b2[1]) / 2, L: hor ? Math.abs(b1[0] - b2[0]) : Math.abs(b1[1] - b2[1]), hor: hor };
+      }
+      function ecranBox(zn, e, spec){
+        var g = ecranGeo(e);
+        if (!g) return;
+        var L = Math.min(g.L * 0.72, 62), hh = Math.min(34, L * 0.56), a = asm();
+        if (g.hor) boite(a, lx(zn, g.cx) - L / 2, ly(zn, g.cy), L, 3, hh, NOIR, { z: 5, f: 'hso', S: spec, O: spec });
+        else boite(a, lx(zn, g.cx) - 1.5, ly(zn, g.cy) - L / 2, 3, L, hh, NOIR, { z: 5, f: 'hso', S: spec, O: spec });
+      }
+      // un poste de jeu posé sur un bureau : écran qui scintille, tour RGB, clavier. dir « S » : bureau le long de x, écran vers le sud ; dir « O » : bureau le long de y, écran vers l'ouest
+      // (tx, ty) = centre du poste sur le bureau, en coordonnées locales
+      function ordi(a, tx, ty, dir){
+        var i = nPoste++, ph = i * 0.83;
+        if (dir === 'S'){
+          boite(a, tx - 6, ty - 3.4, 12, 2, 10, NOIR, { z: 9, f: 'hs', S: ['ecran', i], an: 'scr', ph: ph });
+          boite(a, tx + 6.8, ty - 3.8, 3.6, 5.4, 8, NUIT, { z: 9, f: 'hs', S: ['rgb'] });
+          boite(a, tx - 5, ty + 0.2, 10, 3, 0.6, '#0a0b16', { z: 9, f: 'h', H: ['clavier'] });
+        } else {
+          boite(a, tx - 3.4, ty - 6, 2, 12, 10, NOIR, { z: 9, f: 'ho', O: ['ecran', i], an: 'scr', ph: ph });
+          boite(a, tx - 3.8, ty + 6.8, 5.4, 3.6, 8, NUIT, { z: 9, f: 'ho', O: ['rgb'] });
+          boite(a, tx + 0.2, ty - 5, 3, 10, 0.6, '#0a0b16', { z: 9, f: 'h', H: ['clavier'] });
+        }
+      }
+      function chaisePC(tx, ty, dir, col){
+        var b = asm();
+        if (dir === 'S'){ boite(b, tx - 3.5, ty + 6.5, 7, 6, 5, NUIT); boite(b, tx - 3.5, ty + 11.5, 7, 1.6, 8, col, { z: 5, f: 'hs' }); }
+        else { boite(b, tx - 14, ty - 3.5, 6, 7, 5, NUIT); boite(b, tx - 16, ty - 3.5, 1.6, 7, 8, col, { z: 5, f: 'ho' }); }
+      }
+      // répartit n postes régulièrement sur la longueur d'un ensemble de bureaux alignés ; chaque poste est rangé avec le bureau qui le porte
+      function postesSur(zn, e, tables, n, dir, col){
+        var vert = dir === 'O', i, k, t;
+        var deb = Math.min.apply(null, tables.map(function(t){ return vert ? t[1] : t[0]; }));
+        var fin = Math.max.apply(null, tables.map(function(t){ return vert ? t[1] + t[3] : t[0] + t[2]; }));
+        var assem = tables.map(function(t){ return tableDe(zn, t); });
+        for (k = 0; k < n; k++){
+          var pos = deb + (k + 0.5) * (fin - deb) / n;
+          for (i = 0; i < tables.length; i++){
+            t = tables[i];
+            var dans = vert ? (pos >= t[1] && pos < t[1] + t[3]) : (pos >= t[0] && pos < t[0] + t[2]);
+            if (dans){
+              var tx = vert ? lx(zn, t[0] + t[2] / 2) : lx(zn, pos), ty = vert ? ly(zn, pos) : ly(zn, t[1] + t[3] / 2);
+              ordi(assem[i], tx, ty, dir); chaisePC(tx, ty, dir, col);
+              break;
+            }
+          }
+        }
       }
 
       var CONSTR = {};
-      // PC en réseau : 10 postes en deux rangées, câble réseau lumineux entre les rangées, écran spectateur
-      CONSTR.pc = function(w, h, col){
-        var a = asm();
-        boite(a, w / 2 - 7, 2, 14, 5, 6, GRIS, { f: 'hs' });
-        ecran(a, w / 2 - 34, 3, 68, 23, 6, ['paysage']);
-        decor(asm(), 'lan', 58, 26, w - 116, 125);
-        for (var r = 0; r < 5; r++){ poste(6, 28 + r * 25, 52, col); poste(w - 58, 28 + r * 25, 52, col); }
-      };
-      // espace PEGI 16 : pièce fermée par des cloisons en verre, 4 postes, banc d'attente, portique avec le panneau « 16 »
-      CONSTR.pegi16 = function(w, h, col){
-        boite(asm(), 0, 0, w, 2.5, 22, col, { k: 'verre' });
-        boite(asm(), 0, 0, 2.5, h, 22, col, { k: 'verre' });
-        boite(asm(), w - 2.5, 0, 2.5, h, 22, col, { k: 'verre' });
-        poste(8, 20, 44, col); poste(w - 52, 20, 44, col);
-        poste(8, 62, 44, col); poste(w - 52, 62, 44, col);
-        var a = asm();
-        boite(a, w / 2 - 26, 118, 52, 10, 6, teinte(col, -0.2), { sh: 1 });
-        boite(a, w / 2 - 26, 126.5, 52, 2.5, 13, teinte(col, -0.2), { z: 6, f: 'hs' });
-        boite(asm(), 22, 200, 4, 4, 26, col);
-        boite(asm(), w - 26, 200, 4, 4, 26, col);
-        boite(asm(), 26, 201, w - 52, 2, 2.5, '#ff4d6d', { z: 20, f: 'hs' });
-        boite(asm(), w / 2 - 15, 208, 30, 2, 20, '#8f1a33', { S: ['seize'] });
-      };
-      // FIFA : écran de projection avec un terrain, console sur une table basse, poufs
-      CONSTR.fifa = function(w, h, col){
-        var a = asm();
-        ecran(a, w / 2 - 50, 3, 100, 36, 4, ['pelouse']);
-        a = asm();
-        boite(a, w / 2 - 16, 40, 32, 14, 7, BLANC, { sh: 1 });
-        boite(a, w / 2 - 7, 44, 14, 6, 1.5, NOIR, { z: 7, f: 'h' });
-        [[26, 70], [56, 74], [w - 56, 74], [w - 26, 70]].forEach(function(q, i){ disque(asm(), q[0], q[1], 7, 7, i % 2 ? teinte(col, 0.25) : col, { sh: 1 }); });
-      };
-      // Mario Kart : grand écran de projection, console sur une table basse, deux poufs
-      function mario(w, h, col){
-        ecran(asm(), w / 2 - 40, 3, 80, 34, 4, ['mario']);
-        var a = asm();
-        boite(a, w / 2 - 14, h * 0.36, 28, 12, 7, BLANC, { sh: 1 });
-        boite(a, w / 2 - 6, h * 0.36 + 3.5, 12, 5, 1.2, '#e8402a', { z: 7, f: 'h' });
-        disque(asm(), w / 2 - 24, h - 20, 7, 7, col, { sh: 1 });
-        disque(asm(), w / 2 + 24, h - 20, 7, 7, teinte(col, 0.2), { sh: 1 });
+      // Mario Kart : grand écran de projection, trois tables avec le vidéoprojecteur et les Switch, chaises
+      function mario(zn, e){
+        ecranBox(zn, e, ['mario']);
+        var rang = e.t.filter(function(t){ return t[2] > t[3]; }).sort(function(p, q){ return p[0] - q[0]; });
+        var milieu = rang.length ? rang[Math.floor(rang.length / 2)] : null;
+        e.t.forEach(function(t){
+          var a = tableDe(zn, t);
+          if (t === milieu){
+            boite(a, lx(zn, t[0] + t[2] / 2) - 4, ly(zn, t[1]) + 2, 8, 5.5, 4, NOIR, { z: 9 });
+            boite(a, lx(zn, t[0] + t[2] / 2) - 15, ly(zn, t[1]) + 2.5, 8, 4.5, 1.2, '#e8402a', { z: 9, f: 'h' });
+            boite(a, lx(zn, t[0] + t[2] / 2) + 7, ly(zn, t[1]) + 2.5, 8, 4.5, 1.2, '#2bb3ff', { z: 9, f: 'h' });
+          }
+        });
+        e.ch.forEach(function(c, i){ tabouret(zn, c, i % 2 ? teinte(e.c, 0.2) : e.c); });
       }
       CONSTR.mk1 = mario;
       CONSTR.mk2 = mario;
-      // jeux sur mobile : coin détente, poufs autour d'une table ronde avec un téléphone
-      CONSTR.brawl = function(w, h){
-        var P = ['#ff6b6b', '#4dd2ff', '#ffd34d', '#8f7bff', '#5be38b', '#ff9bd2'], i, a;
-        for (i = 0; i < 6; i++){
-          a = i / 6 * 6.2832 + 0.5;
-          disque(asm(), w / 2 + 30 * Math.cos(a), h / 2 + 27 * Math.sin(a), 7.5, 7, P[i], { sh: 1 });
-        }
-        var t = asm();
-        disque(t, w / 2, h / 2, 8, 10, '#dfe3f7', { sh: 1 });
-        boite(t, w / 2 - 2, h / 2 - 1, 4.2, 0.9, 7, NOIR, { z: 10, f: 'hs', S: ['telephone'] });
-      };
-      // scène : estrade, mur LED, haut-parleurs, projecteurs avec leurs faisceaux, danseurs
-      CONSTR.scene = function(w, h){
-        var a = asm();
-        boite(a, 20, 16, w - 40, 66, 7, '#2a2358', { sh: 1, H: ['plein', '#4a2f9a'] });
-        boite(a, 28, 17, w - 56, 2.4, 42, NOIR, { z: 7, f: 'hs', S: ['led'], an: 'led' });
-        [['#ffd34d', 62], ['#22e8ff', 95], ['#ff6b9a', 128]].forEach(function(q, i){
-          boite(a, q[1] - 3, 50, 6, 4, 11, q[0], { z: 7, an: 'danse', ph: -i * 0.17 });
-          disque(a, q[1], 52, 3.4, 4, '#ffe0c2', { z: 18, an: 'danse', ph: -i * 0.17 });
+      // FIFA : écran de projection avec un terrain, console sur la table du milieu, chaises, haut-parleur
+      CONSTR.fifa = function(zn, e){
+        ecranBox(zn, e, ['pelouse']);
+        if (PLAN.hp && PLAN.hp.fifa) hautParleur(zn, PLAN.hp.fifa);
+        var rang = e.t.slice().sort(function(p, q){ return p[1] - q[1]; }), milieu = rang[Math.floor(rang.length / 2)];
+        e.t.forEach(function(t){
+          var a = tableDe(zn, t);
+          if (t === milieu) boite(a, lx(zn, t[0]) + 1, ly(zn, t[1] + t[3] / 2) - 6, 5.5, 12, 1.5, NOIR, { z: 9, f: 'h' });
         });
-        boite(a, 24, 76, 3, 3, 54, GRIS, { z: 7 });
-        boite(a, w - 27, 76, 3, 3, 54, GRIS, { z: 7 });
-        boite(a, 24, 76, w - 51, 3, 3, GRIS, { z: 58, f: 'hs' });
-        ['#ff2e88', '#ffd34d', '#22e8ff', '#7cffb2', '#c77dff'].forEach(function(col, i){
-          var x = 36 + i * ((w - 96) / 4);
-          boite(a, x, 77, 6, 3, 4, col, { z: 54, f: 'hs', S: ['plein', col] });
-          boite(a, x - 7, 79, 20, 0.2, 40, col, { z: 7, f: 's', S: ['faisceau', col] });
+        e.ch.forEach(function(c, i){ tabouret(zn, c, i % 2 ? teinte(e.c, 0.25) : e.c); });
+      };
+      // espace PEGI 12 : un poste de jeu sur chaque bureau, chaises ; les cloisons et les rideaux sont dans l'architecture
+      CONSTR.pegi12 = function(zn, e){
+        e.t.forEach(function(t){
+          var vert = t[3] > t[2], a = tableDe(zn, t);
+          if (vert){ var tx = lx(zn, t[0] + t[2] / 2), ty = ly(zn, t[1] + t[3] / 2); ordi(a, tx, ty, 'O'); chaisePC(tx, ty, 'O', e.c); }
+          else { var ux = lx(zn, t[0] + t[2] / 2), uy = ly(zn, t[1] + t[3] / 2); ordi(a, ux, uy, 'S'); chaisePC(ux, uy, 'S', e.c); }
         });
-        boite(asm(), 3, 30, 13, 13, 36, '#14162c', { sh: 1, S: ['haut'] });
-        boite(asm(), w - 16, 30, 13, 13, 36, '#14162c', { sh: 1, S: ['haut'] });
       };
-      // Smash Bros : téléviseur, table basse, trois poufs
-      CONSTR.smash = function(w, h, col){
-        ecran(asm(), w / 2 - 26, 4, 52, 28, 5, ['smash']);
-        var a = asm();
-        boite(a, w / 2 - 14, 38, 28, 11, 7, BLANC, { sh: 1 });
-        boite(a, w / 2 - 6, 41, 12, 5, 1.2, '#e8402a', { z: 7, f: 'h' });
-        [[20, 66], [w / 2, 76], [w - 20, 66]].forEach(function(q, i){ disque(asm(), q[0], q[1], 7, 7, i === 1 ? teinte(col, 0.25) : col, { sh: 1 }); });
+      // PC en réseau : 10 postes, 6 le long de la colonne et 4 sur la rangée, chacun sur son bureau
+      CONSTR.pc = function(zn, e){
+        var col = e.t.filter(function(t){ return t[3] > t[2]; }), rangee = e.t.filter(function(t){ return t[2] >= t[3]; });
+        postesSur(zn, e, col, 6, 'O', e.c);
+        postesSur(zn, e, rangee, 4, 'S', e.c);
       };
-      CONSTR.leognan = function(w, h, col){ stand(w, h, col, 1, '#e8402a'); };
-      CONSTR.coop = function(w, h, col){ stand(w, h, col, 2, '#2bb3ff'); };
-      CONSTR.abcs = function(w, h, col){ stand(w, h, col, 0, '#e8402a'); };
-      // jeux de société : table avec un plateau en damier, dés, quatre tabourets
-      CONSTR.societe = function(w, h, col){
-        var a = asm();
-        boite(a, 8, 34, 50, 40, 9, BLANC, { sh: 1 });
-        boite(a, 17, 44, 32, 22, 0.8, '#fff', { z: 9, f: 'h', H: ['damier'] });
-        boite(a, 22, 50, 3.4, 3.4, 3.4, '#fff', { z: 9.8 });
-        boite(a, 38, 56, 3.4, 3.4, 3.4, '#ffd34d', { z: 9.8 });
-        [[14, 26], [52, 26], [14, 82], [52, 82]].forEach(function(q, i){ disque(asm(), q[0], q[1], 4.8, 6, i % 2 ? teinte(col, 0.3) : col, { sh: 1 }); });
+      // écran valise : un grand écran sur pied (qui diffuse FIFA, Mario, Just Dance, le Kahoot...), quelques chaises devant. Il n'y a plus de scène.
+      CONSTR.scene = function(zn, e){
+        var w = zn.w, a = asm(), x = w / 2 - 30;
+        boite(a, x + 14, 22, 32, 10, 2.5, '#2a2e52', { sh: 1 });
+        boite(a, x + 28, 25, 4, 3, 14, GRIS, { z: 2.5 });
+        boite(a, x, 24, 60, 2.6, 36, NOIR, { z: 14, f: 'hso', k: 'led', S: ['led'], O: ['led'], an: 'led' });
+        e.ch.forEach(function(c){ tabouret(zn, c, teinte(e.c, 0.15)); });
       };
-      // rétrogaming : quatre bornes d'arcade
-      CONSTR.retro = function(){
-        arcade(6, 8, '#ff2e88', 0); arcade(36, 8, '#22e8ff', 1);
-        arcade(6, 64, '#ffd34d', 2); arcade(36, 64, '#7cffb2', 3);
+      // sono de la Halle : une colonne avec ses deux haut-parleurs
+      CONSTR.sono = function(zn, e){
+        var p = (PLAN.hp && PLAN.hp.sono) || [zn.x0 + zn.w / 2, zn.y0 + zn.h / 2];
+        boite(asm(), lx(zn, p[0]) - 7, ly(zn, p[1]) - 7, 14, 14, 38, '#14162c', { sh: 1, S: ['haut'], O: ['haut'] });
       };
-      // accueil : comptoir avec les bracelets jaune et orange, un ordinateur, une banderole
-      CONSTR.accueil = function(w, h, col){
-        boite(asm(), 5, 14, 10, 1.4, 40, col, { sh: 1, S: ['banderole', col] });
-        var a = asm();
-        boite(a, 20, 8, 15, 94, 11, BLANC, { sh: 1 });
-        boite(a, 22, 20, 5, 12, 1.4, '#ffd34d', { z: 11, f: 'h' });
-        boite(a, 22, 36, 5, 12, 1.4, '#ff8a1f', { z: 11, f: 'h' });
-        boite(a, 24, 61, 9, 0.8, 7, NOIR, { z: 11, f: 'hs', S: ['ecran', 0] });
-        boite(a, 24, 62, 9, 7, 0.9, GRIS, { z: 11, f: 'h' });
+      // stand invité : écran du vidéoprojecteur, tables, mange-debout, chaises, console
+      function stand(zn, e){
+        ecranBox(zn, e, ['ecran', nEcran++]);
+        e.t.forEach(function(t, i){
+          var a = tableDe(zn, t);
+          if (i === 0) boite(a, lx(zn, t[0]) + (t[2] > t[3] ? t[2] / 2 - 5 : 1.5), ly(zn, t[1]) + (t[2] > t[3] ? 1.5 : t[3] / 2 - 3), 10, 6, 1.3, '#e8402a', { z: 9, f: 'h' });
+        });
+        e.m.forEach(function(t){ mangeDebout(zn, t); });
+        e.ch.forEach(function(c, i){ tabouret(zn, c, i % 2 ? teinte(e.c, 0.25) : e.c); });
+      }
+      CONSTR.stand1 = stand;
+      CONSTR.stand2 = stand;
+      CONSTR.stand3 = stand;
+      // bornes d'arcade : une borne sur chaque carré rouge du plan, deux tables en L
+      CONSTR.retro = function(zn, e){
+        e.t.forEach(function(t){ tableDe(zn, t); });
+        (PLAN.bornes || []).forEach(function(b, i){
+          if (b[0] < zn.x0 || b[0] > zn.x0 + zn.w || b[1] < zn.y0 || b[1] > zn.y0 + zn.h) return;
+          var a = asm();
+          boite(a, lx(zn, b[0]) - 6.5, ly(zn, b[1]) - 5, 13, 10, 24, '#1b1d38', { sh: 1, S: ['arcade', i ? '#22e8ff' : '#ff2e88'], an: 'scr', ph: i * 1.1 });
+          boite(a, lx(zn, b[0]) - 5.5, ly(zn, b[1]) + 5, 11, 3, 2.4, '#3a3f66', { z: 12, f: 'hs' });
+        });
       };
-      // dépôt : quatre bacs, des sacs à dos posés dessus
-      CONSTR.depot = function(){
-        var S = ['#e8402a', null, '#2bb3ff', '#ffd34d'], i, a;
-        for (i = 0; i < 4; i++){
-          a = asm();
-          boite(a, 8, 8 + i * 22, 28, 18, 8, '#7d86a8', { sh: 1, H: ['bac'] });
-          if (S[i]) boite(a, 14, 10 + i * 22, 12, 8, 7, S[i], { z: 8 });
-        }
+      // espace repas : 12 tables à nappe à carreaux avec leurs bancs, et les panneaux des structures
+      CONSTR.repas = function(zn, e){
+        e.t.forEach(function(t){
+          var a = asm();
+          boite(a, lx(zn, t[0]), ly(zn, t[1]) - 5.5, t[2], 3.6, 4.5, '#5f6b7a', { f: 'hs' });
+          boite(a, lx(zn, t[0]), ly(zn, t[1]), t[2], t[3], 9, BLANC, { H: ['nappe'] });
+          boite(a, lx(zn, t[0]), ly(zn, t[1]) + t[3] + 1.8, t[2], 3.6, 4.5, '#5f6b7a', { f: 'hs' });
+        });
+        [374, 414, 455].forEach(function(y){ boite(asm(), 708 - zn.x0, y - zn.y0, 2, 14, 20, '#2b3a8a', { sh: 1, O: ['banderole', '#2b7fd2'] }); });
       };
-      // espace repas : 9 tables à nappe à carreaux, avec leurs bancs
-      CONSTR.repas = function(){
-        var r, k, x, y, a;
-        for (r = 0; r < 3; r++) for (k = 0; k < 3; k++){
-          x = 6 + k * 49; y = 12 + r * 50;
-          a = asm();
-          boite(a, x, y - 6.5, 36, 4, 4.5, '#5f6b7a', { f: 'hs' });
-          boite(a, x, y, 36, 15, 9, BLANC, { H: ['nappe'] });
-          boite(a, x, y + 17.5, 36, 4, 4.5, '#5f6b7a', { f: 'hs' });
-        }
-      };
-      // entrée : portique vert avec son enseigne, flèches qui clignotent vers l'intérieur
-      CONSTR.entree = function(w, h, col){
-        var a = asm();
-        boite(a, w / 2 - 44, 6, 6, 6, 34, col);
-        boite(a, w / 2 + 38, 6, 6, 6, 34, col);
-        boite(a, w / 2 - 44, 6, 88, 6, 12, '#0e1020', { z: 34, S: ['enseigne'] });
-        [0, 1, 2].forEach(function(i){ decor(asm(), 'chev', w / 2 - 11, 46 - i * 11, 22, 11, i * 0.2); });
-      };
-      // cinéma : grand écran avec le bouton lecture, trois rangées de fauteuils rouges
-      CONSTR.cinema = function(){
-        boite(asm(), 10, 3, 54, 2.5, 26, NOIR, { z: 3, S: ['lecture'] });
-        for (var r = 0; r < 3; r++) boite(asm(), 8, 22 + r * 13, 58, 7, 5, '#c0233e', { S: ['fauteuils'] });
-      };
-      CONSTR.defaut = function(w, h, col){ boite(asm(), 4, 4, w - 8, h - 8, 14, col, { sh: 1 }); };
+      CONSTR.defaut = function(zn, e){ boite(asm(), 4, 4, zn.w - 8, zn.h - 8, 14, e.c, { sh: 1 }); };
+
+      // l'architecture du plan : blocs gris (cuisines, espace interdit au public), WC, murs et rideaux de l'espace PEGI 12, tables hors espaces
+      function architecture(zn){
+        (PLAN.gris || []).forEach(function(r, i){
+          var libelle = ['Espace interdit au public', 'Cuisines', ''][i];
+          boite(asm(), r[0], r[1], r[2], r[3], 6, '#4d5278', libelle ? { sh: 1, H: ['etiq', libelle] } : { sh: 1 });
+        });
+        if (PLAN.wc) boite(asm(), PLAN.wc[0], PLAN.wc[1], PLAN.wc[2], PLAN.wc[3], 4, '#646a8f', { sh: 1, H: ['etiq', 'WC'] });
+        (PLAN.murs || []).forEach(function(r){ if (r) boite(asm(), r[0], r[1], r[2], r[3], 26, '#161934', { sh: 1 }); });
+        (PLAN.rideau || []).forEach(function(r){ if (r) boite(asm(), r[0], r[1], r[2], r[3], 22, '#7a3fb0', {}); });
+        var d = PLAN.decor || {};
+        (d.t || []).forEach(function(t){ boite(asm(), t[0], t[1], t[2], t[3], 9, BLANC, { sh: 1 }); });
+        (d.m || []).forEach(function(t){ boite(asm(), t[0], t[1], t[2], t[3], 17, '#c9cfe8', { sh: 1 }); });
+      }
+
 
       /* ---------- projection : la même que celle du navigateur (perspective du cadre, puis translation, échelle, rotations du plateau) ---------- */
       function P(x, y, z){
-        var X = x + OXz - 390, Y = y + OYz - 292.5, Zc = z * LEV + UP;
+        var X = x + OXz - PW / 2, Y = y + OYz - PH / 2, Zc = z * LEV + UP;
         var x1 = X * cA - Y * sA, y1 = X * sA + Y * cA;
         var y2 = y1 * cX - Zc * sX, z2 = y1 * sX + Zc * cX;
         x1 *= ZS; y2 = y2 * ZS + TY; z2 *= ZS;
@@ -2511,7 +2494,7 @@
       }
       // carré de la distance à la caméra d'un point (pour décider quoi dessiner d'abord)
       function dist2(x, y, z){
-        var X = x - 390, Y = y - 292.5, x1 = X * cA - Y * sA, y1 = X * sA + Y * cA;
+        var X = x - PW / 2, Y = y - PH / 2, x1 = X * cA - Y * sA, y1 = X * sA + Y * cA;
         var y2 = y1 * cX - z * sX, z2 = y1 * sX + z * cX;
         var dx = CXc + x1 * ZS - OXc, dy = CYc + y2 * ZS + TY - OYc, dz = PERSP - z2 * ZS;
         return dx * dx + dy * dy + dz * dz;
@@ -2551,7 +2534,13 @@
         proj8(pr, dz);
         var verre = pr.k === 'verre', f = pr.f, trait = verre ? 'rgba(255,140,165,0.75)' : null;
         if (f.indexOf('o') >= 0 && face(4, 7, 3)){
-          if (pr.O && !verre) plaquer(pr._o || (pr._o = texDe(pr.O, pr.d, pr.h)), 4, 7, 0, pr.d, pr.h, 1); else poly(4, 7, 3, 0, pr.co, trait || 'rgba(0,0,0,0.25)');
+          if (pr.O && !verre){
+            if (pr.an === 'scr'){
+              var uo = ((ts + pr.ph) % 3.6) / 3.6, ao = leger ? 1 : 1 - 0.22 * Math.exp(-Math.pow((uo - 0.48) / 0.035, 2));
+              poly(4, 7, 3, 0, NOIR, null);
+              plaquer(pr._o || (pr._o = texDe(pr.O, pr.d, pr.h)), 4, 7, 0, pr.d, pr.h, ao);
+            } else plaquer(pr._o || (pr._o = texDe(pr.O, pr.d, pr.h)), 4, 7, 0, pr.d, pr.h, 1);
+          } else poly(4, 7, 3, 0, pr.co, trait || 'rgba(0,0,0,0.25)');
         }
         if (f.indexOf('s') >= 0 && face(7, 6, 2)){
           if (pr.S && !verre){
@@ -2633,6 +2622,31 @@
         }
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
+      // le sol du plan officiel : allées à laisser libres (vert), faisceaux des vidéoprojecteurs (bleu), prises électriques (jaune)
+      function dessinerSol(ts){
+        OXz = 0; OYz = 0; LEV = 1; UP = 0;
+        ctx.beginPath();
+        (PLAN.passages || []).forEach(function(r){
+          P(r[0], r[1], 0); ctx.moveTo(pxp, pyp);
+          P(r[0] + r[2], r[1], 0); ctx.lineTo(pxp, pyp);
+          P(r[0] + r[2], r[1] + r[3], 0); ctx.lineTo(pxp, pyp);
+          P(r[0], r[1] + r[3], 0); ctx.lineTo(pxp, pyp);
+          ctx.closePath();
+        });
+        ctx.fillStyle = 'rgba(126,214,60,0.22)'; ctx.fill();
+        (PLAN.triangles || []).forEach(function(t){
+          ctx.beginPath();
+          t.pts.forEach(function(p, k){ P(p[0], p[1], 0.2); if (k) ctx.lineTo(pxp, pyp); else ctx.moveTo(pxp, pyp); });
+          ctx.closePath(); ctx.fillStyle = 'rgba(90,160,255,0.15)'; ctx.fill();
+          if (!leger){ ctx.strokeStyle = 'rgba(130,190,255,0.55)'; ctx.lineWidth = 1; ctx.stroke(); }
+        });
+        var pulse = statique ? 0.7 : 0.55 + 0.35 * Math.sin(ts * 2.4);
+        (PLAN.prises || []).forEach(function(p){
+          P(p[0], p[1], 0.3);
+          ctx.fillStyle = 'rgba(255,226,60,' + (0.22 * pulse).toFixed(2) + ')'; ctx.beginPath(); ctx.arc(pxp, pyp, 6, 0, 6.2832); ctx.fill();
+          ctx.fillStyle = 'rgba(255,232,90,0.95)'; ctx.beginPath(); ctx.arc(pxp, pyp, 2.2, 0, 6.2832); ctx.fill();
+        });
+      }
       // le socle lumineux de chaque espace (et la lueur qu'il projette sur le sol)
       function dessinerSocle(zn, etat){
         var w = zn.w, h = zn.h;
@@ -2655,19 +2669,27 @@
         ctx.strokeStyle = etat === 2 ? '#fff' : rgba(zn.c, 0.9); ctx.lineWidth = 1.5; ctx.stroke();
       }
 
+      function finirAsm(zn){
+        zn.asm.forEach(function(a){
+          var sx = 0, sy = 0, sz = 0;
+          a.p.forEach(function(p){ sx += p.x + (p.w || 0) / 2; sy += p.y + (p.d || 0) / 2; sz += p.z + (p.h || 0) / 2; });
+          a.cx = sx / a.p.length; a.cy = sy / a.p.length; a.cz = sz / a.p.length;
+        });
+      }
       function construire(){
         var rang = 0;
+        // architecture (blocs gris, murs, rideaux, tables hors espaces) : elle pousse avec le reste mais ne se touche pas
+        archi = { archi: true, e: { id: 'archi', nom: '', r: [0, 0, PW, PH], c: '#8d92a8' }, i: -1, x0: 0, y0: 0, w: PW, h: PH, c: '#8d92a8', hz: 0, j: 'tous', vis: true, lv: 0, up: 0, pop0: -1, asm: [], bouton: null, nom: null };
+        ZB = archi;
+        try{ architecture(archi); }catch(err){ archi.asm = []; }
+        finirAsm(archi);
         esp.forEach(function(e){
           if (!e.r) return;
-          var zn = { e: e, i: rang, x0: e.r[0] - X0, y0: e.r[1] - Y0, w: e.r[2], h: e.r[3], c: e.c, hz: HZ[e.id] || 20, j: e.j === 'mar' || e.j === 'mer' ? e.j : 'tous', vis: true,
+          var zn = { e: e, i: rang, x0: e.r[0], y0: e.r[1], w: e.r[2], h: e.r[3], c: e.c, hz: HZ[e.id] || 20, j: e.j === 'mar' || e.j === 'mer' ? e.j : 'tous', vis: true,
                      lv: 0, up: 0, pop0: -1, asm: [], bouton: null, nom: null };
           ZB = zn;
-          try{ (CONSTR[e.id] || CONSTR.defaut)(zn.w, zn.h, e.c); }catch(err){ zn.asm = []; CONSTR.defaut(zn.w, zn.h, e.c); }
-          zn.asm.forEach(function(a){
-            var sx = 0, sy = 0, sz = 0;
-            a.p.forEach(function(p){ sx += p.x + (p.w || 0) / 2; sy += p.y + (p.d || 0) / 2; sz += p.z + (p.h || 0) / 2; });
-            a.cx = sx / a.p.length; a.cy = sy / a.p.length; a.cz = sz / a.p.length;
-          });
+          try{ (CONSTR[e.id] || CONSTR.defaut)(zn, e); }catch(err){ zn.asm = []; CONSTR.defaut(zn, e); }
+          finirAsm(zn);
           // pastille avec l'icône (le nom apparaît au survol ou au toucher)
           var nom = creer('span', 'rb-nom', etiq); creer('em', '', nom).textContent = String(e.nom).split(' · ')[0]; nom.setAttribute('data-ico', ICO[e.id] || '');
           zn.nom = nom;
@@ -2678,6 +2700,7 @@
           zones.push(zn);
           rang += 1;
         });
+        tousZ = [archi].concat(zones);
       }
 
       function choisir(zn){
@@ -2728,8 +2751,8 @@
         // écran en hauteur (téléphone) : le plan tourne presque de 90° pour que sa grande longueur suive la hauteur de l'écran
         haut = W < H * 0.8;
         K = haut
-          ? Math.max(0.2, Math.min(1, W * 0.9 / 665, H * 0.9 / 600))
-          : Math.max(0.2, Math.min(1, Math.min(W * 0.94 / 980, H * 0.9 / 840)));
+          ? Math.max(0.2, Math.min(1, W * 0.94 / 625, H * 0.92 / 640))
+          : Math.max(0.2, Math.min(1, Math.min(W * 0.94 / 920, H * 0.9 / 780)));
         dpr = Math.min(window.devicePixelRatio || 1, 2);
         toile.width = Math.round(W * dpr); toile.height = Math.round(H * dpr);
         CXc = W / 2; CYc = H / 2; OXc = W / 2; OYc = H * 0.3;
@@ -2743,7 +2766,7 @@
         var course = br.height - (vh - hh);
         var q = statique ? 1 : (course > 0 ? borne(-(br.top - hh) / course) : 0);
         var vivant = q > 0.35 ? 1 : 0;
-        var ax = 54 * lisse(q, 0.04, 0.36) - my * 4 * vivant;
+        var ax = (haut ? 38 : 54) * lisse(q, 0.04, 0.36) - my * 4 * vivant;
         var az = (haut ? -60 : -30) * lisse(q, 0.08, 0.5) - (haut ? 24 : 12) * lisse(q, 0.62, 1) + mx * 6 * vivant;
         var pl = haut ? 0 : lisse(q, 0.3, 0.7);
         ZS = K * (1 + 0.18 * pl); TY = -28 * pl;
@@ -2757,6 +2780,8 @@
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         ctx.clearRect(0, 0, W, H);
         var i, j, k, zn, a, pr, items = [], fond = borne((q - 0.7) / 0.14);
+        archi.lv = lisse(q, 0.12, 0.3);
+        dessinerSol(ts);
         // hauteur de pousse, soulèvement au survol / à la sélection
         for (i = 0; i < zones.length; i++){
           zn = zones[i];
@@ -2778,8 +2803,8 @@
           dessinerSocle(zn, zn === selection ? 2 : (zn === survol ? 1 : 0));
         }
         // 2. ombres et décor au sol
-        for (i = 0; i < zones.length; i++){
-          zn = zones[i]; if (!zn.vis || zn.lv < 0.02) continue;
+        for (i = 0; i < tousZ.length; i++){
+          zn = tousZ[i]; if (!zn.vis || zn.lv < 0.02) continue;
           OXz = zn.x0; OYz = zn.y0; LEV = zn.lv; UP = zn.up;
           for (j = 0; j < zn.asm.length; j++){
             a = zn.asm[j];
@@ -2791,8 +2816,8 @@
           }
         }
         // 3. objets, les plus éloignés d'abord
-        for (i = 0; i < zones.length; i++){
-          zn = zones[i]; if (!zn.vis || zn.lv < 0.02) continue;
+        for (i = 0; i < tousZ.length; i++){
+          zn = tousZ[i]; if (!zn.vis || zn.lv < 0.02) continue;
           for (j = 0; j < zn.asm.length; j++){
             a = zn.asm[j];
             items.push({ a: a, zn: zn, d: dist2(zn.x0 + a.cx, zn.y0 + a.cy, a.cz * zn.lv + zn.up) });
@@ -2843,6 +2868,7 @@
         var i, k, a, pr, zn, ang, m;
         for (i = ordre.length - 1; i >= 0; i--){
           zn = ordre[i].zn; a = ordre[i].a;
+          if (zn.archi) continue;
           OXz = zn.x0; OYz = zn.y0; LEV = zn.lv; UP = zn.up;
           for (k = a.p.length - 1; k >= 0; k--){
             pr = a.p[k];
